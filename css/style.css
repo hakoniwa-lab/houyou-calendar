@@ -684,6 +684,8 @@ html, body {
 .bon-text { font-size: 0.85rem; margin: 0 0 6px; }
 
 .result-legend { font-size: 0.75rem; color: var(--color-text-muted); margin: 0 0 16px; }
+.result-legend a, .bon-text a, .next-cand a { color: var(--color-primary); }
+.next-cand a { font-size: 0.78rem; }
 
 /* --- 解説 --- */
 .card--article h3 { font-size: 0.95rem; margin: 18px 0 8px; }
@@ -713,6 +715,15 @@ html, body {
 
 /* 早見表の年選び */
 .year-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+
+/* 解説記事: 冒頭の要点と、ツールへの誘導 */
+.art-points { background: var(--color-bg); border-radius: var(--radius-sm); padding: 12px 14px 12px 32px; margin: 0 0 12px; }
+.art-points li { margin-bottom: 4px; }
+.art-cta { text-align: center; margin: 16px 0 4px; padding: 14px 12px; border: 1px dashed var(--color-border); border-radius: var(--radius-md); }
+.card--article .art-cta p { font-size: 0.85rem; margin: 0 0 10px; }
+.art-cta .btn { margin-top: 0; }
+.art-links { list-style: none; padding: 0; margin: 0; }
+.card--article .art-links li { margin-bottom: 8px; }
 
 /* --- 印刷: 日程だけを紙に出す --- */
 @media print {

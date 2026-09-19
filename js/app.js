@@ -210,7 +210,7 @@ function renderNext(s, v, today) {
     left = it.idx === today ? "今日です" : `あと${(it.idx - today).toLocaleString()}日`;
     rokuyoText = [it.info.rokuyo, it.info.holiday].filter(Boolean).join("・");
     if (it.idx > today && !it.info.isRest && it.candidates.length) {
-      cand = `<p class="next-cand">当日は平日です。前倒しするなら <strong>${it.candidates.map(fmtShort).join("・")}</strong></p>`;
+      cand = `<p class="next-cand">当日は平日です。前倒しするなら <strong>${it.candidates.map(fmtShort).join("・")}</strong><br><a href="guide/shijukunichi-maedaoshi/">何日前まで前倒しできる？</a></p>`;
     } else if (it.idx > today && it.info.isRest) {
       cand = `<p class="next-cand">当日が${it.info.holiday ? "祝日" : it.info.wdName + "曜日"}なので、その日に営めます</p>`;
     }
@@ -246,7 +246,8 @@ function renderBon(s, today) {
     <p class="card__lead">四十九日を過ぎてから、初めて迎えるお盆です。</p>
     <p class="bon-main"><strong>${hb.year}年</strong> ${fmtShort(hb.start)}〜${fmtShort(hb.end)}
       ${done ? '<span class="badge badge--done">済</span>' : ""}</p>
-    ${texts.map((t) => `<p class="bon-text">${esc(t)}</p>`).join("")}`;
+    ${texts.map((t) => `<p class="bon-text">${esc(t)}</p>`).join("")}
+    <p class="bon-text"><a href="guide/hatsubon-itsu/">初盆の年の決め方と、境目になる命日の一覧 →</a></p>`;
 }
 
 function render(v) {

@@ -722,6 +722,7 @@ html, body {
 .art-cta { text-align: center; margin: 16px 0 4px; padding: 14px 12px; border: 1px dashed var(--color-border); border-radius: var(--radius-md); }
 .card--article .art-cta p { font-size: 0.85rem; margin: 0 0 10px; }
 .art-cta .btn { margin-top: 0; }
+.art-cta__links { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .art-links { list-style: none; padding: 0; margin: 0; }
 /* 広告を含むページの冒頭表示(ステマ規制への対応) */
 .pr-note { font-size: 0.75rem; color: var(--color-text-muted); margin: -8px 0 14px; }

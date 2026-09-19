@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>法要の日程計算｜四十九日・一周忌・三回忌を命日から一覧に</title>
+<meta name="description" content="命日を入れるだけで、初七日・四十九日・百箇日から一周忌・三回忌・三十三回忌までの日付を一覧に。曜日・六曜・祝日と、平日なら前倒しする直前の休日も表示します。関西の数え方、初盆(7月盆・8月盆・沖縄の旧盆)、神式の霊祭にも対応。カレンダー登録・家族への共有も。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/houyou-calendar/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="法要日程カレンダー | HAKONIWA LAB">
+<meta property="og:description" content="命日を入れるだけで、四十九日・一周忌・三回忌などの日付を曜日・六曜・祝日つきで一覧に。前倒しする場合の候補日、初盆の年も出ます。">
+<meta property="og:url" content="https://hakoniwalab.com/houyou-calendar/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"四十九日はどうやって数えますか？","acceptedAnswer":{"@type":"Answer","text":"亡くなった日(命日)を1日目として49日目、つまり命日の48日後です。たとえば1月1日が命日なら、四十九日は2月18日です。関西の一部では命日の前日を1日目として数えるため、1日早い2月17日になります。"}},{"@type":"Question","name":"三回忌は亡くなってから何年後ですか？","acceptedAnswer":{"@type":"Answer","text":"満2年後の祥月命日です。亡くなった日を1回目の忌日と数えるので、一周忌(満1年)の翌年が三回忌になります。七回忌は満6年、十三回忌は満12年と、三回忌からは「回忌の数から1を引いた年」に営みます。"}},{"@type":"Question","name":"法要の日を命日より後にずらしてもいいですか？","acceptedAnswer":{"@type":"Answer","text":"一般的には、命日より前の土日などに前倒しして営み、後ろにずらすのは避けるとされています。どうしても前に寄せられない事情があるときは、菩提寺に相談してみてください。"}},{"@type":"Question","name":"法要の日取りに六曜は関係ありますか？","acceptedAnswer":{"@type":"Answer","text":"六曜は仏教とは関係のない暦注なので、法要の日取りには関係ないとされています。友引を避けるのは葬儀の習慣で、友引を休業日にしている火葬場が多いことにもよります。ただ、気にする親族がいる場合に備えて、この計算機では各日の六曜も表示しています。"}},{"@type":"Question","name":"四十九日が3か月にまたがるとよくないのですか？","acceptedAnswer":{"@type":"Answer","text":"「始終苦(四十九)が身に付く(三月)」という語呂合わせから生まれた言い伝えで、経典などに根拠はないとされています。気にする地域では、五七日(三十五日)で忌明けとすることがあります。"}},{"@type":"Question","name":"初盆は亡くなった年のお盆ですか？","acceptedAnswer":{"@type":"Answer","text":"四十九日を過ぎてから初めて迎えるお盆が初盆です。お盆の初日の時点で四十九日が済んでいなければ、翌年のお盆が初盆になります。8月13日からお盆を行う地域なら、命日を1日目と数えた場合、6月26日以降に亡くなった方は翌年が初盆です。"}},{"@type":"Question","name":"神式の三年祭は、仏式の三回忌と同じ年ですか？","acceptedAnswer":{"@type":"Answer","text":"違います。神式の式年祭は満年数で数えるため、三年祭は亡くなってから満3年で、仏式の三回忌(満2年)より1年あとです。"}},{"@type":"Question","name":"入力した内容は保存されますか？","acceptedAnswer":{"@type":"Answer","text":"お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときにすぐ日程を出すために使います。外部へは送信しません。"}}]}</script>
+</head>
+<body>
+<div id="app" class="app">
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">命日を入れるだけ</p>
+    <h1 class="app-header__title">法要日程カレンダー</h1>
+    <p class="app-header__lead">四十九日・一周忌・三回忌から三十三回忌までの日付を、曜日・六曜・祝日と「前倒しするならこの日」の候補つきで一覧にします。初盆(新盆)の年、沖縄の旧盆にも対応。</p>
+  </header>
+
+  <main id="main" class="main">
+
+    <section id="form-card" class="card card--form no-print">
+      <form id="form" novalidate>
+        <div class="form-field">
+          <label for="year">亡くなった日(命日)</label>
+          <div class="date-row">
+            <select id="year" class="quiz-select" aria-label="年"></select>
+            <select id="month" class="quiz-select" aria-label="月"></select>
+            <select id="day" class="quiz-select" aria-label="日"></select>
+          </div>
+          <p id="date-preview" class="date-preview" aria-live="polite"></p>
+        </div>
+
+        <div class="form-field">
+          <span class="form-label">形式</span>
+          <div class="seg" role="radiogroup" aria-label="形式">
+            <label><input type="radio" name="style" value="butsu" checked> 仏式(法要)</label>
+            <label><input type="radio" name="style" value="shinto"> 神式(霊祭)</label>
+          </div>
+        </div>
+
+        <div class="form-field form-field--checkbox" id="field-kansai">
+          <label><input type="checkbox" id="kansai"> 命日の前日から数える(関西の一部の数え方)</label>
+          <p class="form-help">七日ごとの法要と四十九日が1日早くなります。わからなければ外したままで大丈夫です。</p>
+        </div>
+
+        <div class="form-field" id="field-bon">
+          <label for="bon">お盆の時期</label>
+          <select id="bon" class="quiz-select">
+            <option value="aug">8月13日〜16日(全国の多くの地域)</option>
+            <option value="jul">7月13日〜16日(東京の一部など)</option>
+            <option value="kyu">旧暦7月13日〜15日(沖縄・奄美の旧盆)</option>
+          </select>
+          <p class="form-help">初盆(新盆)の年を決めるのに使います。</p>
+        </div>
+
+        <div class="form-field">
+          <label for="name">呼び名 <span class="form-optional">任意</span></label>
+          <input id="name" type="text" maxlength="20" class="quiz-select" placeholder="例: 父、祖母" autocomplete="off">
+          <p class="form-help">カレンダーの予定名や、家族に送る文面に入ります。</p>
+        </div>
+
+        <p id="form-error" class="form-error" hidden></p>
+        <button type="submit" class="btn btn--primary btn--large">日程を出す</button>
+      </form>
+      <ul class="intro-points">
+        <li>無料・登録不要。入力した内容は端末の中にだけ保存します</li>
+        <li>平日にあたる法要は、直前の土日・祝日を候補に出します</li>
+        <li>関西の数え方、7月盆・旧盆、神式の霊祭にも対応</li>
+        <li>カレンダーアプリへの登録、家族への共有、印刷ができます</li>
+      </ul>
+    </section>
+
+    <section id="result" hidden aria-live="polite">
+      <div class="card card--next" id="next-card"></div>
+
+      <div class="actions no-print">
+        <button type="button" id="btn-ics" class="btn btn--primary">カレンダーに登録</button>
+        <button type="button" id="btn-share" class="btn btn--ghost">家族に送る</button>
+        <button type="button" id="btn-print" class="btn btn--ghost">印刷する</button>
+      </div>
+      <p id="action-status" class="action-status no-print" aria-live="polite"></p>
+
+      <div class="card">
+        <h2 class="card__title card__title--list" id="chuin-title">四十九日まで(忌日法要)</h2>
+        <p class="card__lead" id="chuin-lead"></p>
+        <div id="notice-chuin"></div>
+        <div id="list-chuin"></div>
+      </div>
+
+      <div class="card" id="card-bon" hidden></div>
+
+      <div class="card">
+        <h2 class="card__title card__title--list" id="nenki-title">年忌法要</h2>
+        <p class="card__lead" id="nenki-lead"></p>
+        <div id="list-nenki"></div>
+      </div>
+
+      <p class="result-legend">六曜は参考として並べています。法要の日取りに六曜は関係ないとされていますが、気にする親族がいるときの目安にしてください。</p>
+
+      <div id="ad-slot-result-bottom" class="ad-slot no-print" aria-hidden="true"></div>
+
+      <div class="result-cross-links no-print">
+        <a class="cross-link-banner" href="hayami/">今年は何回忌？ 没年から引ける年忌早見表 →</a>
+        <a class="cross-link-banner" href="../birthday-fortune/calendar/">六曜と祝日を月ごとのカレンダーで見る →</a>
+      </div>
+      <p class="no-print" style="margin-top:16px"><button type="button" id="btn-edit" class="btn btn--ghost btn--large">条件を変える</button></p>
+    </section>
+
+  </main>
+
+  <section class="no-print" aria-label="解説">
+    <div class="card card--article">
+      <h2>法要の日程の数え方</h2>
+      <p>法要には、亡くなってから49日までのあいだに7日ごとに営む<strong>忌日法要(きにちほうよう)</strong>と、毎年の命日(祥月命日)に営む<strong>年忌法要(ねんきほうよう)</strong>があります。この2つは数え方が違うので、手で数えると1日や1年ずれやすいところです。</p>
+      <h3>忌日法要は命日を1日目に数える</h3>
+      <p>初七日や四十九日は、<strong>亡くなった日を1日目</strong>として数えます。初七日は命日の6日後、四十九日は命日の48日後です。たとえば2026年1月10日に亡くなった場合、初七日は1月16日、四十九日は2月27日になります。</p>
+      <p>関西の一部では、<strong>命日の前日を1日目</strong>として数えます。この数え方では七日ごとの法要がすべて1日早くなり、先の例の四十九日は2月26日です。上の計算機では「命日の前日から数える」にチェックを入れると切り替わります。どちらで数えるかはお寺によって違うので、迷ったら菩提寺に確かめてください。</p>
+      <h3>年忌法要は「回忌の数−1」年後</h3>
+      <p>年忌法要でいちばん間違えやすいのが三回忌です。一周忌は亡くなってから満1年ですが、<strong>三回忌は満2年</strong>、七回忌は満6年に営みます。亡くなった日を1回目の忌日と数えるため、2年後の命日が3回目にあたるからです。三回忌から先は「回忌の数から1を引いた年数」と覚えておくと迷いません。</p>
+      <div class="table-scroll">
+        <table class="spec">
+          <thead><tr><th>回忌</th><th>亡くなってから</th><th>2026年に亡くなった場合</th></tr></thead>
+          <tbody>
+            <tr><th>一周忌</th><td class="num">満1年</td><td class="num">2027年</td></tr>
+            <tr><th>三回忌</th><td class="num">満2年</td><td class="num">2028年</td></tr>
+            <tr><th>七回忌</th><td class="num">満6年</td><td class="num">2032年</td></tr>
+            <tr><th>十三回忌</th><td class="num">満12年</td><td class="num">2038年</td></tr>
+            <tr><th>十七回忌</th><td class="num">満16年</td><td class="num">2042年</td></tr>
+            <tr><th>二十三回忌</th><td class="num">満22年</td><td class="num">2048年</td></tr>
+            <tr><th>二十七回忌</th><td class="num">満26年</td><td class="num">2052年</td></tr>
+            <tr><th>三十三回忌</th><td class="num">満32年</td><td class="num">2058年</td></tr>
+            <tr><th>五十回忌</th><td class="num">満49年</td><td class="num">2075年</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>ある年に何回忌を迎えるかを没年から引ける<a href="hayami/">年忌早見表</a>も用意しています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>法要の日取りの決め方</h2>
+      <h3>当日が平日なら、直前の土日に寄せる</h3>
+      <p>法要は本来の日(忌日や祥月命日)に営むのが基本ですが、親族が集まりやすいように土日に移すことがよくあります。そのときは<strong>本来の日より前の休日に寄せる</strong>のが一般的で、後ろにずらすのは避けるとされています。計算機では、当日が平日の法要について、直前の休みのかたまり(3連休ならその3日)を「前倒しするなら」として表示しています。</p>
+      <p>お寺や会場の予定もあるので、日にちが見えたら早めに相談しておくと安心です。「カレンダーに登録」を使うと、年忌法要は30日前、四十九日などは7日前に準備の通知が出るようにしてあります。</p>
+      <h3>六曜は気にしなくてよいとされる</h3>
+      <p>大安や仏滅といった六曜は、もとは中国から伝わった暦注で、仏教の教えとは関係がありません。そのため<strong>法要の日取りに六曜は関係ない</strong>とされています。友引に葬儀を避けるのは「友を引く」という語呂合わせと、友引を休業日にしている火葬場が多いことによるもので、法要は友引でも問題なく営まれます。</p>
+      <p>とはいえ、親族のなかに気にする方がいることもあります。計算機では参考として各日の六曜を並べています。</p>
+      <h3>四十九日が3か月にまたがる「三月越し」</h3>
+      <p>月の半ばごろより後に亡くなると、四十九日が翌々月に入ります。これを「三月越し(みつきごし)」と呼び、「始終苦(しじゅうく)が身に付く(三月)」という語呂合わせから避ける地域があります。その場合は五七日(三十五日)を忌明けとして法要を営むことがあります。</p>
+      <p>ただしこれは経典に根拠のない言い伝えとされ、お寺の側からも気にしなくてよいという説明が多く出ています。計算機では、該当するときだけ注意書きと三十五日の日付を出しています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>初盆(新盆)はいつ？</h2>
+      <p>初盆(新盆)は、<strong>四十九日を過ぎてから初めて迎えるお盆</strong>です。亡くなった年のお盆でも、お盆の初日の時点で四十九日が済んでいなければ(忌中であれば)、翌年のお盆が初盆になります。</p>
+      <p>たとえば8月13日からお盆を行う地域で6月20日に亡くなった場合、四十九日は8月7日なので、その年のお盆が初盆です。6月30日に亡くなった場合は四十九日が8月17日となってお盆に間に合わないため、翌年が初盆になります。境目は6月25日と26日のあいだです(命日を1日目と数えた場合)。</p>
+      <h3>お盆の時期は地域で3通り</h3>
+      <ul>
+        <li><strong>8月13日〜16日</strong>(月遅れ盆) — 全国の多くの地域</li>
+        <li><strong>7月13日〜16日</strong> — 東京の一部など</li>
+        <li><strong>旧暦の7月13日〜15日</strong>(旧盆) — 沖縄・奄美など。新暦の日付が毎年変わる</li>
+      </ul>
+      <p>旧盆は旧暦で決まるため、毎年8月上旬から9月上旬のあいだで動きます。この計算機は旧暦を新月と太陽の位置から計算して旧盆を出しており、公開されている2019〜2030年の沖縄の旧盆の日程と、12年すべて一致することを確かめています。</p>
+      <div class="table-scroll">
+<!-- BUILD:kyubon -->
+<table class="spec"><thead><tr><th>年</th><th>ウンケー(迎え)</th><th>ナカビ</th><th>ウークイ(送り)</th></tr></thead><tbody><tr><th>2026年</th><td class="num">8月25日(火)</td><td class="num">8月26日(水)</td><td class="num">8月27日(木)</td></tr><tr><th>2027年</th><td class="num">8月14日(土)</td><td class="num">8月15日(日)</td><td class="num">8月16日(月)</td></tr><tr><th>2028年</th><td class="num">9月1日(金)</td><td class="num">9月2日(土)</td><td class="num">9月3日(日)</td></tr><tr><th>2029年</th><td class="num">8月22日(水)</td><td class="num">8月23日(木)</td><td class="num">8月24日(金)</td></tr><tr><th>2030年</th><td class="num">8月11日(日)</td><td class="num">8月12日(月)</td><td class="num">8月13日(火)</td></tr></tbody></table>
+<!-- /BUILD:kyubon -->
+      </div>
+    </div>
+
+    <div class="card card--article">
+      <h2>宗派や地域による違い</h2>
+      <h3>二十三回忌・二十七回忌の代わりに二十五回忌</h3>
+      <p>真言宗・曹洞宗・臨済宗・日蓮宗などでは、地域やお寺によって二十三回忌と二十七回忌を行わず、そのあいだの<strong>二十五回忌</strong>を営むことがあります。計算機では二十五回忌も小さく並べています。</p>
+      <h3>弔い上げは三十三回忌か五十回忌が多い</h3>
+      <p>年忌法要の締めくくりを「弔い上げ」といい、三十三回忌か五十回忌とすることが多いようです。近年はそれより早い回で区切る家庭もあります。</p>
+      <h3>浄土真宗の考え方</h3>
+      <p>浄土真宗では、亡くなった人はすぐに浄土に往生すると考えるため、法要は冥福を祈る追善供養ではなく、故人をしのんで仏の教えに触れる場として営まれます。初盆も特別な飾り付けはせず、歓喜会(かんぎえ)として営むことがあります。日付の数え方そのものは、この計算機と同じです。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>神式(神道)の場合</h2>
+      <p>神道では、仏式の法要にあたるものを<strong>霊祭(れいさい)</strong>と呼びます。亡くなった日から数えて10日ごとに十日祭・二十日祭…と続き、<strong>五十日祭</strong>が仏式の四十九日にあたる忌明けの祭儀です。その後、百日祭を経て、年ごとの<strong>式年祭</strong>(一年祭・三年祭・五年祭・十年祭、以後10年ごと)に移ります。</p>
+      <p>注意したいのは年の数え方で、式年祭は<strong>満◯年</strong>で数えます。三年祭は亡くなってから満3年で、仏式の三回忌(満2年)より1年あとです。計算機で「神式(霊祭)」を選ぶと、この数え方で一覧を出します。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>計算の方法</h2>
+      <ul>
+        <li>日付はすべて日の通し番号(ユリウス日)で数えています。端末の時差の設定で1日ずれることはありません。</li>
+        <li>六曜は旧暦の月と日から決まります。旧暦は、新月の瞬間と太陽の位置(二十四節気の中気)を天文計算で求め、天保暦の規則で月を組み立てています。</li>
+        <li>祝日は祝日法の規則(ハッピーマンデー・振替休日・国民の休日を含む)から毎年計算しています。内閣府が公開している1955年〜2027年の祝日(1,067件)とすべて一致することを確かめています。2028年以降の春分の日・秋分の日は、天文計算による予定です。</li>
+        <li>2月29日に亡くなった場合、うるう年でない年の祥月命日は2月28日としています。3月1日とする考え方もあるので、気になる場合はお寺に確かめてください。</li>
+      </ul>
+      <p>六曜と祝日は、同じサイトの<a href="../birthday-fortune/calendar/">吉日カレンダー</a>と同じ計算部品を使っています。月ごとのカレンダーで見たいときはそちらをどうぞ。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item">
+        <summary>四十九日はどうやって数えますか？</summary>
+        <p>亡くなった日(命日)を1日目として49日目、つまり命日の48日後です。たとえば1月1日が命日なら、四十九日は2月18日です。関西の一部では命日の前日を1日目として数えるため、1日早い2月17日になります。</p>
+      </details>
+      <details class="faq-item">
+        <summary>三回忌は亡くなってから何年後ですか？</summary>
+        <p>満2年後の祥月命日です。亡くなった日を1回目の忌日と数えるので、一周忌(満1年)の翌年が三回忌になります。七回忌は満6年、十三回忌は満12年と、三回忌からは「回忌の数から1を引いた年」に営みます。</p>
+      </details>
+      <details class="faq-item">
+        <summary>法要の日を命日より後にずらしてもいいですか？</summary>
+        <p>一般的には、命日より前の土日などに前倒しして営み、後ろにずらすのは避けるとされています。どうしても前に寄せられない事情があるときは、菩提寺に相談してみてください。</p>
+      </details>
+      <details class="faq-item">
+        <summary>法要の日取りに六曜は関係ありますか？</summary>
+        <p>六曜は仏教とは関係のない暦注なので、法要の日取りには関係ないとされています。友引を避けるのは葬儀の習慣で、友引を休業日にしている火葬場が多いことにもよります。ただ、気にする親族がいる場合に備えて、この計算機では各日の六曜も表示しています。</p>
+      </details>
+      <details class="faq-item">
+        <summary>四十九日が3か月にまたがるとよくないのですか？</summary>
+        <p>「始終苦(四十九)が身に付く(三月)」という語呂合わせから生まれた言い伝えで、経典などに根拠はないとされています。気にする地域では、五七日(三十五日)で忌明けとすることがあります。</p>
+      </details>
+      <details class="faq-item">
+        <summary>初盆は亡くなった年のお盆ですか？</summary>
+        <p>四十九日を過ぎてから初めて迎えるお盆が初盆です。お盆の初日の時点で四十九日が済んでいなければ、翌年のお盆が初盆になります。8月13日からお盆を行う地域なら、命日を1日目と数えた場合、6月26日以降に亡くなった方は翌年が初盆です。</p>
+      </details>
+      <details class="faq-item">
+        <summary>神式の三年祭は、仏式の三回忌と同じ年ですか？</summary>
+        <p>違います。神式の式年祭は満年数で数えるため、三年祭は亡くなってから満3年で、仏式の三回忌(満2年)より1年あとです。</p>
+      </details>
+      <details class="faq-item">
+        <summary>入力した内容は保存されますか？</summary>
+        <p>お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときにすぐ日程を出すために使います。外部へは送信しません。</p>
+      </details>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料</h2>
+      <ul class="sources">
+        <li><a href="https://www.kakusho.org/qa/perm/6.htm" target="_blank" rel="noopener">覚照寺「仏事Q&amp;A 『四十九日』が三月にまたがるとよくないことが起こる?」</a></li>
+        <li><a href="https://www.e-kamidana.jp/kamidana5-4.html" target="_blank" rel="noopener">神棚・神具・祖霊舎・神徒壇がよくわかる「霊祭について」</a></li>
+        <li><a href="https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" target="_blank" rel="noopener">内閣府「国民の祝日について」</a></li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>運営者について</h2>
+      <p>本サイトはHAKONIWA LAB(運営者: 灯家)が個人で企画・開発・運営しています。給付金診断や手取り計算などの実用ツールのほか、吉日カレンダーや、御朱印・城めぐりを記録する「めぐログ」など、暮らしの中で気軽に使えるWebアプリを公開しています。</p>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p>表示する日程は一般的な数え方にもとづく目安です。実際の日取りは、菩提寺や神社、ご家族と相談して決めてください。</p>
+    <p><a href="../about.html">運営者情報</a>・<a href="../contact.html">お問い合わせ</a>・<a href="../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+
+<script src="js/astro.js"></script>
+<script src="js/koyomi.js"></script>
+<script src="js/holiday.js"></script>
+<script src="js/houyou.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

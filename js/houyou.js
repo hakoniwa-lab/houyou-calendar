@@ -184,6 +184,71 @@ const SHIKINEN = [
   { key: "t50", name: "五十年祭", yomi: "ごじゅうねんさい", years: 50 },
 ];
 
+/*
+ * ペットの供養(pet/)。決まった作法はなく、人の法要の数え方を借りて節目を迎える家庭が多い。
+ * 年忌は三回忌・七回忌・十三回忌あたりで区切ることが多いとされるので、犬猫の寿命に近い十七回忌まで出す。
+ */
+const PET_CHUIN = [
+  { key: "7", name: "初七日", yomi: "しょなのか", day: 7,
+    note: "最初の節目です。火葬やお見送りのあと、落ち着いて手を合わせる日にする家庭が多いようです。" },
+  { key: "14", name: "二七日", yomi: "ふたなのか", day: 14, minor: true },
+  { key: "21", name: "三七日", yomi: "みなのか", day: 21, minor: true },
+  { key: "28", name: "四七日", yomi: "よなのか", day: 28, minor: true },
+  { key: "35", name: "五七日", yomi: "いつなのか", day: 35, alias: "三十五日", minor: true },
+  { key: "42", name: "六七日", yomi: "むなのか", day: 42, minor: true },
+  { key: "49", name: "四十九日", yomi: "しじゅうくにち", day: 49, alias: "七七日",
+    note: "納骨の目安とされる日です。自宅に置いておくか、霊園に納めるかを決める区切りにもなります。" },
+];
+
+const PET_HYAKKANICHI = {
+  key: "100", name: "百箇日", yomi: "ひゃっかにち", day: 100,
+  note: "悲しみに区切りをつける日とされます。家族だけで静かに手を合わせることが多い節目です。",
+};
+
+const PET_NENKI = [
+  { key: "n1", name: "一周忌", yomi: "いっしゅうき", years: 1,
+    note: "満1年。霊園の合同法要や個別法要を申し込むなら、早めに予定を確かめておくと安心です。" },
+  { key: "n3", name: "三回忌", yomi: "さんかいき", years: 2,
+    note: "満2年。人の法要と同じく、亡くなった日を1回目と数えるので2年後です。" },
+  { key: "n7", name: "七回忌", yomi: "ななかいき", years: 6 },
+  { key: "n13", name: "十三回忌", yomi: "じゅうさんかいき", years: 12,
+    note: "ここで区切り(弔い上げ)とすることが多い回です。" },
+  { key: "n17", name: "十七回忌", yomi: "じゅうななかいき", years: 16, minor: true },
+];
+
+/* 月命日。n か月目の、命日と同じ日付。その日がない月(31日など)は月末にする */
+function monthlyMemorials(deathIdx, count) {
+  const death = ymdOf(deathIdx);
+  const out = [];
+  for (let n = 1; n <= count; n++) {
+    const t = death.m - 1 + n;
+    const y = death.y + Math.floor(t / 12);
+    const m = (t % 12) + 1;
+    const d = Math.min(death.d, daysInMonth(y, m));
+    const idx = jdn(y, m, d);
+    out.push({ n, idx, info: dayInfo(idx), endOfMonth: d !== death.d });
+  }
+  return out;
+}
+
+/* お彼岸。春分の日・秋分の日を中日とする前後3日の7日間(霊園の合同供養祭が多い時期) */
+function higanPeriod(year, season) {
+  const mid = season === "spring" ? termDay(year, 3, 0) : termDay(year, 9, 180);
+  return { year, season, start: dayInfo(mid - 3), mid: dayInfo(mid), end: dayInfo(mid + 3) };
+}
+
+/* その日以降に終わるお彼岸を、近い順に count 個 */
+function upcomingHigan(fromIdx, count) {
+  const out = [];
+  for (let y = ymdOf(fromIdx).y; out.length < count; y++) {
+    for (const season of ["spring", "autumn"]) {
+      const p = higanPeriod(y, season);
+      if (p.end.idx >= fromIdx && out.length < count) out.push(p);
+    }
+  }
+  return out;
+}
+
 /* ---------- お盆 ---------- */
 
 const BON_TYPES = {
@@ -258,13 +323,14 @@ function anniversary(death, years) {
 }
 
 /*
- * input: { y, m, d, style: "butsu"|"shinto", kansai: bool, bon: "aug"|"jul"|"kyu" }
+ * input: { y, m, d, style: "butsu"|"shinto"|"pet", kansai: bool, bon: "aug"|"jul"|"kyu" }
  * 戻り値: { death, items[], kiake, mitsukigoshi, hatsubon }
  *   items は日付順。各要素に info(曜日・六曜・祝日)と candidates(前倒しの候補)が付く
+ *   pet は仏式と同じ数え方で、節目の顔ぶれ(PET_*)だけが違う。三月越しは出さない
  */
 function buildSchedule(input) {
-  const style = input.style === "shinto" ? "shinto" : "butsu";
-  const kansai = style === "butsu" && !!input.kansai;
+  const style = input.style === "shinto" || input.style === "pet" ? input.style : "butsu";
+  const kansai = style !== "shinto" && !!input.kansai;
   const bon = BON_TYPES[input.bon] ? input.bon : "aug";
   const deathIdx = jdn(input.y, input.m, input.d);
   const death = dayInfo(deathIdx);
@@ -285,10 +351,12 @@ function buildSchedule(input) {
       add(s, "shikinen", a.idx, { leapAdjusted: a.leapAdjusted });
     }
   } else {
+    const pet = style === "pet";
     const shift = kansai ? 1 : 0;
-    for (const c of CHUIN) add(c, "chuin", deathIdx + c.day - 1 - shift);
-    add(HYAKKANICHI, "chuin", deathIdx + HYAKKANICHI.day - 1);
-    for (const n of NENKI) {
+    for (const c of pet ? PET_CHUIN : CHUIN) add(c, "chuin", deathIdx + c.day - 1 - shift);
+    const hyakka = pet ? PET_HYAKKANICHI : HYAKKANICHI;
+    add(hyakka, "chuin", deathIdx + hyakka.day - 1);
+    for (const n of pet ? PET_NENKI : NENKI) {
       const a = anniversary(death, n.years);
       add(n, "nenki", a.idx, { leapAdjusted: a.leapAdjusted });
     }
@@ -314,7 +382,7 @@ function buildSchedule(input) {
     }
   }
 
-  const hatsubon = style === "butsu" ? computeHatsubon(deathIdx, kiake.idx, bon) : null;
+  const hatsubon = style !== "shinto" ? computeHatsubon(deathIdx, kiake.idx, bon) : null;
 
   return { input: { ...input, style, kansai, bon }, death, items, kiake, mitsukigoshi, hatsubon };
 }

@@ -5,6 +5,7 @@
 
 - 公開先: https://hakoniwalab.com/houyou-calendar/
 - 年忌早見表: https://hakoniwalab.com/houyou-calendar/hayami/
+- ペット版: https://hakoniwalab.com/houyou-calendar/pet/
 - HAKONIWA LAB 12本目。生まれ日診断に続く2本目の非YMYL
 
 ## なぜ作ったか
@@ -19,7 +20,8 @@
 | ファイル | 中身 |
 |---|---|
 | `js/houyou.js` | 計算の本体。法要の定義、日程表、初盆、早見表、表のHTML |
-| `js/app.js` | 画面。入力の保存(localStorage `houyou-calendar:input`)、.ics 書き出し、共有 |
+| `js/app.js` | 画面。入力の保存(localStorage `houyou-calendar:input`)、.ics 書き出し、共有。`window.HOUYOU_PAGE` で設定を上書きできる(ペット版が使う) |
+| `pet/index.html` `js/pet.js` | ペットの法要カレンダー。app.js をそのまま使い、pet.js が設定・月命日・お彼岸・お供え花の欄を足す。保存キーは `houyou-calendar:pet`(人の入力とは別) |
 | `js/hayami.js` | 早見表ページの「ほかの年を調べる」 |
 | `js/astro.js` `js/koyomi.js` `js/holiday.js` | **birthday-fortune からの複製(21a6b6f)**。六曜・旧暦・祝日。直すときは向こうと両方直す |
 | `scripts/build.js` | 静的な表を書き出す(index.html の旧盆の表、hayami/index.html) |
@@ -27,7 +29,7 @@
 | `test/verify.js` | 検証。本体の js をそのまま読み込む |
 
 ```
-node test/verify.js      # 検証(75件)
+node test/verify.js      # 検証(92件)
 node scripts/build.js    # 年が変わったら流し直す(今年と来年の表になる)
 ```
 
@@ -46,6 +48,13 @@ node scripts/build.js    # 年が変わったら流し直す(今年と来年の�
 | 三月越し | 四十九日が命日の月から数えて3つめの月に入る。五七日を一覧で目立たせる(次の法要・.icsは四十九日のまま) |
 | 初盆 | 四十九日がお盆の初日(13日)より前ならその年、当日以降なら翌年。お盆の後に亡くなれば翌年 |
 | 旧盆 | 旧暦7月13日〜15日(閏7月は使わない) |
+
+## ペット版(pet/、2026-09-20追加)
+
+- きっかけ: 日経クロストレンドの見出し「ペットと『悔いなく別れたい』に応えるサービス続々 葬送費用も上昇」。非YMYLで、この計算部品がそのまま使える
+- 数え方は人の仏式と同じ(霊園の法要計算も同じ)。節目の顔ぶれだけ `PET_CHUIN` `PET_HYAKKANICHI` `PET_NENKI`(一周忌〜十七回忌。十三回忌あたりで区切ることが多いとされる)。三月越しは出さない
+- ペット版だけの欄: 1年目の月命日(`monthlyMemorials`、ない日は月末、12か月目は一周忌と重なるので11回)、次のお彼岸(`upcomingHigan`、霊園の合同供養祭が多い時期)。月命日は .ics にも入る(当日9時に通知)が、家族に送る文面には入れない
+- 広告: 提携済みのベルビーフルールの商品リンクで、行き先をペット向けお供え花一覧(`bv-flower.com/SHOP/140938/153938/list.html`)にしている。a8mat は人の版と同じ
 
 ## 検証したこと
 

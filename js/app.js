@@ -5,9 +5,29 @@
  * 次に開いたときにすぐ日程を出す。外部には何も送らない。
  */
 
-const STORAGE_KEY = "houyou-calendar:input";
-const SITE_URL = "https://hakoniwalab.com/houyou-calendar/";
-const MIN_YEAR = 1926;
+/*
+ * ページごとの設定。ペット版(pet/index.html)は app.js より前に window.HOUYOU_PAGE を置いて上書きする。
+ *   root        houyou-calendar 直下へのパス(記事リンク用。pet/ なら "../")
+ *   word        「次の◯◯」の呼び方
+ *   bonOffer    初盆欄の広告 HTML(null なら既定のお供え花)
+ *   afterRender 描画のあとに呼ぶ (s, v, today) => void
+ *   extraEvents カレンダー登録(.ics)に足す予定 (s, today) => [{ key, name, start, end, alarm, alarmText?, desc }]
+ */
+const PAGE = Object.assign({
+  storageKey: "houyou-calendar:input",
+  siteUrl: "https://hakoniwalab.com/houyou-calendar/",
+  appName: "法要日程カレンダー",
+  root: "",
+  word: "法要",
+  minYear: 1926,
+  bonOffer: null,
+  afterRender: null,
+  extraEvents: null,
+}, window.HOUYOU_PAGE || {});
+
+const STORAGE_KEY = PAGE.storageKey;
+const SITE_URL = PAGE.siteUrl;
+const MIN_YEAR = PAGE.minYear;
 
 const $ = (id) => document.getElementById(id);
 
@@ -57,7 +77,8 @@ function writeForm(v) {
   selYear.value = String(v.y);
   selMonth.value = String(v.m);
   fillDays(v.d);
-  const r = form.querySelector(`input[name="style"][value="${v.style === "shinto" ? "shinto" : "butsu"}"]`);
+  const want = v.style === "shinto" || v.style === "pet" ? v.style : "butsu";
+  const r = form.querySelector(`input[name="style"][value="${want}"]`);
   if (r) r.checked = true;
   chkKansai.checked = !!v.kansai;
   selBon.value = BON_TYPES[v.bon] ? v.bon : "aug";
@@ -186,14 +207,14 @@ function renderNext(s, v, today) {
   const tsuki = d.d >= 29 ? `毎月${d.d}日(その日がない月は月末)` : `毎月${d.d}日`;
   const styleLabel = s.input.style === "shinto"
     ? "神式"
-    : `仏式・${s.input.kansai ? "前日から数える" : "命日から数える"}・${BON_TYPES[s.input.bon].short}のお盆`;
+    : `${s.input.style === "pet" ? "" : "仏式・"}${s.input.kansai ? "前日から数える" : "命日から数える"}・${BON_TYPES[s.input.bon].short}のお盆`;
   const meta = `<p class="next-meta">
       <span>命日 ${fmtDate(d)}・${warekiOfDate(d.y, d.m, d.d)}</span>
       <span>月命日 ${tsuki}</span>
       <span>${styleLabel}</span>
     </p>`;
 
-  const word = s.input.style === "shinto" ? "霊祭" : "法要";
+  const word = s.input.style === "shinto" ? "霊祭" : PAGE.word;
   if (!ev) {
     $("next-card").innerHTML = `<p class="result-headline__label">${esc(subject(v))}${word}の予定</p>
       <p class="next-date">一覧にある法要はすべて済んでいます</p>${meta}`;
@@ -214,7 +235,7 @@ function renderNext(s, v, today) {
     left = it.idx === today ? "今日です" : `あと${(it.idx - today).toLocaleString()}日`;
     rokuyoText = [it.info.rokuyo, it.info.holiday].filter(Boolean).join("・");
     if (it.idx > today && !it.info.isRest && it.candidates.length) {
-      cand = `<p class="next-cand">当日は平日です。前倒しするなら <strong>${it.candidates.map(fmtShort).join("・")}</strong><br><a href="guide/shijukunichi-maedaoshi/">何日前まで前倒しできる？</a></p>`;
+      cand = `<p class="next-cand">当日は平日です。前倒しするなら <strong>${it.candidates.map(fmtShort).join("・")}</strong><br><a href="${PAGE.root}guide/shijukunichi-maedaoshi/">何日前まで前倒しできる？</a></p>`;
     } else if (it.idx > today && it.info.isRest) {
       cand = `<p class="next-cand">当日が${it.info.holiday ? "祝日" : it.info.wdName + "曜日"}なので、その日に営めます</p>`;
     }
@@ -236,7 +257,7 @@ function renderBon(s, today) {
   const texts = [];
   if (hb.reason === "same") {
     texts.push(`四十九日(${fmtShort(k)})がお盆の初日より前に明けるので、亡くなった年のお盆が初盆です。`);
-    if (hb.close) texts.push(`ただし四十九日からお盆まで${hb.gap}日しかないため、準備の都合で翌年を初盆にすることもあります。菩提寺に相談してみてください。`);
+    if (hb.close) texts.push(`ただし四十九日からお盆まで${hb.gap}日しかないため、準備の都合で翌年を初盆にすることもあります。${s.input.style === "pet" ? "" : "菩提寺に相談してみてください。"}`);
   } else if (hb.reason === "kichu") {
     texts.push(`亡くなった年のお盆(${fmtShort(hb.skipped.start)}〜${fmtShort(hb.skipped.end)})は四十九日より前の忌中にあたるため、翌年のお盆が初盆です。`);
   } else {
@@ -251,8 +272,8 @@ function renderBon(s, today) {
     <p class="bon-main"><strong>${hb.year}年</strong> ${fmtShort(hb.start)}〜${fmtShort(hb.end)}
       ${done ? '<span class="badge badge--done">済</span>' : ""}</p>
     ${texts.map((t) => `<p class="bon-text">${esc(t)}</p>`).join("")}
-    <p class="bon-text"><a href="guide/hatsubon-itsu/">初盆の年の決め方と、境目になる命日の一覧 →</a></p>
-    ${done ? "" : BON_OFFER}`;
+    <p class="bon-text"><a href="${PAGE.root}guide/hatsubon-itsu/">初盆の年の決め方と、境目になる命日の一覧 →</a></p>
+    ${done ? "" : (PAGE.bonOffer ?? BON_OFFER)}`;
 }
 
 function render(v) {
@@ -290,6 +311,8 @@ function render(v) {
     : "一周忌だけが満1年、三回忌からは「回忌の数−1」年後の祥月命日です。";
   $("list-nenki").innerHTML = listHtml(late, today, shinto ? "式年祭" : "年忌法要");
 
+  if (PAGE.afterRender) PAGE.afterRender(s, v, today);
+
   resultSection.hidden = false;
   actionStatus.textContent = "";
 }
@@ -319,7 +342,8 @@ function icsDate(idx) {
   return `${y}${String(m).padStart(2, "0")}${String(d).padStart(2, "0")}`;
 }
 
-function upcomingEvents(s, today) {
+/* withExtra: ページ固有の予定(ペット版の月命日など)も足す。カレンダー登録だけで使い、家族に送る文面には入れない */
+function upcomingEvents(s, today, withExtra = false) {
   const evs = s.items.filter((it) => !it.minor && it.idx >= today).map((it) => ({
     key: it.key, name: it.name, start: it.idx, end: it.idx,
     alarm: it.years ? "-P30D" : "-P7D",
@@ -333,6 +357,7 @@ function upcomingEvents(s, today) {
     evs.push({ key: "bon", name: "初盆(新盆)", start: hb.start.idx, end: hb.end.idx, alarm: "-P30D",
       desc: `${fmtDate(hb.start)}〜${fmtShort(hb.end)}` });
   }
+  if (withExtra && PAGE.extraEvents) evs.push(...PAGE.extraEvents(s, today));
   return evs.sort((a, b) => a.start - b.start);
 }
 
@@ -345,7 +370,7 @@ function buildIcs(v, s) {
     "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//HAKONIWA LAB//houyou-calendar//JA",
     "CALSCALE:GREGORIAN", "METHOD:PUBLISH", `X-WR-CALNAME:${icsEscape(subject(v) + "法要の日程")}`,
   ];
-  for (const e of upcomingEvents(s, todayIdx())) {
+  for (const e of upcomingEvents(s, todayIdx(), true)) {
     const title = subject(v) + e.name;
     lines.push(
       "BEGIN:VEVENT",
@@ -357,7 +382,7 @@ function buildIcs(v, s) {
       `DESCRIPTION:${icsEscape(e.desc + "\n" + SITE_URL)}`,
       "TRANSP:TRANSPARENT",
       "BEGIN:VALARM", "ACTION:DISPLAY",
-      `DESCRIPTION:${icsEscape(title + "の準備(お寺・会場への連絡の目安)")}`,
+      `DESCRIPTION:${icsEscape(e.alarmText ? `${title}(${e.alarmText})` : title + "の準備(お寺・会場への連絡の目安)")}`,
       `TRIGGER:${e.alarm}`, "END:VALARM",
       "END:VEVENT",
     );
@@ -370,7 +395,8 @@ function buildIcs(v, s) {
 
 function buildShareText(v, s) {
   const today = todayIdx();
-  const lines = [`【法要の日程】${v.name ? v.name + "(" : ""}${fmtDate(s.death)}逝去${v.name ? ")" : ""}`];
+  const when = s.input.style === "pet" ? `命日 ${fmtDate(s.death)}` : `${fmtDate(s.death)}逝去`;
+  const lines = [`【法要の日程】${v.name ? `${v.name}(${when})` : when}`];
   const evs = upcomingEvents(s, today).slice(0, 8);
   if (!evs.length) lines.push("一覧にある法要はすべて済んでいます");
   for (const e of evs) {
@@ -383,7 +409,7 @@ function buildShareText(v, s) {
     const cand = !info.isRest && it.candidates.length ? ` → 前倒しなら ${it.candidates.map(fmtShort).join("・")}` : "";
     lines.push(`・${e.name} ${fmtDate(info)}${cand}`);
   }
-  lines.push("", `法要日程カレンダー ${SITE_URL}`);
+  lines.push("", `${PAGE.appName} ${SITE_URL}`);
   return lines.join("\n");
 }
 
@@ -410,7 +436,7 @@ form.addEventListener("submit", (e) => {
 
 $("btn-ics").addEventListener("click", () => {
   if (!current) return;
-  const n = upcomingEvents(current.s, todayIdx()).length;
+  const n = upcomingEvents(current.s, todayIdx(), true).length;
   if (!n) { actionStatus.textContent = "これから先の法要がないため、登録するものがありません"; return; }
   const blob = new Blob([buildIcs(current.v, current.s)], { type: "text/calendar;charset=utf-8" });
   const url = URL.createObjectURL(blob);

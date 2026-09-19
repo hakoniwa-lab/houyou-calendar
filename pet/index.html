@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ペットの四十九日・一周忌はいつ？命日から法要の日程を計算</title>
+<meta name="description" content="うちの子の命日を入れるだけで、初七日・四十九日・百箇日から一周忌・三回忌・十三回忌までの日付と、1年目の月命日を一覧に。平日なら直前の土日、霊園の合同供養祭が多いお彼岸の日程、初盆の年も表示します。カレンダー登録・家族への共有も。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/houyou-calendar/pet/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ペットの法要カレンダー | HAKONIWA LAB">
+<meta property="og:description" content="命日を入れるだけで、ペットの四十九日・一周忌・三回忌などの日付と、1年目の月命日を一覧に。お彼岸・初盆の時期もわかります。">
+<meta property="og:url" content="https://hakoniwalab.com/houyou-calendar/pet/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"ペットの四十九日はどう数えますか？","acceptedAnswer":{"@type":"Answer","text":"人の四十九日と同じく、亡くなった日(命日)を1日目として49日目、つまり命日の48日後です。2026年1月10日が命日なら、四十九日は2月27日です。関西の一部の数え方(命日の前日を1日目)では1日早い2月26日になります。"}},{"@type":"Question","name":"ペットの法要は何回忌までするものですか？","acceptedAnswer":{"@type":"Answer","text":"人の法要のような決まりはなく、飼い主の気持ちで決めてかまいません。一周忌や三回忌、七回忌、十三回忌あたりで区切り(弔い上げ)とすることが多いようです。"}},{"@type":"Question","name":"ペットの三回忌は何年後ですか？","acceptedAnswer":{"@type":"Answer","text":"人の法要と同じく満2年後の命日です。亡くなった日を1回目と数えるので、一周忌(満1年)の翌年が三回忌になります。七回忌は満6年、十三回忌は満12年です。"}},{"@type":"Question","name":"ペットの月命日はいつですか？","acceptedAnswer":{"@type":"Answer","text":"毎月の、命日と同じ日付です。31日に亡くなった場合、31日がない月は月末とする考え方が一般的です。この計算機では1年目の月命日を一覧にしています。"}},{"@type":"Question","name":"ペットにも初盆はありますか？","acceptedAnswer":{"@type":"Answer","text":"決まりはありませんが、四十九日を過ぎてから初めて迎えるお盆を、人と同じように初盆として迎える家庭もあります。お盆の初日までに四十九日が済んでいなければ、翌年のお盆が初盆です。"}},{"@type":"Question","name":"入力した内容は保存されますか？","acceptedAnswer":{"@type":"Answer","text":"お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときにすぐ日程を出すために使います。外部へは送信しません。"}}]}</script>
+<style>
+.mm-list { list-style: none; padding: 0; margin: 0 0 8px; display: grid; gap: 0; }
+.mm { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--color-border); font-size: 0.9rem; flex-wrap: wrap; }
+.mm:last-child { border-bottom: none; }
+.mm__n { font-weight: 800; min-width: 3.8em; }
+.mm__date { flex: 1; font-variant-numeric: tabular-nums; }
+.mm__date small { margin-left: 6px; color: var(--color-text-muted); font-size: 0.75rem; }
+.mm.is-past { opacity: 0.55; }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">うちの子の命日を入れるだけ</p>
+    <h1 class="app-header__title">ペットの法要カレンダー</h1>
+    <p class="app-header__lead">初七日・四十九日から一周忌・三回忌・十三回忌までの日付と、1年目の月命日を一覧にします。平日なら直前の土日、霊園の合同供養祭が多いお彼岸の時期、初盆の年もわかります。</p>
+  </header>
+
+  <main id="main" class="main">
+
+    <section id="form-card" class="card card--form no-print">
+      <form id="form" novalidate>
+        <input type="radio" name="style" value="pet" checked hidden>
+        <div class="form-field">
+          <label for="year">亡くなった日(命日)</label>
+          <div class="date-row">
+            <select id="year" class="quiz-select" aria-label="年"></select>
+            <select id="month" class="quiz-select" aria-label="月"></select>
+            <select id="day" class="quiz-select" aria-label="日"></select>
+          </div>
+          <p id="date-preview" class="date-preview" aria-live="polite"></p>
+        </div>
+
+        <div class="form-field">
+          <label for="name">名前 <span class="form-optional">任意</span></label>
+          <input id="name" type="text" maxlength="20" class="quiz-select" placeholder="例: モモ、コタロウ" autocomplete="off">
+          <p class="form-help">カレンダーの予定名や、家族に送る文面に入ります。</p>
+        </div>
+
+        <div class="form-field" id="field-bon">
+          <label for="bon">お盆の時期</label>
+          <select id="bon" class="quiz-select">
+            <option value="aug">8月13日〜16日(全国の多くの地域)</option>
+            <option value="jul">7月13日〜16日(東京の一部など)</option>
+            <option value="kyu">旧暦7月13日〜15日(沖縄・奄美の旧盆)</option>
+          </select>
+          <p class="form-help">初盆の年を決めるのに使います。</p>
+        </div>
+
+        <div class="form-field form-field--checkbox" id="field-kansai">
+          <label><input type="checkbox" id="kansai"> 命日の前日から数える(関西の一部の数え方)</label>
+          <p class="form-help">七日ごとの節目と四十九日が1日早くなります。わからなければ外したままで大丈夫です。</p>
+        </div>
+
+        <p id="form-error" class="form-error" hidden></p>
+        <button type="submit" class="btn btn--primary btn--large">日程を出す</button>
+      </form>
+      <ul class="intro-points">
+        <li>無料・登録不要。入力した内容は端末の中にだけ保存します</li>
+        <li>1年目の月命日も、曜日つきで一覧にします</li>
+        <li>平日にあたる節目は、直前の土日・祝日を候補に出します</li>
+        <li>カレンダーアプリへの登録、家族への共有、印刷ができます</li>
+      </ul>
+    </section>
+
+    <section id="result" hidden aria-live="polite">
+      <div class="card card--next" id="next-card"></div>
+
+      <div class="actions no-print">
+        <button type="button" id="btn-ics" class="btn btn--primary">カレンダーに登録</button>
+        <button type="button" id="btn-share" class="btn btn--ghost">家族に送る</button>
+        <button type="button" id="btn-print" class="btn btn--ghost">印刷する</button>
+      </div>
+      <p id="action-status" class="action-status no-print" aria-live="polite"></p>
+
+      <div class="card">
+        <h2 class="card__title card__title--list" id="chuin-title">四十九日まで</h2>
+        <p class="card__lead" id="chuin-lead"></p>
+        <div id="notice-chuin"></div>
+        <div id="list-chuin"></div>
+      </div>
+
+      <div class="card" id="card-monthly"></div>
+
+      <div class="card" id="card-bon" hidden></div>
+
+      <div class="card">
+        <h2 class="card__title card__title--list" id="nenki-title">年忌法要</h2>
+        <p class="card__lead" id="nenki-lead"></p>
+        <div id="list-nenki"></div>
+      </div>
+
+      <div class="card no-print" id="card-higan"></div>
+
+      <p class="result-legend">六曜は参考として並べています。供養の日取りに六曜は関係ないとされていますが、気にする家族がいるときの目安にしてください。</p>
+
+      <div id="ad-slot-result-bottom" class="ad-slot no-print" aria-hidden="true"></div>
+
+      <div class="result-cross-links no-print">
+        <a class="cross-link-banner" href="../">人の法要の日程はこちら(法要日程カレンダー) →</a>
+        <a class="cross-link-banner" href="../../birthday-fortune/calendar/">六曜と祝日を月ごとのカレンダーで見る →</a>
+      </div>
+      <p class="no-print" style="margin-top:16px"><button type="button" id="btn-edit" class="btn btn--ghost btn--large">条件を変える</button></p>
+    </section>
+
+  </main>
+
+  <section class="no-print" aria-label="解説">
+    <div class="card card--article">
+      <h2>ペットの法要の日程の数え方</h2>
+      <p>ペットの供養には、人の法要のような決まった作法はありません。そのうえで、<strong>人の法要と同じ数え方で節目を迎える家庭が多く</strong>、ペット霊園の法要日の案内も同じ数え方をしています。</p>
+      <h3>四十九日までは命日を1日目に数える</h3>
+      <p>初七日や四十九日は、<strong>亡くなった日を1日目</strong>として数えます。初七日は命日の6日後、四十九日は命日の48日後です。たとえば2026年1月10日に亡くなった場合はこうなります。</p>
+      <div class="table-scroll">
+        <table class="spec">
+          <thead><tr><th>節目</th><th>数え方</th><th>2026年1月10日が命日なら</th></tr></thead>
+          <tbody>
+            <tr><th>初七日</th><td>命日から7日目</td><td class="num">1月16日(金)</td></tr>
+            <tr><th>四十九日</th><td>命日から49日目</td><td class="num">2月27日(金)</td></tr>
+            <tr><th>百箇日</th><td>命日から100日目</td><td class="num">4月19日(日)</td></tr>
+            <tr><th>一周忌</th><td>満1年</td><td class="num">2027年1月10日(日)</td></tr>
+            <tr><th>三回忌</th><td>満2年</td><td class="num">2028年1月10日(月)</td></tr>
+            <tr><th>七回忌</th><td>満6年</td><td class="num">2032年1月10日(土)</td></tr>
+            <tr><th>十三回忌</th><td>満12年</td><td class="num">2038年1月10日(日)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>関西の一部では<strong>命日の前日を1日目</strong>として数えるので、七日ごとの節目と四十九日が1日早くなります。上の計算機でチェックを入れると切り替わります。</p>
+      <h3>三回忌は「2年後」</h3>
+      <p>間違えやすいのが三回忌です。一周忌は満1年ですが、<strong>三回忌は満2年</strong>です。亡くなった日を1回目と数えるので、2年後の命日が3回目にあたります。三回忌から先は「回忌の数から1を引いた年数」と覚えておくと迷いません。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>ペットの供養で迎えることが多い節目</h2>
+      <h3>四十九日は納骨の目安</h3>
+      <p>四十九日は、<strong>納骨の目安</strong>とされる日です。お骨をペット霊園に納めるか、しばらく自宅に置いておくかを決める区切りにもなります。急いで決める必要はなく、自宅でそのまま供養を続ける方もいます。</p>
+      <h3>月命日</h3>
+      <p>毎月の、命日と同じ日付が月命日です。1年目は、月命日ごとに好きだったおやつやお花を供えて手を合わせる方もいます。31日に亡くなった場合、31日がない月は月末にしています。</p>
+      <h3>一周忌・三回忌、区切りは十三回忌あたり</h3>
+      <p>年ごとの法要に決まりはなく、飼い主の気持ちで決めてかまいません。一周忌や三回忌、七回忌、<strong>十三回忌あたりで区切り(弔い上げ)とすることが多い</strong>ようです。計算機では犬や猫の寿命に近い十七回忌まで並べています。</p>
+      <h3>霊園の合同供養祭はお彼岸とお盆に多い</h3>
+      <p>ペット霊園では、春と秋のお彼岸やお盆に合同供養祭(慰霊祭)を開くところが多くあります。お彼岸は春分の日・秋分の日を中日とする7日間です。</p>
+      <div class="table-scroll">
+        <table class="spec">
+          <thead><tr><th>時期</th><th>期間</th><th>中日</th></tr></thead>
+          <tbody>
+            <tr><th>2026年 秋</th><td class="num">9月20日(日)〜9月26日(土)</td><td class="num">9月23日(水)</td></tr>
+            <tr><th>2027年 春</th><td class="num">3月18日(木)〜3月24日(水)</td><td class="num">3月21日(日)</td></tr>
+            <tr><th>2027年 秋</th><td class="num">9月20日(月)〜9月26日(日)</td><td class="num">9月23日(木)</td></tr>
+            <tr><th>2028年 春</th><td class="num">3月17日(金)〜3月23日(木)</td><td class="num">3月20日(月)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>日程は霊園ごとに違うので、お世話になった霊園の案内を確かめてください。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>合同法要と個別法要</h2>
+      <p>ペット霊園の法要には、ほかの家族と一緒に営む<strong>合同法要</strong>と、自分の家族だけで営む<strong>個別法要</strong>があります。霊園によっては、初七日・四十九日・一周忌などの法要を週末にまとめて合同で営んでいるところもあります。</p>
+      <p>費用の目安は、合同法要で3,000円〜1万円ほど、個別法要ではお布施が3万円〜5万円ほどと紹介されています。霊園やお寺によって大きく違うので、申し込む前に確かめてください。</p>
+      <p>霊園に頼まず、自宅で写真やお骨の前に手を合わせるのも立派な供養です。日程を決めるときは、家族が集まりやすい日を優先してかまいません。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>ペットの初盆</h2>
+      <p>ペットにも、人と同じように<strong>四十九日を過ぎてから初めて迎えるお盆</strong>を初盆として迎える家庭があります。決まりはありませんが、迎え火や好きだったものを供えて過ごす方もいます。</p>
+      <p>お盆の初日(8月13日など)までに四十九日が済んでいなければ、翌年のお盆が初盆です。8月13日からお盆を迎える地域なら、6月26日以降に亡くなった場合は翌年になります(命日を1日目と数えた場合)。人の場合の詳しい決め方は<a href="../guide/hatsubon-itsu/">初盆はいつ？</a>にまとめています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>日取りの決め方</h2>
+      <p>本来の日が平日のときは、<strong>その日より前の土日に寄せる</strong>のが一般的です。計算機では、平日にあたる節目について、直前の休み(3連休ならその3日)を「前倒しするなら」として表示しています。</p>
+      <p>「カレンダーに登録」を使うと、年忌は30日前、四十九日などは7日前に通知が出ます。1年目の月命日も、当日の朝に通知が出るように入れています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item">
+        <summary>ペットの四十九日はどう数えますか？</summary>
+        <p>人の四十九日と同じく、亡くなった日(命日)を1日目として49日目、つまり命日の48日後です。2026年1月10日が命日なら、四十九日は2月27日です。関西の一部の数え方(命日の前日を1日目)では1日早い2月26日になります。</p>
+      </details>
+      <details class="faq-item">
+        <summary>ペットの法要は何回忌までするものですか？</summary>
+        <p>人の法要のような決まりはなく、飼い主の気持ちで決めてかまいません。一周忌や三回忌、七回忌、十三回忌あたりで区切り(弔い上げ)とすることが多いようです。</p>
+      </details>
+      <details class="faq-item">
+        <summary>ペットの三回忌は何年後ですか？</summary>
+        <p>人の法要と同じく満2年後の命日です。亡くなった日を1回目と数えるので、一周忌(満1年)の翌年が三回忌になります。七回忌は満6年、十三回忌は満12年です。</p>
+      </details>
+      <details class="faq-item">
+        <summary>ペットの月命日はいつですか？</summary>
+        <p>毎月の、命日と同じ日付です。31日に亡くなった場合、31日がない月は月末とする考え方が一般的です。この計算機では1年目の月命日を一覧にしています。</p>
+      </details>
+      <details class="faq-item">
+        <summary>ペットにも初盆はありますか？</summary>
+        <p>決まりはありませんが、四十九日を過ぎてから初めて迎えるお盆を、人と同じように初盆として迎える家庭もあります。お盆の初日までに四十九日が済んでいなければ、翌年のお盆が初盆です。</p>
+      </details>
+      <details class="faq-item">
+        <summary>入力した内容は保存されますか？</summary>
+        <p>お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときにすぐ日程を出すために使います。外部へは送信しません。人の法要日程カレンダーとは別に保存します。</p>
+      </details>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料</h2>
+      <ul class="sources">
+        <li><a href="https://www.yasiro.co.jp/eitaikuyo/media/archives/6517" target="_blank" rel="noopener">霊園・墓石のヤシロ「ペットの法要とは？お布施は必要？費用相場や書き方・包み方」</a></li>
+        <li><a href="https://www.pet-reien.com/gyoji.html" target="_blank" rel="noopener">不動の杜ペット霊園「お盆やお彼岸など動物供養の行事」</a></li>
+        <li><a href="https://animal-cemetery.myoenji.jp/kinichi.html" target="_blank" rel="noopener">慈愛の丘 とそ動物霊園「ペットの忌日・年忌の法要計算」</a></li>
+        <li><a href="https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" target="_blank" rel="noopener">内閣府「国民の祝日について」</a></li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>運営者について</h2>
+      <p>本サイトはHAKONIWA LAB(運営者: 灯家)が個人で企画・開発・運営しています。人の法要の日程を出す<a href="../">法要日程カレンダー</a>や、吉日カレンダーなど、暮らしの中で気軽に使えるWebアプリを公開しています。</p>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p>表示する日程は一般的な数え方にもとづく目安です。実際の日取りは、ご家族やお世話になった霊園と相談して決めてください。「PR」表記のあるリンクにはプロモーション(アフィリエイト広告)が含まれます。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+
+<script src="../js/astro.js"></script>
+<script src="../js/koyomi.js"></script>
+<script src="../js/holiday.js"></script>
+<script src="../js/houyou.js"></script>
+<script src="../js/pet.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

@@ -171,5 +171,37 @@ const find = (s, key) => s.items.find(it => it.key === key);
   eq("8/10時点の次は初盆", n2.kind, "bon");
 }
 
+/* 12. ペット版(pet/) */
+{
+  const p = sched("2026-01-10", { style: "pet" });
+  eq("ペット 四十九日は人と同じ数え方", str(find(p, "49").info), "2026-02-27");
+  eq("ペット 百箇日", str(find(p, "100").info), "2026-04-19");
+  eq("ペット 年忌は十七回忌まで", p.items.filter(it => it.group === "nenki").map(it => it.name),
+    ["一周忌", "三回忌", "七回忌", "十三回忌", "十七回忌"]);
+  eq("ペット 十三回忌=満12年", str(find(p, "n13").info), "2038-01-10");
+  eq("ペット 関西式", str(find(sched("2026-01-10", { style: "pet", kansai: true }), "49").info), "2026-02-26");
+  eq("ペットは三月越しを出さない", sched("2026-01-20", { style: "pet" }).mitsukigoshi, null);
+  eq("人は三月越しを出す(同じ命日)", sched("2026-01-20").mitsukigoshi !== null, true);
+  const hbp = sched("2026-06-20", { style: "pet" }).hatsubon;
+  eq("ペットの初盆も人と同じ決め方", [hbp.year, hbp.reason], [2026, "same"]);
+
+  const mm = run(`monthlyMemorials(jdn(2026, 1, 31), 12)`);
+  eq("月命日 31日没 → 2月は28日(月末)", [str(mm[0].info), mm[0].endOfMonth], ["2026-02-28", true]);
+  eq("月命日 3月は31日", [str(mm[1].info), mm[1].endOfMonth], ["2026-03-31", false]);
+  eq("月命日 12か月目は翌年の同じ日", str(mm[11].info), "2027-01-31");
+  const mm2 = run(`monthlyMemorials(jdn(2027, 1, 30), 1)`);
+  eq("月命日 うるう年でない2月は28日", str(mm2[0].info), "2027-02-28");
+  eq("月命日 2028年2月は29日まである", str(run(`monthlyMemorials(jdn(2028, 1, 30), 1)`)[0].info), "2028-02-29");
+
+  const h = run(`higanPeriod(2026, "spring")`);
+  eq("2026 春のお彼岸 3/17〜3/23(中日=春分の日3/20)", [str(h.start), str(h.mid), str(h.end), h.mid.holiday], ["2026-03-17", "2026-03-20", "2026-03-23", "春分の日"]);
+  const a = run(`higanPeriod(2026, "autumn")`);
+  eq("2026 秋のお彼岸 9/20〜9/26(中日=秋分の日9/23)", [str(a.start), str(a.mid), str(a.end)], ["2026-09-20", "2026-09-23", "2026-09-26"]);
+  const up = run(`upcomingHigan(jdn(2026, 9, 26), 2)`).map(x => str(x.mid));
+  eq("9/26時点の次のお彼岸は秋(当日まで)→翌春", up, ["2026-09-23", "2027-03-21"]);
+  const up2 = run(`upcomingHigan(jdn(2026, 9, 27), 2)`).map(x => str(x.mid));
+  eq("9/27時点は翌春→翌秋", up2, ["2027-03-21", "2027-09-23"]);
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

@@ -22,6 +22,10 @@ const actionStatus = $("action-status");
 
 let current = null;   // いま表示している { v, s }
 
+/* 初盆欄の広告(A8.net ベルビーフルール、お供え花の一覧ページへの商品リンク)。初盆が済んだら出さない */
+const BON_OFFER = `<p class="bon-offer">初盆にお供えの花を贈るなら<br>
+  <a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=4BCFNH+BK69W2+3SJA+TR8TE&amp;a8ejpredirect=https%3A%2F%2Fbv-flower.com%2FSHOP%2F140938%2Flist.html" target="_blank" rel="nofollow sponsored noopener">お供え用のプリザーブドフラワー(ベルビーフルール)<span class="badge badge--pr">PR</span></a><img border="0" width="1" height="1" src="https://www13.a8.net/0.gif?a8mat=4BCFNH+BK69W2+3SJA+TR8TE" alt=""></p>`;
+
 /* ---------- 小物 ---------- */
 
 function esc(s) {
@@ -247,7 +251,8 @@ function renderBon(s, today) {
     <p class="bon-main"><strong>${hb.year}年</strong> ${fmtShort(hb.start)}〜${fmtShort(hb.end)}
       ${done ? '<span class="badge badge--done">済</span>' : ""}</p>
     ${texts.map((t) => `<p class="bon-text">${esc(t)}</p>`).join("")}
-    <p class="bon-text"><a href="guide/hatsubon-itsu/">初盆の年の決め方と、境目になる命日の一覧 →</a></p>`;
+    <p class="bon-text"><a href="guide/hatsubon-itsu/">初盆の年の決め方と、境目になる命日の一覧 →</a></p>
+    ${done ? "" : BON_OFFER}`;
 }
 
 function render(v) {

@@ -15,6 +15,19 @@ function petFlowerLink(lead) {
 
 const PET_MONTHS = 11;   // 1年目の月命日。12か月目は一周忌と同じ日なので出さない
 
+/* A8.net ペット葬儀110番(全国対応の紹介サービス)。四十九日がまだ先のときだけ出す */
+const PET_SOGI_LINK = `<a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=4BCGFJ+9LX4IA+39GM+3YW8WI" target="_blank" rel="nofollow sponsored noopener">【ペット葬儀110番】<span class="badge badge--pr">PR</span></a><img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=4BCGFJ+9LX4IA+39GM+3YW8WI" alt="">`;
+
+function renderPetSogi(s, today) {
+  const card = document.getElementById("card-pet-offer");
+  if (s.kiake.idx < today) { card.hidden = true; return; }   // 四十九日が済んでいれば出さない
+  card.hidden = false;
+  card.innerHTML = `<h2 class="card__title card__title--list">火葬や供養の方法を探している方へ</h2>
+    <p class="card__lead">火葬の方法(個別・合同)や、お骨を自宅に置くか霊園に納めるかは、四十九日までに決める家庭が多い部分です。地域の業者を紹介してもらえるサービスもあります。</p>
+    <div class="offer-links">${PET_SOGI_LINK}</div>
+    <p class="hy-row__note">※ 料金や対応できる地域は業者によって違います。見積もりを取って比べてください。</p>`;
+}
+
 function renderMonthly(s, today) {
   const card = document.getElementById("card-monthly");
   const months = monthlyMemorials(s.death.idx, PET_MONTHS);
@@ -61,6 +74,7 @@ window.HOUYOU_PAGE = {
       const text = mm.idx === today ? `今日は${mm.n}か月の月命日です` : `次の月命日は ${fmtDate(mm.info)}(${mm.n}か月)`;
       document.getElementById("next-card").insertAdjacentHTML("beforeend", `<p class="next-cand">${text}</p>`);
     }
+    renderPetSogi(s, today);
     renderMonthly(s, today);
     renderHigan(today);
   },

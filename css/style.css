@@ -726,6 +726,7 @@ html, body {
 .art-links { list-style: none; padding: 0; margin: 0; }
 /* 広告を含むページの冒頭表示(ステマ規制への対応) */
 .pr-note { font-size: 0.75rem; color: var(--color-text-muted); margin: -8px 0 14px; }
+.offer-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
 .bon-offer { margin: 10px 0 0; padding-top: 10px; border-top: 1px dashed var(--color-border); font-size: 0.8rem; color: var(--color-text-muted); }
 .bon-offer .result-card__link { margin-top: 6px; }
 .card--article .art-links li { margin-bottom: 8px; }

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>死亡後の手続き期限カレンダー｜相続放棄3か月・相続税10か月を日付で</title>
+<meta name="description" content="命日を入れるだけで、死亡届7日・世帯主変更14日から、相続放棄3か月・準確定申告4か月・相続税申告10か月、相続登記3年、葬祭費や遺族年金の時効まで、死亡後の手続きの期限を日付で一覧にします。期限が土日祝に当たる場合の翌開庁日、義務化前の相続登記の経過措置にも対応。カレンダー登録・家族への共有も。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/houyou-calendar/tetsuzuki/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="死亡後の手続き期限カレンダー | HAKONIWA LAB">
+<meta property="og:description" content="命日を入れると、死亡届・相続放棄・準確定申告・相続税・相続登記・もらえるお金の時効まで、期限が日付で出ます。">
+<meta property="og:url" content="https://hakoniwalab.com/houyou-calendar/tetsuzuki/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"相続放棄の3か月はいつから数えますか？","acceptedAnswer":{"@type":"Answer","text":"自己のために相続の開始があったことを知った時から3か月です(民法915条)。期間の初日は算入せず、3か月後の応当する日の前日に満了します。1月10日に亡くなったことをその日に知った場合は、4月10日が期限です。家庭裁判所に申し立てて期間を伸ばせる場合もあります。"}},{"@type":"Question","name":"準確定申告と相続税の申告はいつまでですか？","acceptedAnswer":{"@type":"Answer","text":"準確定申告は相続の開始があったことを知った日の翌日から4か月を経過した日の前日まで(所得税法125条)、相続税の申告と納付は知った日の翌日から10か月以内(相続税法27条)です。どちらも期限が土日祝や12月29日〜1月3日に当たるときは、翌開庁日が期限になります。"}},{"@type":"Question","name":"相続登記はいつまでにすればいいですか？","acceptedAnswer":{"@type":"Answer","text":"不動産を相続で取得したことを知った日から3年以内です(不動産登記法76条の2)。2024年4月1日の義務化より前に相続したことを知った不動産は、2027年3月31日までに登記する必要があります。正当な理由なく放置すると10万円以下の過料の対象です。"}},{"@type":"Question","name":"期限を過ぎてしまった手続きはどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"手続きによって異なります。相続放棄は事情によって認められることがあり、相続税の申告は遅れると加算税や延滞税がかかります。葬祭費や未支給年金などは時効で請求できなくなります。過ぎているものがあれば、家庭裁判所・税務署・市区町村の窓口に早めに相談してください。"}},{"@type":"Question","name":"入力した内容は保存されますか？","acceptedAnswer":{"@type":"Answer","text":"お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときにすぐ期限を出すために使います。外部へは送信しません。"}}]}</script>
+<style>
+.guide-nav { margin: 0 auto 16px; font-size: 0.85rem; color: var(--color-text-muted); }
+.guide-nav a { color: var(--color-text-muted); }
+.tz-law { font-size: 0.72rem; color: var(--color-text-muted); margin-left: auto; }
+.hy-row__tags { align-items: center; }
+/* 提出先は名前の下に置く(名前の横だと折り返して読みにくい) */
+.hy-row__name .hy-row__yomi { display: block; margin-left: 0; margin-top: 2px; }
+.guide-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.9rem; }
+.guide-table th, .guide-table td { border: 1px solid var(--color-border); padding: 8px 10px; text-align: left; vertical-align: top; }
+.guide-table th { background: var(--color-bg); font-weight: 600; }
+.guide-table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="guide-nav" aria-label="パンくずリスト">
+    <a href="../">法要日程カレンダー</a> &raquo;
+    <span aria-current="page">死亡後の手続き期限カレンダー</span>
+  </nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">命日を入れるだけ</p>
+    <h1 class="app-header__title">死亡後の手続き<br class="sp-only">期限カレンダー</h1>
+    <p class="app-header__lead">死亡届7日・世帯主変更14日から、相続放棄3か月・準確定申告4か月・相続税10か月、相続登記3年、葬祭費や遺族年金の時効まで。17の手続きの期限を日付で出します。</p>
+  </header>
+
+  <main id="main" class="main">
+
+    <section id="form-card" class="card card--form no-print">
+      <form id="form" novalidate>
+        <div class="form-field">
+          <label for="year">亡くなった日(相続の開始を知った日)</label>
+          <div class="date-row">
+            <select id="year" class="quiz-select" aria-label="年"></select>
+            <select id="month" class="quiz-select" aria-label="月"></select>
+            <select id="day" class="quiz-select" aria-label="日"></select>
+          </div>
+          <p id="date-preview" class="date-preview" aria-live="polite"></p>
+          <p class="form-help">相続放棄・準確定申告・相続税の期限は「亡くなったことを知った日」から数えます。あとで知った場合は、知った日を入れてください。</p>
+        </div>
+
+        <div class="form-field">
+          <label for="name">呼び名 <span class="form-optional">任意</span></label>
+          <input id="name" type="text" maxlength="20" class="quiz-select" placeholder="例: 父、母" autocomplete="off">
+          <p class="form-help">カレンダーの予定名や、家族に送る文面に入ります。</p>
+        </div>
+
+        <p id="form-error" class="form-error" hidden></p>
+        <button type="submit" class="btn btn--primary btn--large">期限を出す</button>
+      </form>
+      <ul class="intro-points">
+        <li>無料・登録不要。入力した内容は端末の中にだけ保存します</li>
+        <li>期限が土日祝・年末年始に当たるものは翌開庁日にずらします</li>
+        <li>2024年4月に義務化された相続登記の経過措置にも対応</li>
+        <li>カレンダーアプリへの登録、家族への共有、印刷ができます</li>
+      </ul>
+    </section>
+
+    <section id="result" hidden aria-live="polite">
+      <div class="card card--next" id="next-card"></div>
+
+      <div class="actions no-print">
+        <button type="button" id="btn-ics" class="btn btn--primary">カレンダーに登録</button>
+        <button type="button" id="btn-share" class="btn btn--ghost">家族に送る</button>
+        <button type="button" id="btn-print" class="btn btn--ghost">印刷する</button>
+      </div>
+      <p id="action-status" class="action-status no-print" aria-live="polite"></p>
+
+      <div class="card" id="card-yakusho"></div>
+      <div class="card" id="card-souzoku"></div>
+      <div class="card" id="card-seikyu"></div>
+      <div class="card" id="card-jiko"></div>
+
+      <p class="result-legend">日付は一般的な数え方にもとづく目安です。手続きによっては起算点が変わることがあります(葬祭費は葬儀の翌日から、高額療養費は診療を受けた月の翌月1日から)。実際の期限は各窓口でご確認ください。</p>
+
+      <div id="ad-slot-result-bottom" class="ad-slot no-print" aria-hidden="true"></div>
+
+      <div class="result-cross-links no-print">
+        <a class="cross-link-banner" href="../">四十九日・一周忌などの法要の日程はこちら →</a>
+        <a class="cross-link-banner" href="../../subsidy-checker/">使えるかもしれない公的な給付金を診断で確認する →</a>
+        <a class="cross-link-banner" href="../../retirement-simulator/ideco/">iDeCoと退職金の受け取り順を比べる →</a>
+      </div>
+      <p class="no-print" style="margin-top:16px"><button type="button" id="btn-edit" class="btn btn--ghost btn--large">日付を変える</button></p>
+    </section>
+
+  </main>
+
+  <section class="no-print" aria-label="解説">
+    <div class="card card--article">
+      <h2>期限の数え方</h2>
+      <p>死亡後の手続きは、数え方が2種類あります。どちらかで1日ずれるので、期限ぎりぎりのときは注意が必要です。</p>
+      <div class="table-scroll">
+        <table class="guide-table">
+          <thead><tr><th>対象</th><th>数え方</th><th>1月10日が命日なら</th></tr></thead>
+          <tbody>
+            <tr><td>死亡届(戸籍の届出)</td><td><strong>命日を1日目</strong>として7日以内(戸籍法43条・86条)</td><td class="num">1月16日</td></tr>
+            <tr><td>世帯主変更・保険・年金の届出</td><td>翌日から数える(民法140条の原則)</td><td class="num">1月24日(14日)</td></tr>
+            <tr><td>相続放棄・準確定申告・相続税</td><td>翌日から数え、<strong>応当する日の前日</strong>に満了(民法143条2項)</td><td class="num">4月10日・5月10日・11月10日</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>月で数えるものは、応当する日がない月に当たると<strong>その月の末日</strong>が期限です。たとえば11月30日に亡くなった場合、相続放棄の期限は2月28日(うるう年なら2月29日)になります。</p>
+      <h3>期限が土日祝のとき</h3>
+      <p>税務署・家庭裁判所・法務局に出すものは、期限が日曜・祝日・土曜・12月29日〜1月3日に当たると<strong>翌開庁日</strong>が期限になります(国税通則法10条2項、同施行令2条2項)。この計算機はその分をずらして表示し、ずらした場合は注記を出します。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>3か月・4か月・10か月がとくに大事</h2>
+      <h3>相続放棄は3か月</h3>
+      <p>借金を引き継がないための手続きです。<strong>亡くなったことを知った時から3か月</strong>で、過ぎると原則として単純承認(そのまま相続)とみなされます。財産や借金の調査が終わらないときは、家庭裁判所に期間の伸長を申し立てられます。</p>
+      <h3>準確定申告は4か月</h3>
+      <p>亡くなった年の1月1日から死亡日までの所得を、相続人が申告します。年金や給与だけで源泉徴収が済んでいれば不要なこともありますが、医療費が多かった年は<strong>還付になることもある</strong>ので確認する価値があります。</p>
+      <h3>相続税の申告・納付は10か月</h3>
+      <p>遺産が基礎控除(3,000万円＋600万円×法定相続人の数)を超えるときに必要です。配偶者の税額軽減や小規模宅地等の特例は、<strong>申告して初めて使える</strong>ものなので、特例を使って税額が0円になる場合でも申告が要ります。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>相続登記は2024年4月から義務</h2>
+      <p>不動産を相続したら、<strong>取得を知った日から3年以内</strong>に名義を変える義務があります(不動産登記法76条の2)。正当な理由なく放置すると10万円以下の過料の対象です。</p>
+      <p>義務化の前に相続した分も対象で、その場合の期限は<strong>2027年(令和9年)3月31日</strong>です。遺産分割がまとまらないときは、「相続人申告登記」という簡単な手続きで義務を果たせます。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>請求しないともらえないお金</h2>
+      <p>次のお金は、こちらから請求しないと受け取れません。時効までの期間は長めですが、忘れやすいものです。</p>
+      <ul>
+        <li><strong>葬祭費・埋葬料</strong>(2年) — 国民健康保険は自治体によって3万〜7万円程度、健康保険は埋葬料5万円が目安</li>
+        <li><strong>高額療養費</strong>(2年) — 亡くなる前の医療費が自己負担の上限を超えていた分</li>
+        <li><strong>死亡一時金</strong>(2年) — 国民年金の保険料を3年以上納め、年金を受けずに亡くなった場合</li>
+        <li><strong>生命保険金</strong>(3年) — 保険法95条。約款でもっと長くしている会社もあります</li>
+        <li><strong>未支給年金・遺族年金</strong>(5年) — 亡くなった月の分までの年金は遺族が受け取れます</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item">
+        <summary>相続放棄の3か月はいつから数えますか？</summary>
+        <p>自己のために相続の開始があったことを知った時から3か月です(民法915条)。期間の初日は算入せず、3か月後の応当する日の前日に満了します。1月10日に亡くなったことをその日に知った場合は、4月10日が期限です。家庭裁判所に申し立てて期間を伸ばせる場合もあります。</p>
+      </details>
+      <details class="faq-item">
+        <summary>準確定申告と相続税の申告はいつまでですか？</summary>
+        <p>準確定申告は相続の開始があったことを知った日の翌日から4か月を経過した日の前日まで(所得税法125条)、相続税の申告と納付は知った日の翌日から10か月以内(相続税法27条)です。どちらも期限が土日祝や12月29日〜1月3日に当たるときは、翌開庁日が期限になります。</p>
+      </details>
+      <details class="faq-item">
+        <summary>相続登記はいつまでにすればいいですか？</summary>
+        <p>不動産を相続で取得したことを知った日から3年以内です(不動産登記法76条の2)。2024年4月1日の義務化より前に相続したことを知った不動産は、2027年3月31日までに登記する必要があります。正当な理由なく放置すると10万円以下の過料の対象です。</p>
+      </details>
+      <details class="faq-item">
+        <summary>期限を過ぎてしまった手続きはどうなりますか？</summary>
+        <p>手続きによって異なります。相続放棄は事情によって認められることがあり、相続税の申告は遅れると加算税や延滞税がかかります。葬祭費や未支給年金などは時効で請求できなくなります。過ぎているものがあれば、家庭裁判所・税務署・市区町村の窓口に早めに相談してください。</p>
+      </details>
+      <details class="faq-item">
+        <summary>入力した内容は保存されますか？</summary>
+        <p>お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときにすぐ期限を出すために使います。外部へは送信しません。</p>
+      </details>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料</h2>
+      <ul class="sources">
+        <li><a href="https://laws.e-gov.go.jp/law/129AC0000000089" target="_blank" rel="noopener">e-Gov法令検索「民法」140条(初日不算入)・143条(暦による期間の計算)・915条(相続の承認又は放棄をすべき期間)・1048条(遺留分侵害額請求権の期間の制限)</a></li>
+        <li><a href="https://laws.e-gov.go.jp/law/322AC0000000224" target="_blank" rel="noopener">e-Gov法令検索「戸籍法」43条(届出期間の起算)・86条(死亡の届出)</a></li>
+        <li><a href="https://laws.e-gov.go.jp/law/340AC0000000033" target="_blank" rel="noopener">e-Gov法令検索「所得税法」125条(年の中途で死亡した場合の確定申告)</a></li>
+        <li><a href="https://laws.e-gov.go.jp/law/325AC0000000073" target="_blank" rel="noopener">e-Gov法令検索「相続税法」27条(相続税の申告書)</a></li>
+        <li><a href="https://laws.e-gov.go.jp/law/416AC0000000123" target="_blank" rel="noopener">e-Gov法令検索「不動産登記法」76条の2(相続等による所有権の移転の登記の申請)</a></li>
+        <li><a href="https://laws.e-gov.go.jp/law/337AC0000000066" target="_blank" rel="noopener">e-Gov法令検索「国税通則法」10条(期間の計算及び期限の特例)</a></li>
+        <li><a href="https://www.moj.go.jp/MINJI/minji05_00565.html" target="_blank" rel="noopener">法務省「相続登記の申請義務化に関するQ&amp;A」</a></li>
+        <li><a href="https://www.nenkin.go.jp/service/jukyu/tetsuduki/kyotsu/jukyu/20140731-01.html" target="_blank" rel="noopener">日本年金機構「年金を受けている方が亡くなったとき」</a></li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>運営者について</h2>
+      <p>本サイトはHAKONIWA LAB(運営者: 灯家)が個人で企画・開発・運営しています。<a href="../">法要日程カレンダー</a>や給付金診断など、暮らしの手続きで使えるツールを公開しています。</p>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p>表示する日付は法令にもとづく一般的な数え方による目安で、個別の事情によって期限が変わることがあります。本サイトは法律・税務の相談に応じるものではありません。実際の手続きは家庭裁判所・税務署・市区町村の窓口や、弁護士・司法書士・税理士にご確認ください。「PR」表記のあるリンクにはプロモーション(アフィリエイト広告)が含まれます。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+
+<script src="../js/astro.js"></script>
+<script src="../js/koyomi.js"></script>
+<script src="../js/holiday.js"></script>
+<script src="../js/houyou.js"></script>
+<script src="../js/tetsuzuki.js"></script>
+<script src="../js/tetsuzuki-app.js"></script>
+</body>
+</html>

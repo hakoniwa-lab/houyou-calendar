@@ -319,28 +319,7 @@ function render(v) {
 
 /* ---------- カレンダー登録(.ics) ---------- */
 
-function icsEscape(s) {
-  return String(s).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
-}
-
-/* 1行75オクテットで折り返す(RFC 5545)。文字の途中では切らない */
-function icsFold(line) {
-  const enc = new TextEncoder();
-  const out = [];
-  let cur = "", bytes = 0;
-  for (const ch of line) {
-    const b = enc.encode(ch).length;
-    if (bytes + b > 75) { out.push(cur); cur = " " + ch; bytes = 1 + b; }
-    else { cur += ch; bytes += b; }
-  }
-  out.push(cur);
-  return out.join("\r\n");
-}
-
-function icsDate(idx) {
-  const { y, m, d } = ymdOf(idx);
-  return `${y}${String(m).padStart(2, "0")}${String(d).padStart(2, "0")}`;
-}
+/* icsEscape・icsFold・icsDate は houyou.js に置いてある(手続きカレンダーと共用) */
 
 /* withExtra: ページ固有の予定(ペット版の月命日など)も足す。カレンダー登録だけで使い、家族に送る文面には入れない */
 function upcomingEvents(s, today, withExtra = false) {

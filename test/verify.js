@@ -7,7 +7,7 @@ const path = require("path");
 const vm = require("vm");
 
 const ctx = vm.createContext({ console, Math, Map, Set, Infinity });
-for (const f of ["astro.js", "koyomi.js", "holiday.js", "houyou.js"]) {
+for (const f of ["astro.js", "koyomi.js", "holiday.js", "houyou.js", "tetsuzuki.js"]) {
   vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "js", f), "utf8"), ctx, { filename: f });
 }
 const run = (code) => vm.runInContext(code, ctx);
@@ -201,6 +201,60 @@ const find = (s, key) => s.items.find(it => it.key === key);
   eq("9/26時点の次のお彼岸は秋(当日まで)→翌春", up, ["2026-09-23", "2027-03-21"]);
   const up2 = run(`upcomingHigan(jdn(2026, 9, 27), 2)`).map(x => str(x.mid));
   eq("9/27時点は翌春→翌秋", up2, ["2027-03-21", "2027-09-23"]);
+}
+
+/* 13. 死亡後の手続きの期限(tetsuzuki.js) */
+{
+  const T = (date, key) => {
+    const s = run(`buildTetsuzuki(${JSON.stringify(ymd(date))})`);
+    return s.items.find((it) => it.key === key);
+  };
+  /* 民法140条(初日不算入)・143条2項(応当日の前日に満了) */
+  eq("相続放棄 1/10没 → 4/10", str(T("2026-01-10", "houki").info), "2026-04-10");
+  eq("相続税 1/10没 → 11/10", str(T("2026-01-10", "souzokuzei").info), "2026-11-10");
+  /* 応当日がない月は末日に満了(143条2項ただし書) */
+  /* 起算日12/1の3か月後応当日(3/1)の前日=2/28(土)。家裁は閉庁なので翌開庁日の3/2(月) */
+  eq("相続放棄 11/30没 → 2/28(土)なので3/2", [str(T("2025-11-30", "houki").info), T("2025-11-30", "houki").shifted], ["2026-03-02", true]);
+  eq("ずらす前の満了日は2/28", str(run(`ymdOf(monthDeadline(jdn(2025, 11, 30), 3))`)), "2026-02-28");
+  eq("相続放棄 1/31没 → 4/30", str(T("2026-01-31", "houki").info), "2026-04-30");
+  eq("相続税 8/31没 → 6/30", str(T("2025-08-31", "souzokuzei").info), "2026-06-30");
+  /* 戸籍法43条は初日算入。ほかの届出は初日不算入 */
+  eq("死亡届 1/10没 → 1/16", str(T("2026-01-10", "shibo").info), "2026-01-16");
+  eq("世帯主変更 1/10没 → 1/24", str(T("2026-01-10", "setai").info), "2026-01-24");
+  eq("厚生年金の受給停止 → 10日後", str(T("2026-01-10", "nenkin-kosei").info), "2026-01-20");
+  /* 国税・家裁の期限が閉庁日なら翌開庁日(国税通則法10条2項・施行令2条2項) */
+  {
+    const it = T("2026-02-10", "junkakutei");
+    eq("準確定申告 2/10没 → 6/10(平日なのでずらさない)", [str(it.info), it.shifted], ["2026-06-10", false]);
+  }
+  {
+    const it = T("2026-01-10", "junkakutei");
+    eq("準確定申告 1/10没 → 5/10は日曜なので5/11", [str(it.info), it.shifted], ["2026-05-11", true]);
+  }
+  {
+    const it = T("2026-03-10", "souzokuzei");
+    eq("相続税 3/10没 → 2027/1/10は日曜・1/11は成人の日 → 1/12", [str(it.info), it.shifted], ["2027-01-12", true]);
+  }
+  /* 相続登記(不動産登記法76条の2)と義務化前の経過措置 */
+  eq("相続登記 2026没 → 3年後", str(T("2026-01-10", "touki").info), "2029-01-10");
+  {
+    const it = T("2020-05-20", "touki");
+    eq("義務化前の相続は2027-03-31まで", [str(it.info), it.keika], ["2027-03-31", true]);
+  }
+  /* 年・時効もの */
+  eq("遺留分 1年", str(T("2026-01-10", "iryubun").info), "2027-01-10");
+  eq("葬祭費 2年", str(T("2026-01-10", "sosaihi").info), "2028-01-10");
+  eq("生命保険金 3年", str(T("2026-01-10", "seiho").info), "2029-01-10");
+  eq("遺族年金 5年", str(T("2026-01-10", "izoku").info), "2031-01-10");
+  /* 並びと件数 */
+  {
+    const s = run(`buildTetsuzuki(${JSON.stringify(ymd("2026-01-10"))})`);
+    eq("17件", s.items.length, 17);
+    eq("期限の早い順", s.items.map((it) => it.idx).every((v, i, a) => i === 0 || a[i - 1] <= v), true);
+    eq("最初は死亡届", s.items[0].key, "shibo");
+    const n = vm.runInContext(`nextTetsuzuki(${JSON.stringify(s)}, ${run(`jdn(2026, 5, 1)`)})`, ctx);
+    eq("5/1時点の次は準確定申告(5/11)", n.key, "junkakutei");
+  }
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

@@ -46,6 +46,9 @@ let current = null;   // いま表示している { v, s }
 const BON_OFFER = `<p class="bon-offer">初盆にお供えの花を贈るなら<br>
   <a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=4BCFNH+BK69W2+3SJA+TR8TE&amp;a8ejpredirect=https%3A%2F%2Fbv-flower.com%2FSHOP%2F140938%2Flist.html" target="_blank" rel="nofollow sponsored noopener">お供え用のプリザーブドフラワー(ベルビーフルール)<span class="badge badge--pr">PR</span></a><img border="0" width="1" height="1" src="https://www13.a8.net/0.gif?a8mat=4BCFNH+BK69W2+3SJA+TR8TE" alt=""></p>`;
 
+/* A8.net 墓石ナビ(石材店の一括見積もり、提携済み)。人の版だけ・一周忌がまだ先のときに出す */
+const GRAVE_LINK = `<a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=4BCFNH+BPJ6C2+46CI+BX3J6" target="_blank" rel="nofollow sponsored noopener">全国の優良石材店から一括見積りが無料で出来る【墓石ナビ】<span class="badge badge--pr">PR</span></a><img border="0" width="1" height="1" src="https://www12.a8.net/0.gif?a8mat=4BCFNH+BPJ6C2+46CI+BX3J6" alt="">`;
+
 /* ---------- 小物 ---------- */
 
 function esc(s) {
@@ -276,6 +279,22 @@ function renderBon(s, today) {
     ${done ? "" : (PAGE.bonOffer ?? BON_OFFER)}`;
 }
 
+/*
+ * お墓の一括見積もりの欄。納骨は四十九日か一周忌にあわせることが多いので、
+ * 一周忌(神式は一年祭)がまだ先のときだけ出す。ペット版にはこの枠自体が無い
+ */
+function renderGraveOffer(s, today) {
+  const card = document.getElementById("card-grave-offer");
+  if (!card) return;
+  const first = s.items.find((it) => it.key === "n1" || it.key === "t1");
+  if (!first || first.idx < today) { card.hidden = true; return; }
+  card.hidden = false;
+  card.innerHTML = `<h2 class="card__title card__title--list">お墓の準備がこれからの方へ</h2>
+    <p class="card__lead">納骨は四十九日や一周忌にあわせて行うことが多く、お墓を新しく建てる場合は石材店を決めるところから始まります。複数の石材店から見積もりを取って比べられるサービスもあります。</p>
+    <div class="offer-links">${GRAVE_LINK}</div>
+    <p class="hy-row__note">※ 墓地の使用料や工事の費用は、地域や墓地によって大きく変わります。見積もりを取って比べてください。</p>`;
+}
+
 function render(v) {
   const s = buildSchedule(v);
   const today = todayIdx();
@@ -304,6 +323,7 @@ function render(v) {
   $("list-chuin").innerHTML = listHtml(early, today, shinto ? "五十日祭までの霊祭" : "四十九日までの法要");
 
   renderBon(s, today);
+  renderGraveOffer(s, today);
 
   $("nenki-title").textContent = shinto ? "式年祭" : "年忌法要";
   $("nenki-lead").textContent = shinto

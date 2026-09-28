@@ -14,7 +14,7 @@ const vm = require("vm");
 
 const root = path.join(__dirname, "..");
 const ctx = vm.createContext({ console, Math, Map, Set, Infinity });
-for (const f of ["astro.js", "koyomi.js", "holiday.js", "houyou.js"]) {
+for (const f of ["astro.js", "koyomi.js", "holiday.js", "houyou.js", "shinzoku.js"]) {
   vm.runInContext(fs.readFileSync(path.join(root, "js", f), "utf8"), ctx, { filename: f });
 }
 const call = (fn, ...args) => vm.runInContext(`${fn}(${args.map((a) => JSON.stringify(a)).join(",")})`, ctx);
@@ -75,4 +75,38 @@ function writeSafe(file, content, minBytes) {
   });
   fs.mkdirSync(path.join(root, "hayami"), { recursive: true });
   writeSafe(path.join(root, "hayami", "index.html"), out, tpl.length);
+}
+
+/* ---- 喪中の範囲 ---- */
+{
+  const faq = [
+    ["兄弟の配偶者(義兄・義姉)が亡くなったら喪中ですか？",
+      "親等でいえば2親等ですが、血族ではなく姻族です。喪中に含めるかどうかは説明が分かれていて、どちらが正しいという法律はありません。同居していたか、付き合いの深さで決めている家が多いです。"],
+    ["叔父・叔母が亡くなったら喪中ですか？",
+      "おじ・おばは3親等の血族です。喪中の目安は2親等までとされることが多いため、一般には喪中としないことが多い範囲にあたります。ただし同居していた場合など、喪に服す家もあります。"],
+    ["喪中でも初詣に行っていいですか？",
+      "神社本庁は、忌の期間は神社の参拝を控え、50日を過ぎれば原則として参拝を再開して差し支えないとしています。控えるのは忌であって、忌が明けていれば喪中でも参拝はできるという整理になります。地域に慣例がある場合はその慣例が優先します。"],
+    ["忌中と喪中は何が違いますか？",
+      "神社本庁は、忌は故人の祭りに専念する期間、服(喪)は故人への哀悼の気持ちを表す期間としています。慣例がなければ五十日祭までが忌、一年祭(1周忌)までが服とするのが一般的です。忌中は神社参拝を控えるとされますが、喪中は年賀状を辞退する範囲の話になります。"],
+    ["配偶者の父母や祖父母は喪中の範囲ですか？",
+      "配偶者の父母は1親等の姻族、配偶者の祖父母と配偶者の兄弟姉妹は2親等の姻族です。いずれも民法上の親族にあたります。一般に2親等までを喪中とするため、含めるのが一般的です。"],
+  ];
+  const faqJson = JSON.stringify({
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  });
+  const faqHtml = faq.map(([q, a]) =>
+    `      <details class="faq-item">\n        <summary>${q}</summary>\n        <p>${a}</p>\n      </details>`).join("\n");
+
+  const vars = {
+    TABLE_SHINZOKU: call("shinzokuTableHtml"),
+    FAQ_JSON: faqJson, FAQ_HTML: faqHtml,
+  };
+  const tpl = fs.readFileSync(path.join(__dirname, "mochu.template.html"), "utf8");
+  const out = tpl.replace(/\{\{([A-Z0-9_]+)\}\}/g, (m, k) => {
+    if (!(k in vars)) throw new Error(`テンプレートの ${m} に値がありません`);
+    return vars[k];
+  });
+  fs.mkdirSync(path.join(root, "mochu"), { recursive: true });
+  writeSafe(path.join(root, "mochu", "index.html"), out, tpl.length);
 }

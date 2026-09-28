@@ -7,7 +7,7 @@ const path = require("path");
 const vm = require("vm");
 
 const ctx = vm.createContext({ console, Math, Map, Set, Infinity });
-for (const f of ["astro.js", "koyomi.js", "holiday.js", "houyou.js", "tetsuzuki.js"]) {
+for (const f of ["astro.js", "koyomi.js", "holiday.js", "houyou.js", "tetsuzuki.js", "shinzoku.js"]) {
   vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "js", f), "utf8"), ctx, { filename: f });
 }
 const run = (code) => vm.runInContext(code, ctx);
@@ -254,6 +254,49 @@ const find = (s, key) => s.items.find(it => it.key === key);
     eq("最初は死亡届", s.items[0].key, "shibo");
     const n = vm.runInContext(`nextTetsuzuki(${JSON.stringify(s)}, ${run(`jdn(2026, 5, 1)`)})`, ctx);
     eq("5/1時点の次は準確定申告(5/11)", n.key, "junkakutei");
+  }
+}
+
+/* ---------- 親等(民法726条) ---------- */
+{
+  const J = (k) => run(`judgeShinzoku(${JSON.stringify(k)})`);
+  const LBL = { blood: "血族", in: "姻族", spouse: "配偶者" };
+  const chk = (k, kind, deg, kinzoku) => {
+    const r = J(k);
+    // 続柄そのものが消えていても読める形で落とす
+    const got = r ? [LBL[r.kind], r.degree, r.isKinzoku] : "続柄が見つからない";
+    eq(`親等 ${k}`, got, [kind, deg, kinzoku]);
+  };
+  /* 期待値は民法の数え方から独立に立てたもの。本体の計算結果を写さない */
+  chk("spouse", "配偶者", null, true);
+  chk("chichi", "血族", 1, true);   chk("sofubo", "血族", 2, true);   chk("sosofubo", "血族", 3, true);
+  chk("ko", "血族", 1, true);       chk("mago", "血族", 2, true);     chk("himago", "血族", 3, true);
+  chk("kyodai", "血族", 2, true);   chk("oigi", "血族", 3, true);     chk("oji", "血族", 3, true);
+  chk("itoko", "血族", 4, true);    chk("ooji", "血族", 4, true);     chk("itokonoko", "血族", 5, true);
+  chk("hatoko", "血族", 6, true);
+  chk("yofubo", "血族", 1, true);   chk("yoshi", "血族", 1, true);
+  chk("h_chichi", "姻族", 1, true); chk("h_sofubo", "姻族", 2, true); chk("h_kyodai", "姻族", 2, true);
+  chk("h_oji", "姻族", 3, true);    chk("h_oigi", "姻族", 3, true);
+  chk("s_ko", "姻族", 1, true);     chk("s_kyodai", "姻族", 2, true); chk("s_mago", "姻族", 2, true);
+  chk("s_oji", "姻族", 3, true);    chk("s_oigi", "姻族", 3, true);
+
+  /* 一覧に載せた続柄に検算漏れがないこと */
+  const keys = run("SHINZOKU.map(d=>d.key)");
+  const tested = ["spouse", "chichi", "sofubo", "sosofubo", "ko", "mago", "himago", "kyodai", "oigi",
+    "oji", "itoko", "ooji", "itokonoko", "hatoko", "yofubo", "yoshi", "h_chichi", "h_sofubo",
+    "h_kyodai", "h_oji", "h_oigi", "s_ko", "s_kyodai", "s_mago", "s_oji", "s_oigi"];
+  eq("検算漏れなし", keys.filter((k) => !tested.includes(k)), []);
+
+  /* 民法725条の境界: 血族は六親等内、姻族は三親等内が親族 */
+  eq("血族6親等は親族", J("hatoko").isKinzoku, true);
+  eq("姻族3親等は親族", J("h_oji").isKinzoku, true);
+
+  /* 一覧表に全続柄が載る(見出し行があるので行数でなく名前で確かめる) */
+  {
+    const html = run("shinzokuTableHtml()");
+    const names = run("SHINZOKU.map(d=>d.name)");
+    eq("一覧表に載らない続柄", names.filter((n) => !html.includes(`<th>${n}</th>`)), []);
+    eq("一覧表の本体行数", (html.match(/<tr><th>/g) || []).length - 1, keys.length); // -1 は thead
   }
 }
 

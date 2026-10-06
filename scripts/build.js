@@ -49,8 +49,12 @@ function writeSafe(file, content, minBytes) {
       `${Y1 - 6}年(${wareki(Y1 - 6)})に亡くなった方です。七回忌は亡くなってから満6年の祥月命日に営みます。`],
     [`${Y2}年に十三回忌を迎えるのは何年に亡くなった方ですか？`,
       `${Y2 - 12}年(${wareki(Y2 - 12)})に亡くなった方です。十三回忌は亡くなってから満12年の祥月命日に営みます。`],
+    [`${Y1}年に二十七回忌を迎えるのは何年に亡くなった方ですか？`,
+      `${Y1 - 26}年(${wareki(Y1 - 26)})に亡くなった方です。二十七回忌は亡くなってから満26年の祥月命日に営みます。二十三回忌と二十七回忌の代わりに、二十五回忌だけを営む宗派・地域もあります。`],
     ["一周忌と三回忌のあいだが1年しかないのはなぜですか？",
       "一周忌は満1年、三回忌は満2年に営むためです。亡くなった日を1回目の忌日と数えるので、2年後の命日が3回目の忌日にあたります。三回忌から先は、回忌の数から1を引いた年に営みます。"],
+    ["何回忌かを西暦で計算する方法は？",
+      `三回忌から先は「法要を営む年 − 亡くなった年 + 1」が回忌の数です。${Y1 - 6}年に亡くなった方なら、${Y1} − ${Y1 - 6} + 1 = 7で、${Y1}年が七回忌です。一周忌だけは例外で、亡くなった翌年に営みます。`],
   ];
   const faqJson = JSON.stringify({
     "@context": "https://schema.org", "@type": "FAQPage",
@@ -61,7 +65,8 @@ function writeSafe(file, content, minBytes) {
 
   const vars = {
     Y1: String(Y1), Y2: String(Y2), W1: wareki(Y1), W2: wareki(Y2),
-    Y1_M2: String(Y1 - 2), Y1_M6: String(Y1 - 6),
+    Y1_M1: String(Y1 - 1), Y1_M2: String(Y1 - 2), Y1_M6: String(Y1 - 6), Y1_M19: String(Y1 - 19),
+    W1_M6: wareki(Y1 - 6), W1_M19: wareki(Y1 - 19),
     TABLE_Y1: call("nenkiTableHtml", Y1, "butsu"),
     TABLE_Y2: call("nenkiTableHtml", Y2, "butsu"),
     TABLE_SHINTO_Y1: call("nenkiTableHtml", Y1, "shinto"),

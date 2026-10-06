@@ -702,6 +702,7 @@ html, body {
 .spec td { color: var(--color-text-muted); }
 .spec .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .spec tr.is-minor th, .spec tr.is-minor td { font-weight: 400; font-size: 0.8rem; }
+.spec tr.is-now th, .spec tr.is-now td { color: var(--color-primary); font-weight: 700; }
 .sources { font-size: 0.8rem; padding-left: 1.2em; margin: 0; }
 .sources li { margin-bottom: 6px; }
 
@@ -714,7 +715,10 @@ html, body {
 }
 
 /* 早見表の年選び */
-.year-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.year-picker { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 12px; }
+@media (min-width: 640px) {
+  .year-picker { grid-template-columns: 1fr 1fr; }
+}
 
 /* 解説記事: 冒頭の要点と、ツールへの誘導 */
 .art-points { background: var(--color-bg); border-radius: var(--radius-sm); padding: 12px 14px 12px 32px; margin: 0 0 12px; }

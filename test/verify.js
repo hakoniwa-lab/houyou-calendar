@@ -300,5 +300,36 @@ const find = (s, key) => s.items.find(it => it.key === key);
   }
 }
 
+/* 14. 早見表の逆引き(亡くなった年から) */
+{
+  const pick = (d, style) => run(`nenkiOfDeathYear(${d}, "${style}")`).map(r => [r.name, r.year]);
+  eq("2021年没", pick(2021, "butsu"), [["一周忌", 2022], ["三回忌", 2023], ["七回忌", 2027], ["十三回忌", 2033],
+    ["十七回忌", 2037], ["二十三回忌", 2043], ["二十五回忌", 2045], ["二十七回忌", 2047], ["三十三回忌", 2053], ["五十回忌", 2070]]);
+  eq("2025年没の式年祭(先頭3つ)", pick(2025, "shinto").slice(0, 3), [["一年祭", 2026], ["二年祭", 2027], ["三年祭", 2028]]);
+  /* 記事に書いた例: 2008年没は2027年に法要がない(計算すると二十回忌) */
+  eq("2008年没は2027年に法要なし", pick(2008, "butsu").filter(([, y]) => y === 2027), []);
+  eq("2019年没の和暦は令和にまたがる", run(`nenkiOfDeathYear(2019, "butsu")[0].wareki`), ["令和2年"]);
+
+  /* 早見表(年→没年)と逆引き(没年→年)が、1950〜2030年没の全組み合わせで食い違わない */
+  const bad = run(`(() => {
+    let bad = 0;
+    for (const style of ["butsu", "shinto"]) for (let d = 1950; d <= 2030; d++) {
+      for (const r of nenkiOfDeathYear(d, style)) {
+        const back = nenkiOfYear(r.year, style).find(x => x.key === r.key);
+        if (!back || back.deathYear !== d) bad++;
+      }
+    }
+    return bad;
+  })()`);
+  eq("早見表と逆引きの往復", bad, 0);
+
+  /* 今年にあたる回だけ強調され、列の表記が正しい */
+  const html = run(`nenkiByDeathYearHtml(2025, "butsu", 2026)`);
+  eq("今年の行は一周忌だけ", (html.match(/class="is-now"/g) || []).length, 1);
+  eq("今年の行の中身", /<tr class="is-now"><th>一周忌<\/th><td class="num">2026年<\/td><td>令和8年<\/td><td class="num">今年<\/td><\/tr>/.test(html), true);
+  eq("翌年は1年後", html.includes("<th>三回忌</th><td class=\"num\">2027年</td><td>令和9年</td><td class=\"num\">1年後</td>"), true);
+  eq("過去は年前", run(`nenkiByDeathYearHtml(2015, "butsu", 2026)`).includes("<th>三回忌</th><td class=\"num\">2017年</td><td>平成29年</td><td class=\"num\">9年前</td>"), true);
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

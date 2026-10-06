@@ -45,6 +45,7 @@
 {{TABLE_Y1}}
       </div>
       <p>二十五回忌は、二十三回忌と二十七回忌の代わりに営む宗派・地域がある回です。</p>
+      <a class="cross-link-banner" href="../mochu/">{{Y1_M1}}年に身内を亡くした方へ：喪中はがきを出す範囲を続柄から判定する →</a>
     </div>
 
     <div class="card card--article">
@@ -52,6 +53,13 @@
       <div class="table-scroll">
 {{TABLE_Y2}}
       </div>
+    </div>
+
+    <div class="card card--article">
+      <h2>何回忌かを西暦で計算する方法</h2>
+      <p>三回忌から先は、<strong>法要を営む年 − 亡くなった年 + 1</strong>が回忌の数です。{{Y1_M6}}年({{W1_M6}})に亡くなった方なら、{{Y1}} − {{Y1_M6}} + 1 = 7で、{{Y1}}年が七回忌になります。ある回忌を営む年を知りたいときは、反対に<strong>亡くなった年 + 回忌の数 − 1</strong>で出せます。</p>
+      <p>一周忌だけはこの式に当てはまらず、亡くなった翌年(満1年)に営みます。和暦でも同じように計算できますが、平成31年と令和元年はどちらも2019年です。平成から令和にまたがるときは、いったん西暦に直すと間違えません。</p>
+      <p>計算した数が表にない回になる年は、一般的な年忌法要を営まない年です。たとえば{{Y1_M19}}年({{W1_M19}})に亡くなった方は、{{Y1}}年に計算すると二十回忌にあたります。ただ、二十回忌は一般的な年忌法要に含まれないので、{{Y1}}年は法要のない年になります。亡くなった年から法要の年を一度に出したいときは、下の<a href="#by-death-year">「亡くなった年から調べる」</a>を使ってください。</p>
     </div>
 
     <div class="card card--article">
@@ -79,6 +87,20 @@
       <div class="table-scroll" id="pick-table" aria-live="polite"></div>
     </div>
 
+    <div class="card card--article" id="by-death-year">
+      <h2>亡くなった年から調べる</h2>
+      <p>亡くなった年を選ぶと、一周忌から五十回忌までを何年に営むかを一覧にします。今年にあたる回は色を変えて表示します。</p>
+      <div class="year-picker">
+        <select id="death-year" class="quiz-select" aria-label="亡くなった年"></select>
+        <select id="death-style" class="quiz-select" aria-label="形式">
+          <option value="butsu">仏式(年忌法要)</option>
+          <option value="shinto">神式(式年祭)</option>
+        </select>
+      </div>
+      <div class="table-scroll" id="death-table" aria-live="polite"></div>
+      <p>月日まで知りたいときは、命日を入れるだけの<a href="../">法要日程カレンダー</a>で、曜日・六曜と、平日なら前倒しする候補日まで出せます。</p>
+    </div>
+
     <div class="card card--article">
       <h2>早見表を使うときの注意</h2>
       <h3>日付は命日で決まる</h3>
@@ -95,8 +117,12 @@
     </div>
 
     <div class="card card--article">
-      <h2>関連する記事</h2>
+      <h2>関連するツールと記事</h2>
       <ul class="art-links">
+        <li><a href="../">法要日程カレンダー(命日から四十九日・一周忌・三回忌の日付を計算)</a></li>
+        <li><a href="../mochu/">喪中の範囲はどこまで？続柄から親等を出して判定</a></li>
+        <li><a href="../tetsuzuki/">死亡後の手続き期限カレンダー(相続放棄・準確定申告・相続税)</a></li>
+        <li><a href="../pet/">ペットの法要カレンダー(四十九日・一周忌・月命日)</a></li>
         <li><a href="../guide/shijukunichi-maedaoshi/">四十九日の前倒しは何日前までOK？平日に当たったときの日取りの決め方</a></li>
         <li><a href="../guide/houji-tomobiki/">法事は友引でも大丈夫？5年分の土日を数えてわかった日取りの決め方</a></li>
         <li><a href="../guide/hatsubon-itsu/">初盆は四十九日前なら翌年に？境目になる命日を7月盆・8月盆・旧盆で一覧に</a></li>

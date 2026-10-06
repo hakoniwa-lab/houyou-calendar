@@ -19,3 +19,26 @@
   selStyle.addEventListener("change", draw);
   draw();
 })();
+
+/*
+ * 「亡くなった年から調べる」(逆引き)。表の中身は houyou.js の nenkiByDeathYearHtml。
+ */
+(function () {
+  const selYear = document.getElementById("death-year");
+  const selStyle = document.getElementById("death-style");
+  const out = document.getElementById("death-table");
+  if (!selYear) return;
+  const ty = new Date().getFullYear();
+
+  for (let y = ty; y >= ty - 60; y--) {
+    selYear.add(new Option(`${y}年(${warekiOfYear(y).join("・")})に亡くなった方`, String(y)));
+  }
+  selYear.value = String(ty - 1);
+
+  function draw() {
+    out.innerHTML = nenkiByDeathYearHtml(Number(selYear.value), selStyle.value, ty);
+  }
+  selYear.addEventListener("change", draw);
+  selStyle.addEventListener("change", draw);
+  draw();
+})();

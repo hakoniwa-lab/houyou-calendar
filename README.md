@@ -23,14 +23,14 @@
 | `js/houyou.js` | 計算の本体。法要の定義、日程表、初盆、早見表、表のHTML |
 | `js/app.js` | 画面。入力の保存(localStorage `houyou-calendar:input`)、.ics 書き出し、共有。`window.HOUYOU_PAGE` で設定を上書きできる(ペット版が使う) |
 | `pet/index.html` `js/pet.js` | ペットの法要カレンダー。app.js をそのまま使い、pet.js が設定・月命日・お彼岸・お供え花の欄を足す。保存キーは `houyou-calendar:pet`(人の入力とは別) |
-| `js/hayami.js` | 早見表ページの「ほかの年を調べる」 |
+| `js/hayami.js` | 早見表ページの「ほかの年を調べる」と「亡くなった年から調べる」(逆引き。表は houyou.js の nenkiByDeathYearHtml) |
 | `js/astro.js` `js/koyomi.js` `js/holiday.js` | **birthday-fortune からの複製(21a6b6f)**。六曜・旧暦・祝日。直すときは向こうと両方直す |
 | `scripts/build.js` | 静的な表を書き出す(index.html の旧盆の表、hayami/index.html) |
 | `scripts/hayami.template.html` | 早見表ページの原本。**hayami/index.html を直接編集しない** |
 | `test/verify.js` | 検証。本体の js をそのまま読み込む |
 
 ```
-node test/verify.js      # 検証(114件)
+node test/verify.js      # 検証(154件)
 node scripts/build.js    # 年が変わったら流し直す(今年と来年の表になる)
 ```
 

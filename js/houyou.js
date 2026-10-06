@@ -409,6 +409,16 @@ function nenkiOfYear(year, style) {
   }));
 }
 
+/* 逆引き: deathYear 年に亡くなった方が、各年忌(式年祭)を営む年 */
+function nenkiOfDeathYear(deathYear, style) {
+  const defs = style === "shinto" ? SHIKINEN : NENKI;
+  return defs.map(def => ({
+    key: def.key, name: def.name, yomi: def.yomi, years: def.years, minor: !!def.minor,
+    year: deathYear + def.years,
+    wareki: warekiOfYear(deathYear + def.years),
+  }));
+}
+
 /* ---------- カレンダー登録(.ics)の小物 ---------- */
 /* 法要日程カレンダー(app.js)と死亡後の手続きカレンダー(tetsuzuki-app.js)で共用する */
 
@@ -459,6 +469,19 @@ function nenkiTableHtml(year, style) {
     `<tr${r.minor ? ' class="is-minor"' : ""}><th>${r.name}</th><td class="num">${r.deathYear}年</td>` +
     `<td>${r.wareki.join("・")}</td><td class="num">満${r.years}年</td></tr>`).join("");
   return `<table class="spec"><thead><tr><th>${head}</th><th>亡くなった年</th><th>和暦</th><th>経過</th></tr></thead>` +
+    `<tbody>${rows}</tbody></table>`;
+}
+
+/* 逆引きの表。thisYear を基準に「今年」「◯年後」「◯年前」の列をつける */
+function nenkiByDeathYearHtml(deathYear, style, thisYear) {
+  const head = style === "shinto" ? "式年祭" : "回忌";
+  const when = (y) => y === thisYear ? "今年" : y > thisYear ? `${y - thisYear}年後` : `${thisYear - y}年前`;
+  const rows = nenkiOfDeathYear(deathYear, style).map((r) => {
+    const cls = [r.minor && "is-minor", r.year === thisYear && "is-now"].filter(Boolean).join(" ");
+    return `<tr${cls ? ` class="${cls}"` : ""}><th>${r.name}</th><td class="num">${r.year}年</td>` +
+      `<td>${r.wareki.join("・")}</td><td class="num">${when(r.year)}</td></tr>`;
+  }).join("");
+  return `<table class="spec"><thead><tr><th>${head}</th><th>営む年</th><th>和暦</th><th>今年から</th></tr></thead>` +
     `<tbody>${rows}</tbody></table>`;
 }
 

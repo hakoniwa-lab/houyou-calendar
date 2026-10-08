@@ -703,6 +703,8 @@ html, body {
 .spec .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .spec tr.is-minor th, .spec tr.is-minor td { font-weight: 400; font-size: 0.8rem; }
 .spec tr.is-now th, .spec tr.is-now td { color: var(--color-primary); font-weight: 700; }
+.spec td.is-rest { color: var(--color-primary); font-weight: 700; }
+.spec th small { display: block; font-size: 0.7rem; font-weight: 400; color: var(--color-text-muted); }
 .sources { font-size: 0.8rem; padding-left: 1.2em; margin: 0; }
 .sources li { margin-bottom: 6px; }
 

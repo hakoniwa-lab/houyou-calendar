@@ -272,6 +272,41 @@ function kyubonStart(year) {
   return found;
 }
 
+/*
+ * 旧盆の解説記事(guide/kyubon-okinawa/)用。その年の旧盆まわりをまとめて返す。
+ *   tanabata: 旧暦7月7日(沖縄で墓掃除をする旧暦の七夕)
+ *   shift:    前年の旧盆の月日から何日動いたか(新暦の月日どうしで比べる)
+ *   leap:     前年の旧盆からこの年の旧盆までに入った閏月 { num, start }。なければ null
+ *   hatsubonLast: この年の旧盆が初盆になる最後の命日(命日を1日目と数える。buildSchedule で判定)
+ */
+function kyubonInfo(year) {
+  const s = kyubonStart(year);
+  if (s === null) return null;
+  const prev = kyubonStart(year - 1);
+  let shift = null, leap = null;
+  if (prev !== null) {
+    const p = ymdOf(prev);
+    shift = s - jdn(year, p.m, p.d);
+    for (let idx = prev + 1; idx < s; idx++) {
+      const { y, m, d } = ymdOf(idx);
+      const l = lunarDate(y, m, d);
+      if (l && l.leap && l.day === 1) { leap = { num: l.num, start: dayInfo(idx) }; break; }
+    }
+  }
+  let hatsubonLast = null;
+  for (let idx = s; idx > s - 80; idx--) {
+    const { y, m, d } = ymdOf(idx);
+    const h = buildSchedule({ y, m, d, bon: "kyu" }).hatsubon;
+    if (h && h.year === year && h.reason === "same") { hatsubonLast = dayInfo(idx); break; }
+  }
+  return {
+    year,
+    days: [dayInfo(s), dayInfo(s + 1), dayInfo(s + 2)],
+    tanabata: dayInfo(s - 6),
+    shift, leap, hatsubonLast,
+  };
+}
+
 /* その年のお盆の期間(日の通し番号)。7月盆・8月盆は13日〜16日、旧盆は旧暦13日〜15日 */
 function bonPeriod(year, bon) {
   if (bon === "jul") return { start: jdn(year, 7, 13), end: jdn(year, 7, 16) };

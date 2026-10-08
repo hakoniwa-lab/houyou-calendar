@@ -6,6 +6,7 @@
  * - index.html の <!-- BUILD:kyubon --> 〜 <!-- /BUILD:kyubon --> に旧盆の表(5年分)
  * - scripts/hayami.template.html から hayami/index.html を生成
  * - scripts/kyubon.template.html から guide/kyubon-okinawa/index.html を生成(年の範囲は固定)
+ * - scripts/higan.template.html から guide/higan-hayami/index.html を生成(年の範囲は固定。毎年2月に OFFICIAL_TO を1つ進める)
  *
  * 表の中身は本体の js/houyou.js(nenkiTableHtml / kyubonTableHtml)がそのまま作る。
  */
@@ -187,6 +188,79 @@ function writeSafe(file, content, minBytes) {
   });
   fs.mkdirSync(path.join(root, "guide", "kyubon-okinawa"), { recursive: true });
   writeSafe(path.join(root, "guide", "kyubon-okinawa", "index.html"), out, tpl.length);
+}
+
+/* ---- お彼岸の早見表の記事(guide/higan-hayami/) ----
+ * 年の範囲は固定。OFFICIAL_TO は「官報で正式に決まった最後の年」。
+ * 毎年2月の官報で翌年分が決まるので、そのたびに1つ進めて流し直す(本文の「予想」の印が動く) */
+{
+  const FROM = 2026, TO = 2040, OFFICIAL_TO = 2027;
+  const years = Array.from({ length: TO - FROM + 1 }, (_, i) => FROM + i);
+  const H = (y, s) => call("higanPeriod", y, s);
+  const run = (idx) => call("restRun", idx);
+  const md = (i) => `${i.m}月${i.d}日(${i.wdName}${i.holiday ? "・" + i.holiday : ""})`;
+  const cell = (i) => `<td class="num${i.isRest ? " is-rest" : ""}">${md(i)}</td>`;
+  const joinJa = (arr) => arr.length <= 1 ? arr.join("") : arr.slice(0, -1).join("・") + "・" + arr[arr.length - 1];
+  const yearTh = (y) => `<th>${y}年<small>${wareki(y)}${y > OFFICIAL_TO ? "・予想" : ""}</small></th>`;
+  const runText = (p) => {
+    const r = run(p.mid.idx);
+    if (!r || r.days < 2) return "中日だけ休み";
+    return `${r.days}連休(${r.start.m}/${r.start.d}〜${r.end.m}/${r.end.d})`;
+  };
+  const table = (season) => {
+    const rows = years.map((y) => {
+      const p = H(y, season);
+      return `<tr>${yearTh(y)}${cell(p.start)}${cell(p.mid)}${cell(p.end)}<td>${runText(p)}</td></tr>`;
+    });
+    return `<table class="spec"><thead><tr><th>年</th><th>彼岸入り</th><th>中日(${season === "spring" ? "春分の日" : "秋分の日"})</th><th>彼岸明け</th><th>中日を含む休み</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
+  };
+  const range = (p, label) => `${p.year}年の${label}は${p.start.m}月${p.start.d}日(${p.start.wdName})〜${p.end.m}月${p.end.d}日(${p.end.wdName})`;
+
+  const silver = years.filter((y) => { const r = run(H(y, "autumn").mid.idx); return r && r.days >= 5; })
+    .map((y) => { const r = run(H(y, "autumn").mid.idx); return `${y}年(${r.start.m}/${r.start.d}〜${r.end.m}/${r.end.d})`; });
+  const sat = (season) => years.filter((y) => H(y, season).mid.wd === 6).map((y) => `${y}年`);
+  const sept22 = years.filter((y) => H(y, "autumn").mid.d === 22).map((y) => `${y}年`);
+  const mar21 = years.filter((y) => H(y, "spring").mid.d === 21).map((y) => `${y}年`);
+  if (years.some((y) => H(y, "autumn").mid.d === 22 && !(y % 4 === 0))) throw new Error("うるう年以外の9月22日があります。本文を直してください");
+
+  const s27 = H(2027, "spring"), a27 = H(2027, "autumn"), s28 = H(2028, "spring"), a28 = H(2028, "autumn");
+  const faq = [
+    ["2027年のお彼岸はいつですか？",
+      `春のお彼岸は${s27.start.m}月${s27.start.d}日(${s27.start.wdName})〜${s27.end.m}月${s27.end.d}日(${s27.end.wdName})で、中日の春分の日は${md(s27.mid)}です。秋のお彼岸は${a27.start.m}月${a27.start.d}日(${a27.start.wdName})〜${a27.end.m}月${a27.end.d}日(${a27.end.wdName})で、中日の秋分の日は${md(a27.mid)}です。`],
+    ["2028年のお彼岸はいつですか？",
+      `春のお彼岸は${s28.start.m}月${s28.start.d}日(${s28.start.wdName})〜${s28.end.m}月${s28.end.d}日(${s28.end.wdName})、秋のお彼岸は${a28.start.m}月${a28.start.d}日(${a28.start.wdName})〜${a28.end.m}月${a28.end.d}日(${a28.end.wdName})です。2028年の春分の日・秋分の日は2027年2月の官報で正式に決まるため、現時点では計算による予想です(国立天文台の予想と同じ日付です)。`],
+    ["彼岸入り・中日・彼岸明けとは何ですか？",
+      "お彼岸は春分の日・秋分の日を中日として、その前後3日ずつを合わせた7日間です。7日間の初日を彼岸入り、真ん中の春分の日・秋分の日を中日、最終日を彼岸明けと呼びます。"],
+    ["春分の日・秋分の日はいつ決まりますか？",
+      "前の年の2月1日の官報に載る「暦要項」で正式に決まります。2月1日が官報の出ない日なら、その翌日以降です。それより先の年の日付は、太陽の動きを計算した予想です。"],
+    ["秋のお彼岸が5連休になるのはいつですか？",
+      `${FROM}〜${TO}年では${joinJa(silver)}です。敬老の日と秋分の日のあいだの1日が国民の休日になり、土曜日から5連休になります。`],
+    ["秋分の日が9月22日になるのはいつですか？",
+      `${FROM}〜${TO}年では${joinJa(sept22)}で、いずれもうるう年です。国立天文台の予想では、2044年からはうるう年の翌年にも9月22日になる年が出てきます。`],
+  ];
+  const faqJson = JSON.stringify({
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  });
+  const faqHtml = faq.map(([q, a]) =>
+    `      <details class="faq-item">\n        <summary>${q}</summary>\n        <p>${a}</p>\n      </details>`).join("\n");
+
+  const vars = {
+    FROM: String(FROM), TO: String(TO), COUNT: String(TO - FROM + 1),
+    OFFICIAL_TO: String(OFFICIAL_TO), NEXT: String(OFFICIAL_TO + 1),
+    Y27_SPRING: range(s27, "春のお彼岸"), Y27_AUTUMN: `秋のお彼岸は${a27.start.m}月${a27.start.d}日(${a27.start.wdName})〜${a27.end.m}月${a27.end.d}日(${a27.end.wdName})`,
+    TABLE_SPRING: table("spring"), TABLE_AUTUMN: table("autumn"),
+    SILVER_YEARS: joinJa(silver), SPRING_SAT: joinJa(sat("spring")), AUTUMN_SAT: joinJa(sat("autumn")),
+    SEPT22_YEARS: joinJa(sept22), MAR21_YEARS: joinJa(mar21),
+    FAQ_JSON: faqJson, FAQ_HTML: faqHtml,
+  };
+  const tpl = fs.readFileSync(path.join(__dirname, "higan.template.html"), "utf8");
+  const out = tpl.replace(/\{\{([A-Z0-9_]+)\}\}/g, (m, k) => {
+    if (!(k in vars)) throw new Error(`テンプレートの ${m} に値がありません`);
+    return vars[k];
+  });
+  fs.mkdirSync(path.join(root, "guide", "higan-hayami"), { recursive: true });
+  writeSafe(path.join(root, "guide", "higan-hayami", "index.html"), out, tpl.length);
 }
 
 /* ---- 喪中の範囲 ---- */

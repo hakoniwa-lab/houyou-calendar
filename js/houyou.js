@@ -237,6 +237,15 @@ function higanPeriod(year, season) {
   return { year, season, start: dayInfo(mid - 3), mid: dayInfo(mid), end: dayInfo(mid + 3) };
 }
 
+/* その日を含む休日(土日・祝日)の連なり { start, end, days }。その日が休日でなければ null */
+function restRun(idx) {
+  if (!dayInfo(idx).isRest) return null;
+  let a = idx, b = idx;
+  while (dayInfo(a - 1).isRest) a--;
+  while (dayInfo(b + 1).isRest) b++;
+  return { start: dayInfo(a), end: dayInfo(b), days: b - a + 1 };
+}
+
 /* その日以降に終わるお彼岸を、近い順に count 個 */
 function upcomingHigan(fromIdx, count) {
   const out = [];

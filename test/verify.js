@@ -400,5 +400,46 @@ const find = (s, key) => s.items.find(it => it.key === key);
   eq("平日は null", r(2027, 3, 18), null);
 }
 
+/* 17. 記事に書いた曜日と六曜の数字(四十九日の前倒し・法事と友引) */
+{
+  const res = run(`(() => {
+    let wdRule = 0, sameWd = 0, kansai = 0, hyakka = 0, n = 0;
+    const same = { n1: 0, n3: 0, n7: 0 }, keep = { n1: 0, n3: 0, n7: 0 };
+    let tomo = 0, any = 0, n1Near = 0;
+    const ROK = ["先勝", "友引", "先負", "仏滅", "大安", "赤口"];
+    for (let idx = jdn(2026, 1, 1); idx <= jdn(2026, 12, 31); idx++) {
+      const { y, m, d } = ymdOf(idx);
+      const s = buildSchedule({ y, m, d });
+      const k = buildSchedule({ y, m, d, kansai: true });
+      const w = s.death.wd;
+      const it = (key) => s.items.find((x) => x.key === key);
+      n++;
+      if (it("49").info.wd === (w + 6) % 7) wdRule++;
+      if (["7", "14", "21", "28", "35", "42", "49"].every((key) => it(key).info.wd === (w + 6) % 7)) sameWd++;
+      if (k.items.find((x) => x.key === "49").info.wd === (w + 5) % 7) kansai++;
+      if (it("100").info.wd === (w + 1) % 7) hyakka++;
+      const r0 = s.death.rokuyo;
+      if (r0 === "友引") tomo++;
+      for (const key of ["n1", "n3", "n7"]) {
+        if (it(key).info.rokuyo === r0) same[key]++;
+        if (r0 === "友引" && it(key).info.rokuyo === "友引") keep[key]++;
+      }
+      if (["n1", "n3", "n7"].some((key) => it(key).info.rokuyo === "友引")) any++;
+      const sh = (ROK.indexOf(it("n1").info.rokuyo) - ROK.indexOf(r0) + 6) % 6;
+      if (sh === 0 || sh === 5 || sh === 4) n1Near++;
+    }
+    return { n, wdRule, sameWd, kansai, hyakka, same, keep, tomo, any, n1Near };
+  })()`);
+  eq("四十九日は命日の前日の曜日(365日)", res.wdRule, 365);
+  eq("七日ごとの法要はすべて同じ曜日(365日)", res.sameWd, 365);
+  eq("関西式の四十九日は命日の2日前の曜日", res.kansai, 365);
+  eq("百箇日は命日の翌日の曜日", res.hyakka, 365);
+  eq("命日と同じ六曜(一周忌・三回忌・七回忌)", res.same, { n1: 120, n3: 62, n7: 117 });
+  eq("2026年の友引は61日", res.tomo, 61);
+  eq("命日が友引で、その回忌も友引", res.keep, { n1: 21, n3: 10, n7: 20 });
+  eq("どれかの回忌が友引", res.any, 152);
+  eq("一周忌は同じか1〜2つ前の六曜", res.n1Near, 354);
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

@@ -367,7 +367,7 @@ function anniversary(death, years) {
 }
 
 /*
- * input: { y, m, d, style: "butsu"|"shinto"|"pet", kansai: bool, bon: "aug"|"jul"|"kyu" }
+ * input: { y, m, d, style: "butsu"|"shinto"|"pet", kansai: bool, bon: "aug"|"jul"|"kyu" }(ほかの項目はそのまま input に残る)
  * 戻り値: { death, items[], kiake, mitsukigoshi, hatsubon }
  *   items は日付順。各要素に info(曜日・六曜・祝日)と candidates(前倒しの候補)が付く
  *   pet は仏式と同じ数え方で、節目の顔ぶれ(PET_*)だけが違う。三月越しは出さない
@@ -439,6 +439,46 @@ function nextEvent(schedule, todayIdx) {
   if (hb && hb.end.idx >= todayIdx) cands.push({ kind: "bon", bon: hb, idx: hb.start.idx });
   cands.sort((a, b) => a.idx - b.idx);
   return cands[0] || null;
+}
+
+/* ---------- 複数の方をまとめて見る(app.js の「これからの法要」) ---------- */
+
+/*
+ * people: [{ id, schedule }]。fromIdx〜toIdx に入る予定を日付順に(小さな法要は除く。初盆を含む)
+ * 戻り値: [{ id, kind: "item"|"bon", item?, bon?, idx }]。同じ日なら people の順
+ */
+function familyEvents(people, fromIdx, toIdx) {
+  const out = [];
+  for (const p of people) {
+    for (const it of p.schedule.items) {
+      if (!it.minor && it.idx >= fromIdx && it.idx <= toIdx) out.push({ id: p.id, kind: "item", item: it, idx: it.idx });
+    }
+    const hb = p.schedule.hatsubon;
+    if (hb && hb.end.idx >= fromIdx && hb.start.idx <= toIdx) out.push({ id: p.id, kind: "bon", bon: hb, idx: hb.start.idx });
+  }
+  return out.sort((a, b) => a.idx - b.idx);
+}
+
+/*
+ * 2人以上の年忌法要(式年祭)が同じ年に重なる年。events は familyEvents の戻り値。
+ * 併修(まとめて営む)は七回忌以降で行い、一周忌・三回忌は単独で営むことが多いとされる。
+ *   canCombine  七回忌以降(満6年以上)の仏式の年忌が、2人以上そろっている
+ */
+function overlapYears(events) {
+  const byYear = new Map();
+  for (const e of events) {
+    if (e.kind !== "item" || (e.item.group !== "nenki" && e.item.group !== "shikinen")) continue;
+    const y = e.item.info.y;
+    if (!byYear.has(y)) byYear.set(y, []);
+    byYear.get(y).push(e);
+  }
+  const out = [];
+  for (const [year, evs] of byYear) {
+    if (new Set(evs.map(e => e.id)).size < 2) continue;
+    const later = evs.filter(e => e.item.group === "nenki" && e.item.years >= 6);
+    out.push({ year, events: evs, canCombine: new Set(later.map(e => e.id)).size >= 2 });
+  }
+  return out.sort((a, b) => a.year - b.year);
 }
 
 /* ---------- 年忌早見表 ---------- */

@@ -441,5 +441,54 @@ const find = (s, key) => s.items.find(it => it.key === key);
   eq("一周忌は同じか1〜2つ前の六曜", res.n1Near, 354);
 }
 
+/* 18. 複数の方をまとめて見る(familyEvents・overlapYears) */
+{
+  const fam = (list, from, to) => run(`(() => {
+    const list = ${JSON.stringify(list)};
+    const people = list.map(([id, date, opts]) => {
+      const [y, m, d] = date.split("-").map(Number);
+      return { id, schedule: buildSchedule({ y, m, d, ...(opts || {}) }) };
+    });
+    const [fy, fm, fd] = "${from}".split("-").map(Number);
+    const [ty, tm, td] = "${to}".split("-").map(Number);
+    const ev = familyEvents(people, jdn(fy, fm, fd), jdn(ty, tm, td));
+    const key = (e) => e.kind === "bon" ? "bon" : e.item.key;
+    const s = (idx) => { const o = ymdOf(idx); return o.y + "-" + String(o.m).padStart(2, "0") + "-" + String(o.d).padStart(2, "0"); };
+    return {
+      events: ev.map((e) => e.id + ":" + key(e) + ":" + s(e.idx)),
+      overlaps: overlapYears(ev).map((o) => ({ year: o.year, who: o.events.map((e) => e.id + ":" + key(e)), canCombine: o.canCombine })),
+    };
+  })()`);
+
+  // 母 2021/3/5 没(七回忌 2027/3/5)、祖父 2015/11/20 没(十三回忌 2027/11/20)、
+  // 父 2026/8/1 没(四十九日 9/18 はお盆後 → 初盆は翌年、百箇日 11/8、一周忌 2027/8/1)
+  const r = fam([["母", "2021-03-05"], ["祖父", "2015-11-20"], ["父", "2026-08-01"]], "2026-10-10", "2027-12-31");
+  eq("全員の予定を日付順に", r.events, [
+    "父:100:2026-11-08", "母:n7:2027-03-05", "父:n1:2027-08-01", "父:bon:2027-08-13", "祖父:n13:2027-11-20",
+  ]);
+  eq("同じ年の年忌(七回忌以降が2人いれば併修の候補)", r.overlaps, [
+    { year: 2027, who: ["母:n7", "父:n1", "祖父:n13"], canCombine: true },
+  ]);
+
+  // 一周忌と三回忌だけの重なりは、併修の候補にしない
+  const r2 = fam([["母", "2025-05-01"], ["父", "2026-08-01"]], "2026-10-10", "2027-12-31");
+  eq("一周忌と三回忌の重なり", r2.overlaps, [{ year: 2027, who: ["母:n3", "父:n1"], canCombine: false }]);
+
+  // 神式の三年祭(満3年)と仏式の七回忌。重なりは知らせるが、仏式が1人なので併修の候補ではない
+  const r3 = fam([["祖母", "2024-06-01", { style: "shinto" }], ["母", "2021-03-05"]], "2026-10-10", "2027-12-31");
+  eq("神式と仏式の重なり", r3.overlaps, [{ year: 2027, who: ["母:n7", "祖母:t3"], canCombine: false }]);
+
+  // 期間の両端は含む。1人だけなら重なりにならない
+  const r4 = fam([["母", "2021-03-05"]], "2027-03-05", "2027-03-05");
+  eq("期間の端の日も入る", r4.events, ["母:n7:2027-03-05"]);
+  eq("1人だけなら重なりはない", r4.overlaps, []);
+  const r5 = fam([["母", "2021-03-05"], ["祖父", "2015-11-20"]], "2026-10-10", "2027-11-19");
+  eq("期間の外の年忌は重なりに数えない", r5.overlaps, []);
+
+  // お盆の期間中は、初日が過ぎていても初盆を出す
+  const r6 = fam([["父", "2026-05-01"]], "2026-08-15", "2026-08-31");
+  eq("お盆の途中から見ても初盆が出る", r6.events, ["父:bon:2026-08-13"]);
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

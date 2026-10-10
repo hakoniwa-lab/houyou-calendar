@@ -61,6 +61,9 @@ function renderHigan(today) {
 
 window.HOUYOU_PAGE = {
   storageKey: "houyou-calendar:pet",
+  listKey: "houyou-calendar:pet:people",
+  who: "子",
+  heishu: false,
   siteUrl: "https://hakoniwalab.com/houyou-calendar/pet/",
   appName: "ペットの法要カレンダー",
   root: "../",

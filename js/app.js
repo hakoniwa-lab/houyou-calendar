@@ -3,10 +3,15 @@
  *
  * 入力(命日・形式・呼び名など)は端末の localStorage にだけ保存し、
  * 次に開いたときにすぐ日程を出す。外部には何も送らない。
+ * 家族など複数の方を登録でき、切り替えて見るほか、2人以上なら「これからの法要」に全員分をまとめる。
  */
 
 /*
  * ページごとの設定。ペット版(pet/index.html)は app.js より前に window.HOUYOU_PAGE を置いて上書きする。
+ *   storageKey  1人分だけ保存していた頃のキー。読み込み時に引き継ぎ、いま表示している方を書き続ける
+ *   listKey     登録した方の一覧のキー
+ *   who         「ほかの◯を追加」の呼び方
+ *   heishu      同じ年に年忌が重なるとき、併修(まとめて営む)の説明を添える
  *   root        houyou-calendar 直下へのパス(記事リンク用。pet/ なら "../")
  *   word        「次の◯◯」の呼び方
  *   bonOffer    初盆欄の広告 HTML(null なら既定のお供え花)
@@ -15,6 +20,9 @@
  */
 const PAGE = Object.assign({
   storageKey: "houyou-calendar:input",
+  listKey: "houyou-calendar:people",
+  who: "方",
+  heishu: true,
   siteUrl: "https://hakoniwalab.com/houyou-calendar/",
   appName: "法要日程カレンダー",
   root: "",
@@ -26,8 +34,10 @@ const PAGE = Object.assign({
 }, window.HOUYOU_PAGE || {});
 
 const STORAGE_KEY = PAGE.storageKey;
+const LIST_KEY = PAGE.listKey;
 const SITE_URL = PAGE.siteUrl;
 const MIN_YEAR = PAGE.minYear;
+const MAX_PEOPLE = 10;
 
 const $ = (id) => document.getElementById(id);
 
@@ -41,6 +51,8 @@ const resultSection = $("result");
 const actionStatus = $("action-status");
 
 let current = null;   // いま表示している { v, s }
+let people = [];      // 登録した方 [{ id, y, m, d, style, kansai, bon, name }]
+let activeId = null;  // フォームと結果に出している方。null なら新しく追加するところ
 
 /* 初盆欄の広告(A8.net ベルビーフルール、お供え花の一覧ページへの商品リンク)。初盆が済んだら出さない */
 const BON_OFFER = `<p class="bon-offer">初盆にお供えの花を贈るなら<br>
@@ -92,6 +104,7 @@ function writeForm(v) {
 
 /* ---------- 保存 ---------- */
 
+/* 1人分だけ保存していた頃の形式(storageKey) */
 function loadSaved() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -104,8 +117,53 @@ function loadSaved() {
   }
 }
 
-function save(v) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(v)); } catch (e) { /* 保存できなくても動く */ }
+function pickInput(v) {
+  return { y: v.y, m: v.m, d: v.d, style: v.style, kansai: !!v.kansai, bon: v.bon, name: String(v.name || "").slice(0, 20) };
+}
+
+function newId() {
+  return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
+
+function activePerson() {
+  return people.find((p) => p.id === activeId) || null;
+}
+
+function personLabel(p) {
+  return p.name || `命日 ${p.y}/${p.m}/${p.d}`;
+}
+
+function loadPeople() {
+  let raw = null;
+  try { raw = localStorage.getItem(LIST_KEY); } catch (e) { /* 読めなくても動く */ }
+  if (raw !== null) {
+    try {
+      const o = JSON.parse(raw);
+      people = (Array.isArray(o.people) ? o.people : [])
+        .filter((p) => p && typeof p.id === "string" && isValidDate(p.y, p.m, p.d))
+        .slice(0, MAX_PEOPLE);
+      activeId = people.some((p) => p.id === o.active) ? o.active : (people[0] ? people[0].id : null);
+      return;
+    } catch (e) { /* 壊れていたら、1人分の形式から読み直す */ }
+  }
+  // 1人分だけ保存していた頃のデータを引き継ぐ(旧キーは消さない)
+  const old = loadSaved();
+  if (old) {
+    const p = { id: newId(), ...pickInput(old) };
+    people = [p];
+    activeId = p.id;
+    savePeople();
+  }
+}
+
+function savePeople() {
+  try {
+    localStorage.setItem(LIST_KEY, JSON.stringify({ v: 1, people, active: activeId }));
+    // 旧キーにも、いま表示している方を書いておく(1人分しか読めない版に戻しても日程が出るように)
+    const a = activePerson();
+    if (a) localStorage.setItem(STORAGE_KEY, JSON.stringify(pickInput(a)));
+    else if (!people.length) localStorage.removeItem(STORAGE_KEY);
+  } catch (e) { /* 保存できなくても動く */ }
 }
 
 function isValidDate(y, m, d) {
@@ -337,6 +395,142 @@ function render(v) {
   actionStatus.textContent = "";
 }
 
+/* ---------- 登録した方の切り替え ---------- */
+
+function chipHtml(p, extraCls = "") {
+  const on = p.id === activeId;
+  return `<button type="button" class="person-chip${extraCls}${on ? " is-active" : ""}" data-person="${esc(p.id)}" aria-pressed="${on}">${esc(personLabel(p))}</button>`;
+}
+
+function renderTabs() {
+  const box = $("people-tabs");
+  if (!people.length) { box.hidden = true; box.innerHTML = ""; }
+  else {
+    const adding = activeId === null;
+    const add = people.length < MAX_PEOPLE
+      ? `<button type="button" class="person-chip person-chip--add${adding ? " is-active" : ""}" data-person="" aria-pressed="${adding}">＋ ほかの${PAGE.who}を追加</button>`
+      : "";
+    box.hidden = false;
+    box.innerHTML = `<p class="people-tabs__label">登録した${PAGE.who}</p>
+      <div class="people-tabs__chips">${people.map((p) => chipHtml(p)).join("")}${add}</div>
+      ${add ? "" : `<p class="form-help">登録できるのは${MAX_PEOPLE}件までです。追加するときは、どなたかを削除してください。</p>`}`;
+  }
+  $("btn-remove").hidden = !activePerson();
+}
+
+/* 一覧から選んだ方を、フォームと結果に出す */
+function selectPerson(id, scroll) {
+  const p = people.find((x) => x.id === id);
+  if (!p) return;
+  activeId = id;
+  savePeople();
+  formError.hidden = true;
+  writeForm(p);
+  render(p);
+  renderTabs();
+  renderFamily();
+  if (scroll) resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* 新しく追加する。形式・数え方・お盆の時期は同じ家なら同じことが多いので残す */
+function startNew() {
+  activeId = null;
+  current = null;
+  const t = new Date();
+  writeForm({ y: t.getFullYear(), m: t.getMonth() + 1, d: t.getDate(),
+    style: styleValue(), kansai: chkKansai.checked, bon: selBon.value, name: "" });
+  formError.hidden = true;
+  resultSection.hidden = true;
+  renderTabs();
+  renderFamily();
+  $("form-card").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function removeActive() {
+  const p = activePerson();
+  if (!p) return;
+  if (!window.confirm(`「${personLabel(p)}」をこの端末から削除しますか？`)) return;
+  people = people.filter((x) => x !== p);
+  if (people.length) {
+    selectPerson(people[0].id, false);
+  } else {
+    activeId = null;
+    savePeople();
+    startNew();
+  }
+}
+
+/* ---------- これからの法要(2人以上を登録したとき) ---------- */
+
+function familyRowHtml(e, p, today) {
+  let name, when, left;
+  if (e.kind === "bon") {
+    name = "初盆(新盆)";
+    when = `${fmtDate(e.bon.start)}〜${fmtShort(e.bon.end)}`;
+    left = e.bon.start.idx <= today ? "いまお盆の期間です" : `あと${(e.bon.start.idx - today).toLocaleString()}日`;
+  } else {
+    const info = e.item.info;
+    name = e.item.name;
+    when = fmtDate(info) + [info.rokuyo, info.holiday].filter(Boolean).map((t) => `・${esc(t)}`).join("");
+    left = e.idx === today ? "今日です" : `あと${(e.idx - today).toLocaleString()}日`;
+  }
+  return `<div class="fam-row">
+    <p class="fam-row__head">${chipHtml(p, " person-chip--sm")}<span class="fam-row__name">${esc(name)}</span></p>
+    <p class="fam-row__when"><span>${when}</span><span class="hy-row__left">${left}</span></p>
+  </div>`;
+}
+
+function overlapHtml(o, byId) {
+  const who = o.events.map((e) => `${personLabel(byId.get(e.id))}の${e.item.name}`);
+  const head = `${o.year}年は、${who.slice(0, -1).join("、")}と${who[who.length - 1]}が同じ年です`;
+  let body = "";
+  const butsu = new Set(o.events.filter((e) => e.item.group === "nenki").map((e) => e.id));
+  if (PAGE.heishu && butsu.size >= 2) {
+    const early = o.events.some((e) => e.item.group === "nenki" && e.item.years < 6);
+    body = o.canCombine
+      ? "同じ年に重なる年忌法要は、ひとつにまとめて営む「併修(へいしゅう)」にすることがあります。"
+        + (early ? "ただし一周忌と三回忌は、それぞれ単独で営むことが多いとされます。" : "")
+        + "どちらの命日に合わせるかは考え方が分かれるので、菩提寺に相談してください。"
+      : "一周忌と三回忌はそれぞれ単独で営むことが多いとされ、まとめて営む「併修(へいしゅう)」は七回忌以降で行うのが一般的です。";
+  }
+  return `<div class="notice notice--info"><strong>${esc(head)}</strong>${body ? `<p>${esc(body)}</p>` : ""}</div>`;
+}
+
+function renderFamily() {
+  const card = $("family-card");
+  if (people.length < 2) { card.hidden = true; card.innerHTML = ""; return; }
+  const today = todayIdx();
+  const ty = ymdOf(today).y;
+  const toIdx = jdn(ty + 1, 12, 31);
+  const word = PAGE.word;
+  const byId = new Map(people.map((p) => [p.id, p]));
+  const scheds = people.map((p) => ({ id: p.id, schedule: buildSchedule(p) }));
+  const events = familyEvents(scheds, today, toIdx);
+
+  let rows = "", year = 0;
+  for (const e of events) {
+    const y = ymdOf(e.idx).y;
+    if (y !== year) { year = y; rows += `<p class="fam-year">${y}年(${esc(warekiOfYear(y))})</p>`; }
+    rows += familyRowHtml(e, byId.get(e.id), today);
+  }
+
+  // この期間に予定がない方は、次の予定だけ添える
+  const quiet = scheds.filter((x) => !events.some((e) => e.id === x.id)).map((x) => {
+    const p = byId.get(x.id);
+    const ev = nextEvent(x.schedule, today);
+    const next = !ev ? `一覧にある${word}はすべて済んでいます`
+      : ev.kind === "bon" ? `次は${ev.bon.year}年の初盆` : `次は${ev.item.info.y}年の${ev.item.name}`;
+    return `<li>${chipHtml(p, " person-chip--sm")}<span>${esc(next)}</span></li>`;
+  }).join("");
+
+  card.hidden = false;
+  card.innerHTML = `<h2 class="card__title card__title--list">これからの${word}(登録した${PAGE.who}全員)</h2>
+    <p class="card__lead">今日から${ty + 1}年末までの${word}を、日付順に並べています。名前を押すと、その${PAGE.who}の一覧に切り替わります。</p>
+    ${overlapYears(events).map((o) => overlapHtml(o, byId)).join("")}
+    ${rows ? `<div class="fam-list">${rows}</div>` : `<p class="fam-empty">${ty + 1}年末までに予定はありません。</p>`}
+    ${quiet ? `<p class="fam-quiet__label">${ty + 1}年末までに予定がない${PAGE.who}</p><ul class="fam-quiet">${quiet}</ul>` : ""}`;
+}
+
 /* ---------- カレンダー登録(.ics) ---------- */
 
 /* icsEscape・icsFold・icsDate は houyou.js に置いてある(手続きカレンダーと共用) */
@@ -427,9 +621,34 @@ form.addEventListener("submit", (e) => {
     formError.hidden = false;
     return;
   }
+  /*
+   * 選んでいる方を書き換えるのが基本。ただし名前と命日の両方を変えたときは別の方とみなして加える
+   * (以前は1人分しか保存できず、2人目を入れると1人目が消えていた。その使い方をしても消さないように)。
+   * 名前だけ・命日だけの変更は、呼び名の付け直しや日付の直しなので上書きする
+   */
+  const cur = activePerson();
+  let target = cur;
+  if (!cur || (v.name && v.name !== cur.name && (v.y !== cur.y || v.m !== cur.m || v.d !== cur.d))) {
+    // 同じ呼び名の方がもういれば、その方を書き換える(同じ名前が2つ並ばないように)
+    target = (v.name && people.find((p) => p.name === v.name)) || null;
+  }
+  if (!target && people.length >= MAX_PEOPLE) {
+    formError.textContent = `登録できるのは${MAX_PEOPLE}件までです。どなたかを削除してから追加してください。`;
+    formError.hidden = false;
+    return;
+  }
   formError.hidden = true;
-  save(v);
-  render(v);
+  const added = !target;
+  if (target) Object.assign(target, v);
+  else { target = { id: newId(), ...v }; people.push(target); }
+  activeId = target.id;
+  savePeople();
+  render(target);
+  renderTabs();
+  renderFamily();
+  if (added && people.length >= 2) {
+    actionStatus.textContent = `「${personLabel(target)}」を追加しました。フォームの上のボタンで切り替えられます`;
+  }
   resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
@@ -483,12 +702,37 @@ $("btn-edit").addEventListener("click", () => {
   $("form-card").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
+$("btn-add").addEventListener("click", () => {
+  if (people.length >= MAX_PEOPLE) {
+    $("form-card").scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+  startNew();
+});
+
+$("btn-remove").addEventListener("click", removeActive);
+
+/* 名前のボタン(フォームの上の切り替えと、これからの法要の一覧) */
+$("people-tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-person]");
+  if (!b) return;
+  if (b.dataset.person) selectPerson(b.dataset.person, false);
+  else startNew();
+});
+$("family-card").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-person]");
+  if (b && b.dataset.person) selectPerson(b.dataset.person, true);
+});
+
 /* ---------- 起動 ---------- */
 
 initForm();
 syncFields();
-const saved = loadSaved();
-if (saved) {
-  writeForm(saved);
-  render(saved);
+loadPeople();
+const first = activePerson();
+if (first) {
+  writeForm(first);
+  render(first);
 }
+renderTabs();
+renderFamily();

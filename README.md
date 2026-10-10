@@ -21,8 +21,8 @@
 | ファイル | 中身 |
 |---|---|
 | `js/houyou.js` | 計算の本体。法要の定義、日程表、初盆、早見表、表のHTML |
-| `js/app.js` | 画面。入力の保存(localStorage `houyou-calendar:input`)、.ics 書き出し、共有。`window.HOUYOU_PAGE` で設定を上書きできる(ペット版が使う) |
-| `pet/index.html` `js/pet.js` | ペットの法要カレンダー。app.js をそのまま使い、pet.js が設定・月命日・お彼岸・お供え花の欄を足す。保存キーは `houyou-calendar:pet`(人の入力とは別) |
+| `js/app.js` | 画面。登録した方の保存(localStorage `houyou-calendar:people`、10人まで)と切り替え、これからの法要(全員分)、.ics 書き出し、共有。`window.HOUYOU_PAGE` で設定を上書きできる(ペット版が使う) |
+| `pet/index.html` `js/pet.js` | ペットの法要カレンダー。app.js をそのまま使い、pet.js が設定・月命日・お彼岸・お供え花の欄を足す。保存キーは `houyou-calendar:pet:people`(人の入力とは別) |
 | `js/hayami.js` | 早見表ページの「ほかの年を調べる」と「亡くなった年から調べる」(逆引き。表は houyou.js の nenkiByDeathYearHtml) |
 | `js/astro.js` `js/koyomi.js` `js/holiday.js` | **birthday-fortune からの複製(21a6b6f)**。六曜・旧暦・祝日。直すときは向こうと両方直す |
 | `scripts/build.js` | 静的な表を書き出す(index.html の旧盆の表、hayami/index.html) |
@@ -31,7 +31,7 @@
 | `test/verify.js` | 検証。本体の js をそのまま読み込む |
 
 ```
-node test/verify.js      # 検証(302件)
+node test/verify.js      # 検証(310件)
 node scripts/build.js 2027  # 年が変わったら流し直す(引数の年と翌年の表になる。省略すると今年)
 ```
 
@@ -105,3 +105,12 @@ node scripts/build.js 2027  # 年が変わったら流し直す(引数の年と�
 - 法事と友引の記事に「命日が友引だと一周忌・三回忌も友引になる？」(2026年の365日で計算)を追加
 - 記事に書いた数字は verify 17番で本体の buildSchedule から確かめている。計算部品を変えたら数字が動いていないか見る
 
+## 2026-10-10 — 複数の方を登録して切り替える・これからの法要(全員分)
+
+- きっかけ: 1人分しか保存できず、2人目(父など)の命日を入れると1人目(母)が上書きされて消えていた。命日は家族に何人もある
+- フォームの上に名前のボタン(登録した方・＋ほかの方を追加)。2人以上なら、フォームの上に「これからの法要」— 今日から来年末までの全員分を日付順(`familyEvents`)、同じ年に年忌が重なれば知らせる(`overlapYears`、verify 18番)
+- 併修: 七回忌以降が2人以上なら「併修にすることがある」、一周忌・三回忌が絡めば「単独で営むことが多い」。**どちらの命日に合わせるかは断定しない**(資料で割れている)。ペット版は重なりだけ出して併修の説明はしない(`heishu: false`)
+- **全員分をまとめた .ics は作らない**(ユーザー判断: カレンダーに全部入ると、もう開きに来なくなる)。.ics と家族に送る文面は今までどおり、表示している1人分
+- 保存: `houyou-calendar:people` = `{ v: 1, people: [{ id, y, m, d, style, kansai, bon, name }], active }`。ペット版は `houyou-calendar:pet:people`
+  - 旧キー(`houyou-calendar:input` / `houyou-calendar:pet`)に1人分があれば、一覧が無いときだけ1人目として引き継ぐ。旧キーは消さず、いま表示している方を書き続ける(1人分しか読めない版に戻しても日程が出る)。全員削除したときだけ消す
+- フォームを出したときの扱い: 選んでいる方を書き換えるのが基本。**名前と命日の両方を変えたら別の方として追加**(追加ボタンに気づかず上書きしても前の方が消えない)。名前だけ・命日だけの変更は付け直し・日付の直しとして上書き。同じ呼び名の方がいればその方を書き換える

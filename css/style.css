@@ -737,6 +737,60 @@ html, body {
 .bon-offer .result-card__link { margin-top: 6px; }
 .card--article .art-links li { margin-bottom: 8px; }
 
+/* --- 登録した方の切り替え --- */
+.people-tabs { margin: 0 0 18px; padding-bottom: 14px; border-bottom: 1px dashed var(--color-border); }
+.people-tabs__label { font-size: 0.78rem; font-weight: 700; color: var(--color-text-muted); margin: 0 0 6px; }
+.people-tabs__chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.person-chip {
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.4;
+  padding: 7px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.person-chip:hover { border-color: var(--color-primary); }
+.person-chip:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.person-chip.is-active { border-color: var(--color-primary); background: var(--color-primary); color: var(--color-primary-contrast); }
+.person-chip--add { border-style: dashed; background: transparent; color: var(--color-text-muted); }
+.person-chip--add.is-active { border-style: solid; background: var(--color-badge-bg); color: var(--color-badge-text); }
+.person-chip--sm { font-size: 0.78rem; padding: 3px 10px; }
+.text-btn {
+  display: block;
+  margin: 12px auto 0;
+  padding: 4px 8px;
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.text-btn:hover { color: var(--color-warn-text); }
+.result-more { display: grid; gap: 8px; margin-top: 16px; }
+.result-more .form-help { margin: -2px 0 8px; text-align: center; }
+
+/* --- これからの法要(登録した全員) --- */
+.fam-year { font-size: 0.8rem; font-weight: 800; color: var(--color-text-muted); margin: 14px 0 0; }
+.fam-list .fam-year:first-child { margin-top: 4px; }
+.fam-row { padding: 10px 0; border-bottom: 1px solid var(--color-border); }
+.fam-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.fam-row__head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0; }
+.fam-row__name { font-size: 1rem; font-weight: 800; }
+.fam-row__when { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin: 4px 0 0; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+.fam-empty { font-size: 0.85rem; color: var(--color-text-muted); margin: 0; }
+.fam-quiet__label { font-size: 0.78rem; font-weight: 700; color: var(--color-text-muted); margin: 16px 0 6px; padding-top: 12px; border-top: 1px dashed var(--color-border); }
+.fam-quiet { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: 0.82rem; color: var(--color-text-muted); }
+.fam-quiet li { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+
 /* --- 印刷: 日程だけを紙に出す --- */
 @media print {
   :root {

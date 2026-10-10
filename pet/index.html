@@ -20,7 +20,7 @@
 <meta property="og:url" content="https://hakoniwalab.com/houyou-calendar/pet/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="../css/style.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"ペットの四十九日はどう数えますか？","acceptedAnswer":{"@type":"Answer","text":"人の四十九日と同じく、亡くなった日(命日)を1日目として49日目、つまり命日の48日後です。2026年1月10日が命日なら、四十九日は2月27日です。関西の一部の数え方(命日の前日を1日目)では1日早い2月26日になります。"}},{"@type":"Question","name":"ペットの法要は何回忌までするものですか？","acceptedAnswer":{"@type":"Answer","text":"人の法要のような決まりはなく、飼い主の気持ちで決めてかまいません。一周忌や三回忌、七回忌、十三回忌あたりで区切り(弔い上げ)とすることが多いようです。"}},{"@type":"Question","name":"ペットの三回忌は何年後ですか？","acceptedAnswer":{"@type":"Answer","text":"人の法要と同じく満2年後の命日です。亡くなった日を1回目と数えるので、一周忌(満1年)の翌年が三回忌になります。七回忌は満6年、十三回忌は満12年です。"}},{"@type":"Question","name":"ペットの月命日はいつですか？","acceptedAnswer":{"@type":"Answer","text":"毎月の、命日と同じ日付です。31日に亡くなった場合、31日がない月は月末とする考え方が一般的です。この計算機では1年目の月命日を一覧にしています。"}},{"@type":"Question","name":"ペットにも初盆はありますか？","acceptedAnswer":{"@type":"Answer","text":"決まりはありませんが、四十九日を過ぎてから初めて迎えるお盆を、人と同じように初盆として迎える家庭もあります。お盆の初日までに四十九日が済んでいなければ、翌年のお盆が初盆です。"}},{"@type":"Question","name":"入力した内容は保存されますか？","acceptedAnswer":{"@type":"Answer","text":"お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときにすぐ日程を出すために使います。外部へは送信しません。"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"ペットの四十九日はどう数えますか？","acceptedAnswer":{"@type":"Answer","text":"人の四十九日と同じく、亡くなった日(命日)を1日目として49日目、つまり命日の48日後です。2026年1月10日が命日なら、四十九日は2月27日です。関西の一部の数え方(命日の前日を1日目)では1日早い2月26日になります。"}},{"@type":"Question","name":"ペットの法要は何回忌までするものですか？","acceptedAnswer":{"@type":"Answer","text":"人の法要のような決まりはなく、飼い主の気持ちで決めてかまいません。一周忌や三回忌、七回忌、十三回忌あたりで区切り(弔い上げ)とすることが多いようです。"}},{"@type":"Question","name":"ペットの三回忌は何年後ですか？","acceptedAnswer":{"@type":"Answer","text":"人の法要と同じく満2年後の命日です。亡くなった日を1回目と数えるので、一周忌(満1年)の翌年が三回忌になります。七回忌は満6年、十三回忌は満12年です。"}},{"@type":"Question","name":"ペットの月命日はいつですか？","acceptedAnswer":{"@type":"Answer","text":"毎月の、命日と同じ日付です。31日に亡くなった場合、31日がない月は月末とする考え方が一般的です。この計算機では1年目の月命日を一覧にしています。"}},{"@type":"Question","name":"ペットにも初盆はありますか？","acceptedAnswer":{"@type":"Answer","text":"決まりはありませんが、四十九日を過ぎてから初めて迎えるお盆を、人と同じように初盆として迎える家庭もあります。お盆の初日までに四十九日が済んでいなければ、翌年のお盆が初盆です。"}},{"@type":"Question","name":"入力した内容は保存されますか？","acceptedAnswer":{"@type":"Answer","text":"お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときにすぐ日程を出すために使います。外部へは送信しません。何匹か登録して、名前のボタンで切り替えられます。"}}]}</script>
 <style>
 .mm-list { list-style: none; padding: 0; margin: 0 0 8px; display: grid; gap: 0; }
 .mm { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--color-border); font-size: 0.9rem; flex-wrap: wrap; }
@@ -42,7 +42,10 @@
 
   <main id="main" class="main">
 
+    <section id="family-card" class="card no-print" hidden></section>
+
     <section id="form-card" class="card card--form no-print">
+      <div id="people-tabs" class="people-tabs" role="group" aria-label="登録した子" hidden></div>
       <form id="form" novalidate>
         <input type="radio" name="style" value="pet" checked hidden>
         <div class="form-field">
@@ -58,7 +61,7 @@
         <div class="form-field">
           <label for="name">名前 <span class="form-optional">任意</span></label>
           <input id="name" type="text" maxlength="20" class="quiz-select" placeholder="例: モモ、コタロウ" autocomplete="off">
-          <p class="form-help">カレンダーの予定名や、家族に送る文面に入ります。</p>
+          <p class="form-help">切り替えのボタン、カレンダーの予定名、家族に送る文面に使います。</p>
         </div>
 
         <div class="form-field" id="field-bon">
@@ -78,12 +81,14 @@
 
         <p id="form-error" class="form-error" hidden></p>
         <button type="submit" class="btn btn--primary btn--large">日程を出す</button>
+        <button type="button" id="btn-remove" class="text-btn" hidden>この子を削除</button>
       </form>
       <ul class="intro-points">
         <li>無料・登録不要。入力した内容は端末の中にだけ保存します</li>
         <li>1年目の月命日も、曜日つきで一覧にします</li>
         <li>平日にあたる節目は、直前の土日・祝日を候補に出します</li>
         <li>カレンダーアプリへの登録、家族への共有、印刷ができます</li>
+        <li>何匹か登録して、名前のボタンで切り替えられます</li>
       </ul>
     </section>
 
@@ -126,7 +131,11 @@
         <a class="cross-link-banner" href="../">人の法要の日程はこちら(法要日程カレンダー) →</a>
         <a class="cross-link-banner" href="../../birthday-fortune/calendar/">六曜と祝日を月ごとのカレンダーで見る →</a>
       </div>
-      <p class="no-print" style="margin-top:16px"><button type="button" id="btn-edit" class="btn btn--ghost btn--large">条件を変える</button></p>
+      <div class="result-more no-print">
+        <button type="button" id="btn-add" class="btn btn--ghost btn--large">＋ ほかの子の命日も登録する</button>
+        <p class="form-help">登録した子の節目を日付順にまとめて見られます。</p>
+        <button type="button" id="btn-edit" class="btn btn--ghost btn--large">条件を変える</button>
+      </div>
     </section>
 
   </main>
@@ -224,7 +233,7 @@
       </details>
       <details class="faq-item">
         <summary>入力した内容は保存されますか？</summary>
-        <p>お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときにすぐ日程を出すために使います。外部へは送信しません。人の法要日程カレンダーとは別に保存します。</p>
+        <p>お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときにすぐ日程を出すために使います。外部へは送信しません。人の法要日程カレンダーとは別に保存します。何匹か登録して、名前のボタンで切り替えられます。</p>
       </details>
     </div>
 

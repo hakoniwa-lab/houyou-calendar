@@ -13,6 +13,20 @@
  */
 
 const MC_MIN_YEAR = 1950;
+
+/* 喪中はがき・寒中見舞いの印刷(A8.net 挨拶状ドットコム・年賀状スクエア、どちらも提携済み)。
+   今年亡くなった方で、喪中はがきを出す範囲のときだけ出す */
+const MC_MOCHU_OFFER = `<div class="art-cta">
+    <p>印刷を頼むなら、届くまでの日数も見込んで11月中の手配がおすすめです。デザインと料金は2つ見比べてから決めると安心です。</p>
+    <div class="art-cta__links">
+      <a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=4BCFNH+BZNJMA+1IEW+IAV4Y" target="_blank" rel="nofollow sponsored noopener">挨拶状ドットコム 喪中はがき<span class="badge badge--pr">PR</span></a><img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=4BCFNH+BZNJMA+1IEW+IAV4Y" alt="">
+      <a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=4BCFNI+7MH3WY+33J0+1BM8YQ&amp;a8ejpredirect=https%3A%2F%2Fnenga.print-netsquare.com%2Fmochu%2F" target="_blank" rel="nofollow sponsored noopener">年賀状スクエアの喪中はがき印刷<span class="badge badge--pr">PR</span></a><img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=4BCFNI+7MH3WY+33J0+1BM8YQ" alt="">
+    </div>
+  </div>`;
+const MC_KANCHU_OFFER = `<div class="art-cta">
+    <p>寒中見舞いも印刷で頼めます。</p>
+    <a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=4BCFNI+7MH3WY+33J0+1BM8YQ&amp;a8ejpredirect=https%3A%2F%2Fnenga.print-netsquare.com%2Fkanchu%2F" target="_blank" rel="nofollow sponsored noopener">年賀状スクエアの寒中見舞い印刷<span class="badge badge--pr">PR</span></a><img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=4BCFNI+7MH3WY+33J0+1BM8YQ" alt="">
+  </div>`;
 const $m = (id) => document.getElementById(id);
 
 const mcForm = $m("form");
@@ -150,15 +164,21 @@ function mcCardJinja(style) {
 
 function mcCardNenga(j, deathIdx) {
   const thisYear = new Date().getFullYear();
-  const dy = ymdOf(deathIdx).y;
+  const { y: dy, m: dm, d: dd } = ymdOf(deathIdx);
   let body;
   if (j.mochuLevel === "rare") {
     body = `<p class="big">一般には、喪中はがきを出す範囲には含めないことが多い続柄です。</p>
       <p>出すかどうかは、同居していたか、付き合いの深さで決めている家が多いです。</p>`;
+  } else if (dy === thisYear && dm === 12 && dd >= 11) {
+    // 12月中旬以降は喪中はがきが年賀状の受け付け(12月15日)に間に合わない(guide/mochu-hagaki-itsumade/ の表と同じ区切り)
+    body = `<p class="big">12月中旬以降に亡くなられているので、喪中はがきは控え、<strong>年明けに寒中見舞い</strong>で知らせるのが一般的です。</p>
+      <p>寒中見舞いは、松の内が明けてから(1月8日、関西などは1月16日)立春の前日までに届くように出します。</p>
+      ${MC_KANCHU_OFFER}`;
   } else if (dy === thisYear) {
     body = `<p class="big">${thisYear}年に亡くなられているので、<strong>今年の年末に喪中はがきを出す対象</strong>になります。</p>
       <p>${thisYear + 1}年の年賀状を辞退するお知らせです。相手が年賀状の準備を始める前、
-      <strong>11月から12月上旬まで</strong>に届くように出すのが一般的です。</p>`;
+      <strong>11月から12月上旬まで</strong>に届くように出すのが一般的です。</p>
+      ${MC_MOCHU_OFFER}`;
   } else if (dy === thisYear - 1) {
     body = `<p class="big">${dy}年に亡くなられているので、喪中はがきは<strong>前の年末に出す分</strong>にあたります。</p>
       <p>年末に亡くなって間に合わなかった場合は、松が明けてから<strong>寒中見舞い</strong>で知らせる方法があります。</p>`;

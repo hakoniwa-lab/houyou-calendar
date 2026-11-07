@@ -25,10 +25,14 @@ const Y1 = Number(process.argv[2]) || new Date().getFullYear();
 const Y2 = Y1 + 1;
 const wareki = (y) => call("warekiOfYear", y).join("・");
 
+/* HAKONIWA LAB 全ページ共通のツール一覧とパンくず。中身は ../site-nav/site-nav.html だけで管理している */
+const SITE_NAV = path.join(root, "..", "site-nav", "site_nav.py");
+
 /* 書き出しは中身を作りきってから。空や極端に小さい結果は書かない */
 function writeSafe(file, content, minBytes) {
   if (Buffer.byteLength(content, "utf8") < minBytes) throw new Error(`${file}: 出力が小さすぎます`);
   fs.writeFileSync(file, content, "utf8");
+  require("child_process").execFileSync("python", [SITE_NAV, file], { stdio: "inherit" });
   console.log(`wrote ${path.relative(root, file)} (${Buffer.byteLength(content, "utf8")} bytes)`);
 }
 

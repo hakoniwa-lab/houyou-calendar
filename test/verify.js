@@ -260,7 +260,7 @@ const find = (s, key) => s.items.find(it => it.key === key);
 /* ---------- 親等(民法726条) ---------- */
 {
   const J = (k) => run(`judgeShinzoku(${JSON.stringify(k)})`);
-  const LBL = { blood: "血族", in: "姻族", spouse: "配偶者" };
+  const LBL = { blood: "血族", in: "姻族", spouse: "配偶者", none: "親族でない" };
   const chk = (k, kind, deg, kinzoku) => {
     const r = J(k);
     // 続柄そのものが消えていても読める形で落とす
@@ -279,17 +279,28 @@ const find = (s, key) => s.items.find(it => it.key === key);
   chk("h_oji", "姻族", 3, true);    chk("h_oigi", "姻族", 3, true);
   chk("s_ko", "姻族", 1, true);     chk("s_kyodai", "姻族", 2, true); chk("s_mago", "姻族", 2, true);
   chk("s_oji", "姻族", 3, true);    chk("s_oigi", "姻族", 3, true);
+  /* 民法725条3号の姻族は「配偶者の血族」「血族の配偶者」。配偶者の兄弟の配偶者(相嫁・相婿)は
+     どちらでもないので親族ではなく、親等もない(「義兄弟の配偶者も2親等」とする説明への検算) */
+  chk("aiyome", "親族でない", null, false);
+  /* 子の配偶者の父母は「血族の配偶者の血族」。これも姻族の形ではない */
+  chk("s_ko_oya", "親族でない", null, false);
+  /* 配偶者のいとこは姻族4親等。姻族は3親等内までが親族なので外れる(民法725条3号の境界) */
+  chk("h_itoko", "姻族", 4, false);
+  eq("姻族4親等は喪中の範囲に含めない側", J("h_itoko").mochuLevel, "rare");
+  eq("相嫁・相婿は喪中の範囲に含めない側", J("aiyome").mochuLevel, "rare");
+  eq("相嫁・相婿の一覧表は親等を「-」に", run("shinzokuTableHtml()").includes("<th>配偶者の兄弟・姉妹の配偶者(相嫁・相婿)</th><td>どちらでもない</td><td class=\"num\">-</td>"), true);
 
   /* 一覧に載せた続柄に検算漏れがないこと */
   const keys = run("SHINZOKU.map(d=>d.key)");
   const tested = ["spouse", "chichi", "sofubo", "sosofubo", "ko", "mago", "himago", "kyodai", "oigi",
     "oji", "itoko", "ooji", "itokonoko", "hatoko", "yofubo", "yoshi", "h_chichi", "h_sofubo",
-    "h_kyodai", "h_oji", "h_oigi", "s_ko", "s_kyodai", "s_mago", "s_oji", "s_oigi"];
+    "h_kyodai", "h_oji", "h_oigi", "h_itoko", "s_ko", "s_kyodai", "s_mago", "s_oji", "s_oigi", "aiyome", "s_ko_oya"];
   eq("検算漏れなし", keys.filter((k) => !tested.includes(k)), []);
 
   /* 民法725条の境界: 血族は六親等内、姻族は三親等内が親族 */
   eq("血族6親等は親族", J("hatoko").isKinzoku, true);
   eq("姻族3親等は親族", J("h_oji").isKinzoku, true);
+  eq("姻族4親等は親族でない", J("h_itoko").isKinzoku, false);
 
   /* 一覧表に全続柄が載る(見出し行があるので行数でなく名前で確かめる) */
   {
@@ -488,6 +499,28 @@ const find = (s, key) => s.items.find(it => it.key === key);
   // お盆の期間中は、初日が過ぎていても初盆を出す
   const r6 = fam([["父", "2026-05-01"]], "2026-08-15", "2026-08-31");
   eq("お盆の途中から見ても初盆が出る", r6.events, ["父:bon:2026-08-13"]);
+}
+
+/* 喪中の続柄別の記事(guide/mochu-*): 表の親等・親族かの欄が判定ツールと食い違わないこと。
+   記事の表は手で書いているので、data-rel の続柄ごとに本体の judgeShinzoku と突き合わせる */
+{
+  const dir = path.join(__dirname, "..", "guide");
+  const pages = fs.readdirSync(dir).filter((d) => d.startsWith("mochu-") && d !== "mochu-hagaki-itsumade");
+  eq("続柄別の記事が3本ある", pages.sort(), ["mochu-giri-kyodai", "mochu-haigusha-sofubo", "mochu-itoko-oji"]);
+  for (const d of pages) {
+    const html = fs.readFileSync(path.join(dir, d, "index.html"), "utf8");
+    const rows = [...html.matchAll(/<tr data-rel="(\w+)">([\s\S]*?)<\/tr>/g)];
+    eq(`${d} に続柄の表がある`, rows.length > 0, true);
+    for (const [, key, row] of rows) {
+      const j = run(`judgeShinzoku(${JSON.stringify(key)})`);
+      if (!j) { eq(`${d} ${key}`, "続柄が見つからない", key); continue; }
+      const kin = j.isKinzoku ? "親族にあたる" : "親族にあたらない";
+      eq(`${d} ${key} の親等と親族か`, [row.includes(`<td>${j.degreeText}</td>`), row.includes(`<td>${kin}</td>`), row.includes(`?rel=${key}`)], [true, true, true]);
+    }
+    /* よくある質問の本文と構造化データが同じ数 */
+    const ld = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)[1]);
+    eq(`${d} FAQの数`, ld.mainEntity.length, (html.match(/<details class="faq-item">/g) || []).length);
+  }
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

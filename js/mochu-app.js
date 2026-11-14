@@ -69,6 +69,11 @@ function mcInitForm() {
     (og || mcRel).appendChild(o);
   }
   mcRel.value = "s_kyodai"; // 説明が最も割れる続柄を初期値にしておく
+  // 解説記事からは ?rel=続柄のキー で開く(その続柄を選んだ状態で結果を出す)
+  try {
+    const q = new URLSearchParams(location.search).get("rel");
+    if (q && SHINZOKU.some((d) => d.key === q)) mcRel.value = q;
+  } catch (e) { /* 読めなければ初期値のまま */ }
 
   const t = new Date();
   for (let y = t.getFullYear(); y >= MC_MIN_YEAR; y--) mcYear.add(new Option(`${y}年`, String(y)));
@@ -95,6 +100,8 @@ function mcCardShinzoku(j) {
     : "民法上の<strong>親族にはあたりません</strong>";
   const extra = j.kind === "in"
     ? "<p class=\"note\">親等の数字が血族と同じでも、<strong>血族ではなく姻族</strong>です。ここを取り違えた説明がよく見られます。</p>"
+    : j.kind === "none" && !j.def.note // 続柄ごとの説明があればそちらだけ出す(同じ話が2回並ばないように)
+    ? "<p class=\"note\">姻族とは<strong>「配偶者の血族」と「血族の配偶者」</strong>のことです。この続柄はどちらの形にも当たらないので、民法上の親族ではなく、親等もありません。</p>"
     : "";
   const own = j.def.note ? `<p class="note">${j.def.note}</p>` : "";
   return `<div class="card">
@@ -214,6 +221,10 @@ function mcRender() {
 
 mcInitForm();
 mcForm.addEventListener("submit", (e) => { e.preventDefault(); mcRender(); });
-mcRel.addEventListener("change", mcRender);
+mcRel.addEventListener("change", () => {
+  mcRender();
+  // 選んだ続柄をアドレスに残す(そのまま共有できるように)
+  try { history.replaceState(null, "", "?rel=" + encodeURIComponent(mcRel.value)); } catch (e) { /* 無視 */ }
+});
 mcStyle.addEventListener("change", mcRender);
 mcRender();

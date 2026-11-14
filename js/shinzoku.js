@@ -17,6 +17,9 @@
  * これに2つの印を付ける。
  *   viaSpouse  自分の配偶者の血族 → 姻族(配偶者を自分と同じ位置に置いて数える)
  *   spouseOf   その血族の配偶者   → 姻族(その血族と同じ親等)
+ * 2つとも付くもの(配偶者の血族の、さらに配偶者=相嫁・相婿)は、姻族のどちらの形にも当たらないので
+ * 親族ではない。民法725条3号の「姻族」は「配偶者の血族」と「血族の配偶者」を指すと解されていて、親等も持たない。
+ *   spouseKin  血族の配偶者の、さらに血族(子の配偶者の親など) → 同じく姻族ではない
  *
  * 喪中・忌中の期間や範囲を定めた法律は、現在ない。
  * 喪中の範囲は慣行なので、この計算の結果とは分けて扱う。
@@ -25,6 +28,9 @@
 /* 親等と血族/姻族の別を返す。配偶者だけは親等を持たない(民法725条2号) */
 function shinto1(rel) {
   if (rel.spouse) return { degree: null, kind: "spouse", isKinzoku: true };
+  // 配偶者の血族の配偶者(相嫁・相婿)は姻族ではない。親等もない
+  // 子の配偶者の親(spouseKin)も同じ。婚姻を2回またぐ続柄は姻族にならない
+  if ((rel.viaSpouse && rel.spouseOf) || rel.spouseKin) return { degree: null, kind: "none", isKinzoku: false };
   const degree = rel.up + rel.down;
   const kind = rel.viaSpouse || rel.spouseOf ? "in" : "blood";
   // 民法725条: 血族は六親等内、姻族は三親等内が「親族」
@@ -32,11 +38,12 @@ function shinto1(rel) {
   return { degree, kind, isKinzoku };
 }
 
-const KIND_LABEL = { blood: "血族", in: "姻族", spouse: "配偶者" };
+const KIND_LABEL = { blood: "血族", in: "姻族", spouse: "配偶者", none: "どちらでもない" };
 
 /* 親等の表示。配偶者は親等を持たないのでそう書く */
 function degreeLabel(r) {
   if (r.kind === "spouse") return "配偶者(親等なし)";
+  if (r.kind === "none") return "民法上の親族ではない(親等なし)";
   return KIND_LABEL[r.kind] + "の" + r.degree + "親等";
 }
 
@@ -77,6 +84,9 @@ const SHINZOKU = [
     group: "配偶者の血族(姻族)" },
   { key: "h_oigi", name: "配偶者の甥・姪", viaSpouse: true, up: 1, down: 2,
     group: "配偶者の血族(姻族)" },
+  { key: "h_itoko", name: "配偶者のいとこ", viaSpouse: true, up: 2, down: 2,
+    group: "配偶者の血族(姻族)",
+    note: "姻族の4親等です。民法上の親族は姻族なら3親等までなので、親族にはあたりません。" },
 
   { key: "s_ko", name: "子の配偶者(嫁・婿)", spouseOf: true, up: 0, down: 1,
     group: "血族の配偶者(姻族)" },
@@ -89,6 +99,13 @@ const SHINZOKU = [
     group: "血族の配偶者(姻族)" },
   { key: "s_oigi", name: "甥・姪の配偶者", spouseOf: true, up: 1, down: 2,
     group: "血族の配偶者(姻族)" },
+
+  { key: "aiyome", name: "配偶者の兄弟・姉妹の配偶者(相嫁・相婿)", viaSpouse: true, spouseOf: true, up: 1, down: 1,
+    group: "民法上の親族ではない続柄",
+    note: "夫の兄弟の妻(相嫁)、妻の姉妹の夫(相婿)など。姻族は「配偶者の血族」と「血族の配偶者」だけなので、どちらにも当たりません。「義兄弟の配偶者も2親等」とする説明がありますが、民法の数え方ではありません。" },
+  { key: "s_ko_oya", name: "子の配偶者の父母(嫁・婿の親)", spouseOf: true, spouseKin: true, up: 0, down: 1,
+    group: "民法上の親族ではない続柄",
+    note: "子の配偶者(嫁・婿)は姻族の1親等ですが、その父母は「配偶者の血族」にも「血族の配偶者」にも当たりません。親どうしは民法上の親族ではありません。" },
 ];
 
 /*
@@ -97,6 +114,7 @@ const SHINZOKU = [
  */
 function mochuLevel(def, r) {
   if (r.kind === "spouse") return "yes";
+  if (r.kind === "none") return "rare";
   if (def.mochuNote) return "split";
   if (r.degree <= 1) return "yes";
   if (r.degree === 2) return r.kind === "blood" ? "yes" : "split";
@@ -135,7 +153,7 @@ function shinzokuTableHtml() {
     return head +
       `<tr><th>${def.name}</th>` +
       `<td>${KIND_LABEL[j.kind]}</td>` +
-      `<td class="num">${j.kind === "spouse" ? "-" : j.degree + "親等"}</td>` +
+      `<td class="num">${j.degree === null ? "-" : j.degree + "親等"}</td>` +
       `<td>${j.isKinzoku ? "親族にあたる" : "親族にあたらない"}</td>` +
       `<td>${j.mochuText}${note ? "<br><small>" + note + "</small>" : ""}</td></tr>`;
   }).join("");

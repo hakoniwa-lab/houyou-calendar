@@ -153,6 +153,24 @@ function writeSafe(file, content, minBytes) {
   }).filter(Boolean);
 
   const k27 = info(2027), k28 = info(2028), k26 = info(2026);
+
+  /* 引数の年(Y1)の旧盆。タイトルと冒頭の欄はこの年に合わせて動く(検索は「2027年 沖縄 旧盆」の形が大半) */
+  const kY = info(Y1), kN = info(Y2);
+  const datesShort = (k) => {
+    const [a, , c] = k.days;
+    return a.m === c.m ? `${a.m}月${a.d}日〜${c.d}日` : `${a.m}月${a.d}日〜${c.m}月${c.d}日`;
+  };
+  const BON_NAMES = ["ウンケー", "ナカヌヒー", "ウークイ"];
+  const TABLE_Y1 = head(["行事", "日付"]) +
+    [["旧暦の七夕(お墓の掃除)", kY.tanabata], ...kY.days.map((d, i) => [`${BON_NAMES[i]}(${["お迎え", "中日", "お送り"][i]})`, d])]
+      .map(([n, d]) => `<tr><th>${n}</th>${cell(d)}</tr>`).join("") + "</tbody></table>";
+  const shiftJa = (k) => k.shift > 0 ? `${k.shift}日遅く` : `${-k.shift}日早く`;
+  const restY = kY.days.map((d, i) => d.isRest ? `${BON_NAMES[i]}が${d.holiday ? d.holiday : d.wdName + "曜"}` : null).filter(Boolean);
+  const hondoY = kY.days.filter((d) => d.m === 8 && d.d >= 13 && d.d <= 16).length;
+  const Y1_NOTE = `${Y1}年の旧盆は前の年より${shiftJa(kY)}、` +
+    (restY.length ? `${restY.join("、")}にあたります。` : "3日とも平日です。") +
+    (hondoY === 3 ? "本土の8月盆(8月13日〜16日)と3日とも重なります。" : hondoY ? `本土の8月盆(8月13日〜16日)と${hondoY}日重なります。` : "") +
+    `次の${range(kN)}です` + (kN.leap ? `(閏${kN.leap.num}月が入るので、${shiftJa(kN)}なります)。` : "。");
   const faq = [
     ["2027年の旧盆はいつですか？",
       `${range(k27)}です。ウンケーが${md(k27.days[0])}、ナカヌヒーが${md(k27.days[1])}、ウークイが${md(k27.days[2])}です。お墓の掃除をする旧暦の七夕は${md(k27.tanabata)}です。`],
@@ -177,8 +195,8 @@ function writeSafe(file, content, minBytes) {
   const vars = {
     FROM: String(FROM), TO: String(TO), COUNT: String(TO - FROM + 1), HB_FROM: String(HB_FROM),
     PAST_FROM: String(PAST_FROM), PAST_TO: String(FROM - 1),
-    Y27_RANGE: range(k27), Y28_RANGE: range(k28),
-    TABLE_MAIN, TABLE_PAST, TABLE_SHIFT, TABLE_HATSUBON,
+    Y1: String(Y1), W1: wareki(Y1), Y1_DATES: datesShort(kY), YR1: range(kY), YR2: range(kN), Y1_NOTE,
+    TABLE_MAIN, TABLE_PAST, TABLE_SHIFT, TABLE_HATSUBON, TABLE_Y1,
     EARLIEST: `${early.a.m}月${early.a.d}日(${early.a.y}年)`, LATEST: `${late.a.m}月${late.a.d}日(${late.a.y}年)`,
     SEPT_YEARS: joinJa(sept),
     REST2_YEARS: joinJa(rest2) + "年", REST0_YEARS: joinJa(rest0) + "年",

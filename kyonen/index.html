@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>享年・行年の早見表｜数え年と満年齢、位牌の書き方を計算</title>
+<meta name="description" content="生年月日と亡くなった日を入れると、数え年と満年齢、位牌や墓誌に書く漢数字の形（享年・行年、歳・才）を出します。亡くなった年ごとの早見表と、生まれ年からの逆引きつき。江戸時代生まれのご先祖は旧暦の正月で数えます。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/houyou-calendar/kyonen/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="享年・行年の早見表 | HAKONIWA LAB">
+<meta property="og:description" content="生年月日と亡くなった日から、数え年・満年齢と位牌に書く形がわかります。亡くなった年ごとの早見表つき。">
+<meta property="og:url" content="https://hakoniwalab.com/houyou-calendar/kyonen/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;700&family=Yuji+Syuku&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root {
+  --color-bg: #efe6ce;
+  --color-surface: #f8f2e3;
+  --color-border: #dbcba0;
+  --color-text: #2b2620;
+  --color-text-muted: #6e6248;
+  --color-primary: #a8631f;
+  --color-primary-hover: #8b5119;
+  --color-primary-contrast: #fbf3e2;
+  --color-accent: #55704a;
+  --color-badge-bg: #e4d6ae;
+  --color-badge-text: #6e4a1e;
+  --color-warn-bg: #efd3c0;
+  --color-warn-text: #8a4322;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-card: 0 2px 8px rgba(43, 38, 32, 0.12);
+  --max-width: 640px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #211f1a;
+    --color-surface: #2c2a22;
+    --color-border: #423e30;
+    --color-text: #f1e9d8;
+    --color-text-muted: #b3a585;
+    --color-primary: #e3a23b;
+    --color-primary-hover: #edb259;
+    --color-primary-contrast: #241c0d;
+    --color-accent: #8fae7d;
+    --color-badge-bg: #3a3626;
+    --color-badge-text: #e3a23b;
+    --color-warn-bg: #3d2a1d;
+    --color-warn-text: #e0a876;
+    --shadow-card: 0 2px 14px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* 配置: 上に「生年月日と亡くなった日→数え・満・位牌に書く形」（右に黒塗りの位牌の見本）、その下に亡くなった年ごとの早見表、数え方の決まり、出典 */
+:root {
+  --bg: #f3f4f5;
+  --surface: #ffffff;
+  --ink: #1c1d20;
+  --muted: #5c6068;
+  --line: #d9dce0;
+  --accent: #6b4d12;
+  --accent-ink: #ffffff;
+  --accent-soft: #f4ecdb;
+  --hit: #fbf1d8;
+  --lacquer: #16120e;
+  --lacquer-edge: #3a2f22;
+  --gold: #d6b05c;
+  --warn: #7d4e00;
+  --warn-soft: #fbefd4;
+  --font-head: "Shippori Mincho B1", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --font-brush: "Yuji Syuku", "Shippori Mincho B1", "Yu Mincho", serif;
+  --font-body: "BIZ UDPGothic", "Yu Gothic UI", "Meiryo", "Hiragino Sans", sans-serif;
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121315; --surface: #1a1b1e; --ink: #e7e8ea; --muted: #a3a7ae; --line: #2e3035;
+    --accent: #e2bf70; --accent-ink: #1a1408; --accent-soft: #2d2615; --hit: #2c2515;
+    --lacquer: #050403; --lacquer-edge: #4a3c28; --gold: #dcb867;
+    --warn: #f0c46a; --warn-soft: #382c14;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121315; --surface: #1a1b1e; --ink: #e7e8ea; --muted: #a3a7ae; --line: #2e3035;
+  --accent: #e2bf70; --accent-ink: #1a1408; --accent-soft: #2d2615; --hit: #2c2515;
+  --lacquer: #050403; --lacquer-edge: #4a3c28; --gold: #dcb867;
+  --warn: #f0c46a; --warn-soft: #382c14;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.75; }
+.wrap {
+  max-width: 980px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px; display: grid; gap: 22px;
+}
+h1, h2, h3 { font-family: var(--font-head); font-weight: 700; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); line-height: 1.25; letter-spacing: 0.05em; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1rem; }
+p { margin: 0; }
+.head { display: grid; gap: 8px; }
+.lede { color: var(--muted); max-width: 44em; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.cap { font-size: 13px; color: var(--muted); }
+.calc { display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .calc { grid-template-columns: minmax(0, 1fr) 240px; align-items: start; } }
+.fields { display: grid; gap: 12px; min-width: 0; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field label { font-weight: 700; font-size: 14px; }
+input[type="text"] {
+  font: inherit; font-size: 18px; color: var(--ink); background: var(--bg); width: 100%; min-width: 0;
+  border: 1px solid var(--line); border-radius: 10px; padding: 7px 12px; font-family: var(--font-head);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chip {
+  appearance: none; font: inherit; font-size: 13px; cursor: pointer; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 2px 12px;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.chip:focus-visible, input:focus-visible, .copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ages { display: flex; flex-wrap: wrap; gap: 10px 28px; border-top: 1px solid var(--line); padding-top: 14px; }
+.age { display: grid; gap: 0; }
+.age .k { font-size: 13px; color: var(--muted); }
+.age .v { font-family: var(--font-head); font-size: clamp(2rem, 7vw, 2.6rem); line-height: 1.2; font-variant-numeric: tabular-nums; }
+.age .v small { font-size: 0.45em; margin-left: 3px; color: var(--muted); font-family: var(--font-body); }
+.notes { display: grid; gap: 6px; }
+.note { background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 6px 12px; font-size: 13.5px; }
+.err { background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 8px 12px; }
+.style { display: grid; gap: 8px; }
+.style .row { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.style .row > span { font-size: 13px; color: var(--muted); min-width: 4.5em; }
+.flat { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-family: var(--font-head); font-size: 17px; }
+.copy { appearance: none; font: inherit; font-size: 13px; cursor: pointer; color: var(--accent); background: none; border: 1px solid var(--accent); border-radius: 8px; padding: 1px 10px; font-family: var(--font-body); }
+.ihai-wrap { display: grid; justify-items: center; gap: 8px; }
+.ihai {
+  width: 168px; height: 360px; background: var(--lacquer); border: 3px solid var(--lacquer-edge);
+  border-radius: 84px 84px 6px 6px; display: flex; flex-direction: row-reverse; justify-content: center; gap: 18px;
+  padding: 46px 14px 20px; color: var(--gold); font-family: var(--font-brush);
+  box-shadow: inset 0 0 0 6px var(--lacquer), inset 0 0 0 7px var(--gold);
+}
+.ihai p { writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 0.08em; white-space: nowrap; }
+.ihai .date { font-size: 15px; }
+.ihai .ihai-age { font-size: 24px; }
+.ihai-base { width: 200px; height: 26px; background: var(--lacquer); border: 3px solid var(--lacquer-edge); border-radius: 4px; margin-top: -10px; }
+.yearbar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.search { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.search input { width: 11em; font-size: 16px; }
+.hit-sum { background: var(--hit); border-radius: 10px; padding: 8px 14px; font-size: 14.5px; }
+.tablebox { max-height: 520px; overflow: auto; border: 1px solid var(--line); border-radius: 10px; }
+table.hy { border-collapse: separate; border-spacing: 0; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+.hy th, .hy td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.hy thead th { position: sticky; top: 0; background: var(--surface); font-size: 12.5px; color: var(--muted); font-weight: 700; z-index: 1; }
+.hy td.n { text-align: right; }
+.hy td.big { font-family: var(--font-head); font-size: 17px; font-weight: 700; text-align: right; }
+.hy td .sub { color: var(--muted); font-size: 12.5px; }
+.hy tr.hit td { background: var(--hit); }
+.hy .era2 { display: block; color: var(--muted); font-size: 12px; }
+.rules { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .rules { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.rules section { display: grid; gap: 6px; align-content: start; }
+.rules p { font-size: 14px; }
+code { font-size: 13px; background: var(--accent-soft); padding: 1px 6px; border-radius: 5px; }
+.src { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; }
+.src a { color: var(--accent); }
+.src ul { margin: 0; padding-left: 1.2em; }
+
+:root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
+  --bg: var(--color-bg); --surface: var(--color-surface); --ink: var(--color-text); --muted: var(--color-text-muted); --line: var(--color-border); --accent: var(--color-primary); --accent-ink: var(--color-primary-contrast); --accent-soft: var(--color-badge-bg);
+}
+
+.guide-nav { font-size: 0.85rem; color: var(--color-text-muted); }
+.guide-nav a { color: var(--color-text-muted); }
+.pr-note { font-size: 0.75rem; color: var(--color-text-muted); margin: 0; }
+.port-faq details { border-top: 1px solid var(--color-border); padding: 8px 0; }
+.port-faq summary { cursor: pointer; font-weight: 700; }
+.port-faq p { margin: 6px 0 0; }
+.app-footer { margin-top: 8px; text-align: center; font-size: 0.72rem; color: var(--color-text-muted); }
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "享年と行年はどう違いますか？", "acceptedAnswer": {"@type": "Answer", "text": "辞書（デジタル大辞泉）では、どちらも亡くなったときの年齢で、行年は「享年」に同じとされています。「享年は数え年、行年は満年齢」と説明されることもありますが、法律や辞書で決まっているわけではありません。迷ったら菩提寺に聞くのが確実です。"}}, {"@type": "Question", "name": "享年は数え年と満年齢のどちらで書きますか？", "acceptedAnswer": {"@type": "Answer", "text": "どちらの書き方もあります。宗派ごとの公式な決まりは見つけられませんでした。お寺や地域、葬儀社のやり方に合わせてください。このページでは両方の年齢を出し、書き方を選べるようにしています。"}}, {"@type": "Question", "name": "数え年はどう数えますか？", "acceptedAnswer": {"@type": "Answer", "text": "生まれた年を1歳とし、新年を迎えるたびに1歳ずつ足します。誕生日は関係ありません。亡くなった年から生まれた年を引いて1を足すと出ます。"}}, {"@type": "Question", "name": "「享年八十歳」のように「歳」を付けてもいいですか？", "acceptedAnswer": {"@type": "Answer", "text": "辞書は、「享年八十歳」は「年」と「歳」が重なるので「享年八十」でよい、としつつ、「享年四十歳」のような書き方も古くからある、と補足しています。どの形にするかはお寺や石材店に合わせてください。"}}, {"@type": "Question", "name": "江戸時代生まれのご先祖の数え年はどう数えますか？", "acceptedAnswer": {"@type": "Answer", "text": "明治5年までは旧暦で、新年も旧暦の正月でした。西暦の年で数えると数え年が1つ少なくなることがあります。このページは国立天文台の暦の表で旧暦の年を確かめて数えます（1781年以降）。"}}]}</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="guide-nav" aria-label="パンくずリスト">
+    <a href="../../">HAKONIWA LAB</a> &raquo;
+    <a href="../">法要日程カレンダー</a> &raquo;
+    <span aria-current="page">享年・行年の早見表</span>
+  </nav>
+
+  <header class="head">
+    <h1>享年・行年の早見表</h1>
+    <p class="lede">生まれた年と亡くなった年から、数え年と満年齢がすぐわかる早見表です。生年月日と亡くなった日を入れると、位牌や墓誌に書く形（漢数字）まで出します。江戸時代生まれのご先祖も、当時の暦（旧暦）の正月で数えます。</p>
+  </header>
+
+  <section class="card" aria-labelledby="h-calc">
+    <h2 id="h-calc">生年月日から計算する</h2>
+    <div class="calc">
+      <div class="fields">
+        <div class="field">
+          <label for="birth">生年月日</label>
+          <input type="text" id="birth" value="昭和22年3月15日" autocomplete="off">
+          <div class="chips" id="birthEx" aria-label="入れ方の例"></div>
+        </div>
+        <div class="field">
+          <label for="death">亡くなった日</label>
+          <input type="text" id="death" value="令和8年11月10日" autocomplete="off">
+          <p class="cap">西暦（2026-11-10）でも和暦（令和8年11月10日）でも入れられます。いま入っているのは例です。</p>
+        </div>
+        <div id="out" aria-live="polite"></div>
+        <div class="style" id="styleBox">
+          <div class="row"><span>書き出し</span><div class="chips" data-k="label"></div></div>
+          <div class="row"><span>年齢</span><div class="chips" data-k="count"></div></div>
+          <div class="row"><span>末尾</span><div class="chips" data-k="suffix"></div></div>
+          <div class="flat"><span id="flat"></span><button type="button" class="copy" id="copy">写す</button></div>
+          <p class="cap">どの形にするかは、お寺や石材店に合わせてください。</p>
+        </div>
+      </div>
+      <div class="ihai-wrap" aria-label="位牌の裏面の書き方の見本">
+        <div class="ihai"><p class="date" id="ihaiDate"></p><p class="ihai-age" id="ihaiAge"></p></div>
+        <div class="ihai-base"></div>
+        <p class="cap">位牌の裏面の見本（名前は省いています）</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-hy">
+    <h2 id="h-hy">早見表</h2>
+    <div class="yearbar">
+      <div class="chips" id="dyChips" role="group" aria-label="亡くなった年"></div>
+      <div class="search"><label for="find" class="cap">生まれ年で探す</label><input type="text" id="find" placeholder="例：昭和22 / 1947" autocomplete="off"></div>
+    </div>
+    <p class="hit-sum" id="hitSum" hidden></p>
+    <div class="tablebox" id="tablebox">
+      <table class="hy" id="hy">
+        <thead><tr><th>生まれ年</th><th>和暦</th><th>干支</th><th style="text-align:right">数え年</th><th style="text-align:right">満年齢</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="cap">数え年は誕生日に関係なく決まります。満年齢は、亡くなった日がその年の誕生日の後なら左の数、前なら右の数です。</p>
+  </section>
+
+  <section class="card" aria-labelledby="h-rules">
+    <h2 id="h-rules">数え方の決まり</h2>
+    <div class="rules">
+      <section>
+        <h3>享年と行年は、辞書では同じ意味</h3>
+        <p>享年は「天から受けた年」、行年は「この世で経てきた年」という意味で、どちらも亡くなったときの年齢です。辞書（デジタル大辞泉）では、行年は「享年」に同じ、とされています。</p>
+        <p>「享年は数え年、行年は満年齢」と説明されることもありますが、法律や辞書で決まっているわけではありません。宗派ごとの公式な決まりも見つけられませんでした。どちらで書くかはお寺や地域、葬儀社のやり方で違うので、迷ったら菩提寺に聞くのが確実です。</p>
+      </section>
+      <section>
+        <h3>数え年は、生まれた年が1歳</h3>
+        <p>生まれた年を1歳とし、新年を迎えるたびに1歳ずつ足します。誕生日は関係ありません。12月31日に生まれた人は、翌日の元日に2歳です。</p>
+        <p>昔は数え年で年齢を言うのがふつうでした。昭和25年（1950年）からは、年齢は満年齢で言うよう法律で勧められ、国や自治体は満年齢を使うことになりました（年齢のとなえ方に関する法律）。</p>
+      </section>
+      <section>
+        <h3>満年齢は、誕生日の前日の終わりに増える</h3>
+        <p>年齢は生まれた日から数え、誕生日の前日が終わるときに1つ増えます（年齢計算ニ関スル法律、民法143条）。誕生日の前日に亡くなった場合は、増える前の年齢です。2月29日生まれの人は、うるう年でない年は2月28日の終わりに増えます。</p>
+      </section>
+      <section>
+        <h3>「歳」を付けるか</h3>
+        <p>「享年八十歳」は「年」と「歳」が重なるので「享年八十」でよい、ただし「享年四十歳」のような書き方も古くからある、と辞書は補足しています。「行年八十歳」「行年八十才」と書く例もあります。</p>
+      </section>
+      <section>
+        <h3>江戸時代生まれは旧暦の正月で数える</h3>
+        <p>明治5年までは旧暦で、新年も旧暦の正月でした。たとえば天保3年12月20日は西暦では1833年2月9日ですが、旧暦ではまだ天保3年（1832年）の内です。西暦の年で数えると、数え年が1つ少なくなります。このページは国立天文台の暦の表で旧暦の年を確かめて数えます（1781年以降）。</p>
+      </section>
+      <section>
+        <h3>エクセルで計算するなら</h3>
+        <p>数え年は <code>=YEAR(亡くなった日)-YEAR(生年月日)+1</code>、満年齢は <code>=DATEDIF(生年月日,亡くなった日,"Y")</code> で出せます。エクセルは1900年より前の日付を扱えず、旧暦にも対応していないので、明治5年以前に生まれた人は上の計算を使ってください。</p>
+      </section>
+    </div>
+  </section>
+
+  <footer class="src">
+    <p>出典（2026年11月15日に本文を確認）</p>
+    <ul>
+      <li>e-Gov法令検索「<a href="https://laws.e-gov.go.jp/law/135AC1000000050" target="_blank" rel="noopener">年齢計算ニ関スル法律</a>」「<a href="https://laws.e-gov.go.jp/law/324AC0100000096" target="_blank" rel="noopener">年齢のとなえ方に関する法律</a>」</li>
+      <li>コトバンク（デジタル大辞泉）「<a href="https://kotobank.jp/word/%E4%BA%AB%E5%B9%B4" target="_blank" rel="noopener">享年</a>」「<a href="https://kotobank.jp/word/%E8%A1%8C%E5%B9%B4" target="_blank" rel="noopener">行年</a>」「<a href="https://kotobank.jp/word/%E6%95%B0%E3%81%88%E5%B9%B4" target="_blank" rel="noopener">数え年</a>」</li>
+      <li>旧暦の年と日付：国立天文台「<a href="https://eco.mtk.nao.ac.jp/cgi-bin/koyomi/caldb_s.cgi" target="_blank" rel="noopener">暦月・節月データベース</a>」（典拠『日本暦日原典』）の1781〜1872年</li>
+    </ul>
+  </footer>
+
+  <section class="card port-faq" aria-labelledby="h-faq">
+    <h2 id="h-faq">よくある質問</h2>
+    <details>
+      <summary>享年と行年はどう違いますか？</summary>
+      <p>辞書（デジタル大辞泉）では、どちらも亡くなったときの年齢で、行年は「享年」に同じとされています。「享年は数え年、行年は満年齢」と説明されることもありますが、法律や辞書で決まっているわけではありません。迷ったら菩提寺に聞くのが確実です。</p>
+    </details>
+    <details>
+      <summary>享年は数え年と満年齢のどちらで書きますか？</summary>
+      <p>どちらの書き方もあります。宗派ごとの公式な決まりは見つけられませんでした。お寺や地域、葬儀社のやり方に合わせてください。このページでは両方の年齢を出し、書き方を選べるようにしています。</p>
+    </details>
+    <details>
+      <summary>数え年はどう数えますか？</summary>
+      <p>生まれた年を1歳とし、新年を迎えるたびに1歳ずつ足します。誕生日は関係ありません。亡くなった年から生まれた年を引いて1を足すと出ます。</p>
+    </details>
+    <details>
+      <summary>「享年八十歳」のように「歳」を付けてもいいですか？</summary>
+      <p>辞書は、「享年八十歳」は「年」と「歳」が重なるので「享年八十」でよい、としつつ、「享年四十歳」のような書き方も古くからある、と補足しています。どの形にするかはお寺や石材店に合わせてください。</p>
+    </details>
+    <details>
+      <summary>江戸時代生まれのご先祖の数え年はどう数えますか？</summary>
+      <p>明治5年までは旧暦で、新年も旧暦の正月でした。西暦の年で数えると数え年が1つ少なくなることがあります。このページは国立天文台の暦の表で旧暦の年を確かめて数えます（1781年以降）。</p>
+    </details>
+  </section>
+
+  <!-- site-nav:start -->
+  <style>
+  .site-nav { margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--color-border, var(--line, #dbcba0)); color: var(--color-text, var(--ink, #2b2620)); text-align: left; }
+  .site-nav__title { margin: 0 0 14px; font-size: 0.82rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__title a { font-family: Georgia, "Times New Roman", serif; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--color-text, var(--ink, #2b2620)); text-decoration: none; }
+  .site-nav__groups { display: grid; gap: 14px 24px; }
+  @media (min-width: 560px) { .site-nav__groups { grid-template-columns: 1fr 1fr; } }
+  .site-nav__label { margin: 0 0 4px; font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; font-size: 0.86rem; line-height: 1.7; }
+  .site-nav__links li { margin: 0; padding: 0; }
+  .site-nav__links li::before { content: none; }
+  .site-nav__links a { color: var(--color-primary, var(--navy, #a8631f)); }
+  .site-nav__all { margin: 16px 0 0; font-size: 0.86rem; text-align: right; }
+  .site-nav__all a { color: var(--color-primary, var(--navy, #a8631f)); font-weight: 700; }
+  .app-footer a { color: var(--color-text-muted, var(--muted, #6e6248)); }
+  </style>
+  <nav class="site-nav" aria-label="HAKONIWA LABのツール">
+    <p class="site-nav__title"><a href="../../">HAKONIWA LAB</a> の無料ツール</p>
+    <div class="site-nav__groups">
+      <div>
+        <p class="site-nav__label">家族を見送ったあとに</p>
+        <ul class="site-nav__links">
+          <li><a href="../../houyou-calendar/">法要日程カレンダー</a></li>
+          <li><a href="../../houyou-calendar/hayami/">年忌早見表</a></li>
+          <li><a href="../../houyou-calendar/tetsuzuki/">死亡後の手続きの期限</a></li>
+          <li><a href="../../houyou-calendar/pet/">ペットの法要</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">仕事を辞めるとき・変えるとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../resignation-letter-generator/">退職願・退職届を作る</a></li>
+          <li><a href="../../retirement-simulator/">退職金の手取り</a></li>
+          <li><a href="../../subsidy-checker/">使える給付金を探す</a></li>
+          <li><a href="../../career-checker/">転職エージェントを選ぶ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">収入と税金を知りたいとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../takehome-calculator/">手取り年収</a></li>
+          <li><a href="../../furusato-simulator/">ふるさと納税の上限額</a></li>
+          <li><a href="../../sidejob-tax-simulator/">副業の税金</a></li>
+          <li><a href="../../sidejob-checker/">向いている副業</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">備えと資産</p>
+        <ul class="site-nav__links">
+          <li><a href="../../insurance-checker/">必要な保険</a></li>
+          <li><a href="../../retirement-simulator/ideco/">iDeCoの受け取り方</a></li>
+          <li><a href="../../stock-screener/">株の条件検索</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">暦と楽しみ</p>
+        <ul class="site-nav__links">
+          <li><a href="../../birthday-fortune/">生まれ日診断</a></li>
+          <li><a href="../../birthday-fortune/calendar/">吉日カレンダー</a></li>
+          <li><a href="../../birthday-fortune/tools/">暦と占いの道具 一覧</a></li>
+          <li><a href="../../meguri-log/">めぐった場所の記録</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-nav__all"><a href="../../">すべてのツールを見る →</a></p>
+  </nav>
+  <!-- site-nav:end -->
+
+  <footer class="app-footer">
+    <p>数え年・満年齢は一般的な数え方による計算です。位牌や墓誌にどの形で書くかは宗派やお寺によって違うので、菩提寺や石材店にご確認ください。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+</div>
+
+<script>
+/* 古い戸籍の日付換算 — 計算部分
+ * 江戸後期〜明治5年の和暦（旧暦）の日付を、当時の暦の表どおりにグレゴリオ暦へ直す（とその逆）。
+ * 暦の表は国立天文台「暦月・節月データベース」（典拠: 内田正男『日本暦日原典』）から取った
+ * 1781〜1872年の各年の「正月1日・閏月・大小」。天文計算では求めない（寛政暦以前は閏月の決め方が違うため）。
+ * ブラウザでは window.KosekiHizuke、Node では module.exports。データは init(text) で渡す。
+ */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.KosekiHizuke = api;
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  // ---------- グレゴリオ暦 ⇔ 通日（ユリウス通日の整数部） ----------
+  function jdn(y, m, d) {
+    const a = Math.floor((14 - m) / 12), yy = y + 4800 - a, mm = m + 12 * a - 3;
+    return d + Math.floor((153 * mm + 2) / 5) + 365 * yy + Math.floor(yy / 4) - Math.floor(yy / 100) + Math.floor(yy / 400) - 32045;
+  }
+  function fromJdn(j) {
+    const a = j + 32044, b = Math.floor((4 * a + 3) / 146097), c = a - Math.floor(146097 * b / 4);
+    const d = Math.floor((4 * c + 3) / 1461), e = c - Math.floor(1461 * d / 4), m = Math.floor((5 * e + 2) / 153);
+    return { y: 100 * b + d - 4800 + Math.floor(m / 10), m: m + 3 - 12 * Math.floor(m / 10), d: e - Math.floor((153 * m + 2) / 5) + 1 };
+  }
+  const WEEK = ['月', '火', '水', '木', '金', '土', '日'];
+  const weekday = (j) => WEEK[((j % 7) + 7) % 7];
+
+  // 年の干支（十干十二支）
+  const STEMS = '甲乙丙丁戊己庚辛壬癸', BRANCHES = '子丑寅卯辰巳午未申酉戌亥';
+  const yearKanshi = (y) => STEMS[((y - 4) % 10 + 10) % 10] + BRANCHES[((y - 4) % 12 + 12) % 12];
+
+  // ---------- 元号 ----------
+  // start: 元年が始まる旧暦の年（その年の西暦の数字）、kaigen: 改元日（旧暦の月・日とグレゴリオ暦）
+  // 明治は慶応4年1月1日にさかのぼって明治元年とした（1868年の改元の詔）。改元日より前の明治元年も有効
+  const ERAS = [
+    { name: '安永', start: 1772 },
+    { name: '天明', start: 1781 }, { name: '寛政', start: 1789 }, { name: '享和', start: 1801 },
+    { name: '文化', start: 1804 }, { name: '文政', start: 1818 }, { name: '天保', start: 1830 },
+    { name: '弘化', start: 1844 }, { name: '嘉永', start: 1848 }, { name: '安政', start: 1854 },
+    { name: '万延', start: 1860 }, { name: '文久', start: 1861 }, { name: '元治', start: 1864 },
+    { name: '慶応', start: 1865 }, { name: '明治', start: 1868, retro: true },
+  ];
+  // 新暦（グレゴリオ暦）になってからの元号。明治6年1月1日 = 1873年1月1日
+  const MODERN = [
+    { name: '明治', y: 1868, m: 1, d: 1 }, // 明治6年以降は西暦と同じ日付
+    { name: '大正', y: 1912, m: 7, d: 30 }, { name: '昭和', y: 1926, m: 12, d: 25 },
+    { name: '平成', y: 1989, m: 1, d: 8 }, { name: '令和', y: 2019, m: 5, d: 1 },
+  ];
+  const ERA_NAMES = [...new Set([...ERAS.map((e) => e.name), ...MODERN.map((e) => e.name)])];
+
+  // ---------- 暦の表 ----------
+  const YEARS = new Map(); // 旧暦の年 → { months: [{num, leap, start, len}], first }
+  let MIN_Y = Infinity, MAX_Y = -Infinity;
+  const REFORM = jdn(1873, 1, 1); // 明治5年12月3日がこの日になった
+
+  function init(text) {
+    YEARS.clear();
+    for (const line of String(text).split(/\r?\n/)) {
+      if (!line || line.startsWith('#')) continue;
+      const p = line.split('|');
+      if (p[0] === 'KAIGEN') {
+        const e = ERAS.find((x) => x.name === p[1]);
+        if (e) e.kaigen = { ly: +p[2], m: +p[3], d: +p[4], g: p[5] };
+        continue;
+      }
+      const y = +p[0], f = p[1], leapAfter = +p[2], sizes = p[3];
+      let start = jdn(+f.slice(0, 4), +f.slice(4, 6), +f.slice(6, 8));
+      const months = [];
+      let num = 0;
+      for (let i = 0; i < sizes.length; i++) {
+        const leap = leapAfter > 0 && num === leapAfter && !months.some((mm) => mm.leap);
+        if (!leap) num += 1;
+        const len = sizes[i] === '1' ? 30 : 29;
+        months.push({ num, leap, start, len });
+        start += len;
+      }
+      YEARS.set(y, { months, first: months[0].start, end: start });
+      MIN_Y = Math.min(MIN_Y, y); MAX_Y = Math.max(MAX_Y, y);
+    }
+    // 明治5年12月は2日まで（3日が新暦の1873年1月1日）
+    const last = YEARS.get(1872);
+    if (last) { const dec = last.months[last.months.length - 1]; dec.fullLen = dec.len; dec.len = REFORM - dec.start; last.end = REFORM; }
+    return { from: MIN_Y, to: MAX_Y };
+  }
+
+  // 表のつながりの検査（各年の終わり＝翌年の正月1日）
+  function checkTable() {
+    const bad = [];
+    for (let y = MIN_Y; y < MAX_Y; y++) {
+      const a = YEARS.get(y), b = YEARS.get(y + 1);
+      if (!a || !b) { bad.push(`${y}: 表がない`); continue; }
+      if (a.end !== b.first) bad.push(`${y}: 年の終わり ${a.end} ≠ 翌年の正月 ${b.first}`);
+    }
+    return bad;
+  }
+
+  const kaigenJdn = (e) => (e.kaigen ? lunarToJdn(e.kaigen.ly, e.kaigen.m, false, e.kaigen.d).jdn : null);
+
+  function lunarToJdn(ly, month, leap, day) {
+    const Y = YEARS.get(ly);
+    if (!Y) return { error: 'range' };
+    const mo = Y.months.find((m) => m.num === month && m.leap === !!leap);
+    if (!mo) return { error: leap ? 'noleap' : 'nomonth', leapMonth: (Y.months.find((m) => m.leap) || {}).num || 0 };
+    if (day < 1 || day > mo.len) return { error: 'day', len: mo.len };
+    return { jdn: mo.start + day - 1, len: mo.len };
+  }
+
+  // 元号の日付 → グレゴリオ暦
+  function toGregorian(eraName, year, month, day, leap = false) {
+    const res = { input: { eraName, year, month, day, leap }, notes: [] };
+    if (!Number.isInteger(year) || year < 1) return { ...res, error: '年を数字で入れてください。' };
+    if (!Number.isInteger(month) || month < 1 || month > 12) return { ...res, error: '月は1〜12で入れてください。' };
+    if (!Number.isInteger(day) || day < 1 || day > 31) return { ...res, error: '日は1〜31で入れてください。' };
+
+    // 明治6年以降と大正・昭和・平成・令和は新暦（日付はそのまま西暦）
+    const modern = MODERN.find((e) => e.name === eraName);
+    if (modern && !(eraName === '明治' && year <= 5)) {
+      const gy = modern.y + year - 1;
+      const j = jdn(gy, month, day);
+      const back = fromJdn(j);
+      if (back.m !== month || back.d !== day) return { ...res, error: `${gy}年${month}月に${day}日はありません。` };
+      const startJ = jdn(modern.y, modern.m, modern.d);
+      const idx = MODERN.indexOf(modern), next = MODERN[idx + 1];
+      if (j < startJ) res.notes.push(`この日はまだ${eraName}になる前です（${eraName}は${modern.y}年${modern.m}月${modern.d}日から）。`);
+      if (next && j >= jdn(next.y, next.m, next.d)) res.notes.push(`この日はもう${next.name}です（${next.y}年${next.m}月${next.d}日から）。`);
+      if (eraName === '明治') res.notes.push('明治6年からは新暦（いまの暦）なので、日付は西暦と同じです。');
+      return { ...res, ok: true, calendar: 'new', jdn: j, ...fromJdn(j), weekday: weekday(j) };
+    }
+
+    const era = ERAS.find((e) => e.name === eraName);
+    if (!era) return { ...res, error: `${eraName}はこの換算の対象外です（${ERAS[1].name}〜明治）。` };
+    const ly = era.start + year - 1;
+    if (ly < MIN_Y || ly > MAX_Y) return { ...res, error: `${eraName}${year}年（${ly}年ごろ）は暦の表の範囲外です（${MIN_Y}〜${MAX_Y}年）。` };
+    if (ly === 1872 && month === 12 && !leap && day >= 3) return { ...res, error: '明治5年12月3日は、新暦への切り替えで明治6年1月1日（1873年1月1日）になりました。12月3日〜晦日はありません。' };
+    const r = lunarToJdn(ly, month, leap, day);
+    if (r.error === 'noleap') return { ...res, error: `${eraName}${year === 1 ? '元' : year}年に閏${month}月はありません。${r.leapMonth ? `この年の閏月は閏${r.leapMonth}月です。` : 'この年に閏月はありません。'}` };
+    if (r.error === 'nomonth') return { ...res, error: `${month}月がありません。` };
+    if (r.error === 'day') return { ...res, error: `この月は${r.len === 30 ? '大の月（30日まで）' : '小の月（29日まで）'}なので、${day}日はありません。` };
+    if (ly === 1872 && r.jdn >= REFORM) return { ...res, error: '明治5年12月3日は、新暦への切り替えで明治6年1月1日（1873年1月1日）になりました。12月3日〜晦日はありません。' };
+    if (ly === 1872 && month === 12) res.notes.push('明治5年12月は2日で終わり、翌日が明治6年1月1日（1873年1月1日）になりました。');
+
+    // 改元の前後の確かめ
+    const k = kaigenJdn(era);
+    if (year === 1 && k && r.jdn < k && !era.retro) {
+      const prev = ERAS[ERAS.indexOf(era) - 1];
+      res.notes.push(`${eraName}元年は${era.kaigen.m}月${era.kaigen.d}日からです。この日はまだ${prev ? prev.name : '前の元号'}です。`);
+    }
+    if (era.retro && year === 1 && k && r.jdn < k) res.notes.push(`明治への改元は慶応4年9月8日ですが、その年の1月1日にさかのぼって明治元年としました。この日は当時「慶応4年」とも書かれます。`);
+    const next = ERAS[ERAS.indexOf(era) + 1];
+    const nk = next ? kaigenJdn(next) : null;
+    if (nk && r.jdn >= nk && !next.retro) res.notes.push(`この日はもう${next.name}元年です（${next.kaigen.m}月${next.kaigen.d}日に改元）。`);
+    if (nk && r.jdn >= nk && next.retro) res.notes.push('この日はもう明治元年です（9月8日に改元）。');
+
+    const mo = YEARS.get(ly).months.find((m) => m.num === month && m.leap === !!leap);
+    return {
+      ...res, ok: true, calendar: 'old', jdn: r.jdn, ...fromJdn(r.jdn), weekday: weekday(r.jdn),
+      lunarYear: ly, monthSize: (mo.fullLen || mo.len) === 30 ? '大' : '小', kanshi: yearKanshi(ly),
+    };
+  }
+
+  // グレゴリオ暦 → 和暦（旧暦の日付と、その日の元号）
+  function fromGregorian(y, m, d) {
+    const j = jdn(y, m, d);
+    const back = fromJdn(j);
+    if (back.m !== m || back.d !== d) return { error: `${y}年${m}月に${d}日はありません。` };
+    if (j >= REFORM) {
+      const era = [...MODERN].reverse().find((e) => j >= jdn(e.y, e.m, e.d));
+      return { ok: true, calendar: 'new', era: era.name, year: y - era.y + 1, month: m, day: d, weekday: weekday(j) };
+    }
+    let ly = null;
+    for (const [k, Y] of YEARS) if (j >= Y.first && j < Y.end) { ly = k; break; }
+    if (ly === null) return { error: `${MIN_Y}〜1872年の暦の表の範囲外です。` };
+    const mo = YEARS.get(ly).months.find((mm) => j >= mm.start && j < mm.start + mm.len);
+    // その日の元号（改元日で切り替え）。明治だけは年の初めにさかのぼる
+    let era = null;
+    for (const e of ERAS) {
+      if (e.start > ly) break;
+      if (e.start < ly) { era = e; continue; }
+      const k = kaigenJdn(e);
+      if (e.retro || (k !== null && j >= k)) era = e;
+    }
+    const year = ly - era.start + 1;
+    const res = { ok: true, calendar: 'old', era: era.name, year, month: mo.num, leap: mo.leap, day: j - mo.start + 1, monthSize: mo.len === 30 ? '大' : '小', weekday: weekday(j), kanshi: yearKanshi(ly), notes: [] };
+    if (era.retro) {
+      const k = kaigenJdn(era);
+      if (j < k) res.notes.push('改元（9月8日）より前の日ですが、明治元年は1月1日にさかのぼるので明治元年と数えます。当時の書類では「慶応4年」とも書かれます。');
+    }
+    return res;
+  }
+
+  // 元号の各年 → 西暦の範囲（早見表）
+  function yearTable() {
+    const rows = [];
+    for (const e of ERAS) {
+      const next = ERAS[ERAS.indexOf(e) + 1];
+      const endLy = next ? next.start : 1872;
+      for (let ly = Math.max(e.start, MIN_Y); ly <= endLy; ly++) {
+        const Y = YEARS.get(ly);
+        if (!Y) continue;
+        const year = ly - e.start + 1;
+        let from = Y.first, to = Y.end - 1;
+        const k = kaigenJdn(e), nk = next ? kaigenJdn(next) : null;
+        if (year === 1 && k && !e.retro) from = Math.max(from, k);
+        if (next && ly === next.start && nk) { if (next.retro) continue; to = Math.min(to, nk - 1); }
+        if (from > to) continue;
+        const leap = Y.months.find((m) => m.leap);
+        rows.push({ era: e.name, year, ly, kanshi: yearKanshi(ly), from: fromJdn(from), to: fromJdn(to), leap: leap ? leap.num : 0 });
+      }
+    }
+    return rows;
+  }
+
+  // ---------- 漢数字と、書かれた日付の読み取り ----------
+  const DIG = { '〇': 0, '零': 0, '一': 1, '壱': 1, '壹': 1, '二': 2, '弐': 2, '貳': 2, '三': 3, '参': 3, '參': 3, '四': 4, '肆': 4, '五': 5, '伍': 5, '六': 6, '七': 7, '八': 8, '九': 9 };
+  const TENS = { '十': 10, '拾': 10, '廿': 20, '卄': 20, '卅': 30, '丗': 30 };
+  function kanjiNum(s) {
+    s = String(s).normalize('NFKC').trim();
+    if (/^\d+$/.test(s)) return +s;
+    if (s === '元') return 1;
+    let total = 0, cur = 0, seen = false;
+    for (const ch of s) {
+      if (ch in DIG) { cur = cur * 10 + DIG[ch]; seen = true; }
+      // 「十」「拾」は前の数を10倍（二十＝20、十＝10）、「廿」「卅」はそれだけで20・30
+      else if (ch in TENS) { const u = TENS[ch]; total += u === 10 ? (cur || 1) * 10 : u; cur = 0; seen = true; }
+      else return NaN;
+    }
+    return seen ? total + cur : NaN;
+  }
+
+  // 「天保三年十二月廿日」「天保三壬辰年閏七月朔日」「明治5年12月2日」などを読む
+  function parse(text) {
+    const t = String(text || '').normalize('NFKC').replace(/\s+/g, '');
+    const eraRe = ERA_NAMES.join('|');
+    const NUM = '[0-9〇零一壱壹二弐貳三参參四肆五伍六七八九十拾廿卄卅丗]+';
+    const re = new RegExp(`(${eraRe})(元|${NUM})(?:[${STEMS}][${BRANCHES}])?年(閏)?(正|${NUM})月(朔|晦|${NUM})日?`);
+    const m = t.match(re);
+    if (!m) return null;
+    const year = kanjiNum(m[2]);
+    const month = m[4] === '正' ? 1 : kanjiNum(m[4]);
+    let day = m[5] === '朔' ? 1 : (m[5] === '晦' ? 'last' : kanjiNum(m[5]));
+    return { eraName: m[1], year, leap: !!m[3], month, day, matched: m[0] };
+  }
+
+  // 晦日（その月の最後の日）を数字にする
+  function lastDay(eraName, year, month, leap) {
+    const era = ERAS.find((e) => e.name === eraName);
+    if (!era || (eraName === '明治' && year > 5)) return null;
+    const Y = YEARS.get(era.start + year - 1);
+    const mo = Y && Y.months.find((x) => x.num === month && x.leap === !!leap);
+    return mo ? mo.len : null;
+  }
+
+  // 満年齢と数え年（生まれた日 j0、基準の日 j1）
+  function age(birth, at) {
+    let man = at.y - birth.y;
+    if (at.m < birth.m || (at.m === birth.m && at.d < birth.d)) man -= 1;
+    return { man, kazoe: at.y - birth.y + 1 };
+  }
+
+  return { init, checkTable, toGregorian, fromGregorian, yearTable, parse, kanjiNum, lastDay, age, jdn, fromJdn, yearKanshi, ERAS, MODERN, ERA_NAMES };
+});
+window.KosekiHizuke.init("# 国立天文台 暦計算室「暦月・節月データベース」(https://eco.mtk.nao.ac.jp/cgi-bin/koyomi/caldb_s.cgi) から 2026-11-15 に取得\n# 1行 = 旧暦の1年。 西暦年 | 正月1日のグレゴリオ暦 | 閏月(その年の何月の後か。0=なし) | 各月の大小(1=大30日, 0=小29日。閏月も並び順どおり) | 正月1日の和暦(取得時の表記)\n# 典拠: 内田正男『日本暦日原典』(雄山閣, 1975) ほか(データベースの参考文献)\n1781|17810124|5|1110101001010|安永10年\n1782|17820212|0|110101010101|天明02年\n1783|17830202|0|010110101010|天明03年\n1784|17840122|1|1010101101010|天明04年\n1785|17850209|0|101001101101|天明05年\n1786|17860130|10|0101001011101|天明06年\n1787|17870218|0|100100101101|天明07年\n1788|17880207|0|101010010101|天明08年\n1789|17890126|6|1101010010101|天明09年\n1790|17900214|0|101101001010|寛政02年\n1791|17910203|0|101101010101|寛政03年\n1792|17920124|2|0101011010101|寛政04年\n1793|17930211|0|010101011010|寛政05年\n1794|17940131|11|1010010111010|寛政06年\n1795|17950219|0|101001011011|寛政07年\n1796|17960209|0|010100101011|寛政08年\n1797|17970128|7|1010100010111|寛政09年\n1798|17980216|0|011010010011|寛政10年\n1799|17990205|0|011100101001|寛政11年\n1800|18000125|4|1011010101010|寛政12年\n1801|18010213|0|101010110101|寛政13年\n1802|18020203|0|010010111010|享和02年\n1803|18030123|1|1010010110110|享和03年\n1804|18040211|0|101001010111|享和04年\n1805|18050131|8|0101000101110|文化02年\n1806|18060218|0|110100010110|文化03年\n1807|18070207|0|111010010011|文化04年\n1808|18080128|6|0110101010010|文化05年\n1809|18090214|0|110110101010|文化06年\n1810|18100204|0|010110110101|文化07年\n1811|18110125|2|0010101101101|文化08年\n1812|18120213|0|010010101110|文化09年\n1813|18130201|11|1010001011101|文化10年\n1814|18140220|0|101000101101|文化11年\n1815|18150209|0|110100010101|文化12年\n1816|18160129|8|1101010100101|文化13年\n1817|18170216|0|101101010010|文化14年\n1818|18180205|0|110101101001|文化15年\n1819|18190126|4|0101011011010|文政02年\n1820|18200214|0|010101011101|文政03年\n1821|18210203|0|010010101101|文政04年\n1822|18220123|1|1010001011011|文政05年\n1823|18230211|0|101000101011|文政06年\n1824|18240131|8|1100100101011|文政07年\n1825|18250218|0|101010100101|文政08年\n1826|18260207|0|101101010010|文政09年\n1827|18270127|6|1011010110010|文政10年\n1828|18280215|0|101011010110|文政11年\n1829|18290204|0|010101011011|文政12年\n1830|18300125|3|0010100110111|文政13年\n1831|18310213|0|010001010111|天保02年\n1832|18320202|11|1010001010111|天保03年\n1833|18330220|0|010100101011|天保04年\n1834|18340209|0|011010010101|天保05年\n1835|18350129|7|0110110010101|天保06年\n1836|18360217|0|010110101010|天保07年\n1837|18370205|0|101010110101|天保08年\n1838|18380126|4|0101001101101|天保09年\n1839|18390214|0|010010101110|天保10年\n1840|18400203|0|110001010111|天保11年\n1841|18410123|1|0101001010110|天保12年\n1842|18420210|0|110100101010|天保13年\n1843|18430130|9|1110100101010|天保14年\n1844|18440218|0|110101010101|天保15年\n1845|18450207|0|010110101010|弘化02年\n1846|18460127|5|1010101101010|弘化03年\n1847|18470215|0|101001101101|弘化04年\n1848|18480205|0|010010101110|弘化05年\n1849|18490124|4|1010010101101|嘉永02年\n1850|18500212|0|101001010101|嘉永03年\n1851|18510201|0|110100101010|嘉永04年\n1852|18520121|2|1101100101010|嘉永05年\n1853|18530208|0|101101010101|嘉永06年\n1854|18540129|7|0101011010101|嘉永07年\n1855|18550217|0|010011011010|安政02年\n1856|18560206|0|100101011101|安政03年\n1857|18570126|5|0100101011011|安政04年\n1858|18580214|0|010010011011|安政05年\n1859|18590203|0|101001001011|安政06年\n1860|18600123|3|1011001001011|安政07年\n1861|18610210|0|011010101001|万延02年\n1862|18620130|8|1011010101010|文久02年\n1863|18630218|0|011010110101|文久03年\n1864|18640208|0|001010111010|文久04年\n1865|18650127|5|1001010110110|元治02年\n1866|18660215|0|101000110111|慶応02年\n1867|18670205|0|010100010111|慶応03年\n1868|18680125|4|0110010010110|慶応04年\n1869|18690211|0|111001001011|明治02年\n1870|18700201|10|0110101010010|明治03年\n1871|18710219|0|110110101001|明治04年\n1872|18720209|0|010110110101|明治05年\n# 改元日（同じデータベースの「西暦から和暦へ変換・年号は日付単位」で確認。前日 → 当日）\nKAIGEN|天明|1781|4|2|17810425\nKAIGEN|寛政|1789|1|25|17890219\nKAIGEN|享和|1801|2|5|18010319\nKAIGEN|文化|1804|2|11|18040322\nKAIGEN|文政|1818|4|22|18180526\nKAIGEN|天保|1830|12|10|18310123\nKAIGEN|弘化|1844|12|2|18450109\nKAIGEN|嘉永|1848|2|28|18480401\nKAIGEN|安政|1854|11|27|18550115\nKAIGEN|万延|1860|3|18|18600408\nKAIGEN|文久|1861|2|19|18610329\nKAIGEN|元治|1864|2|20|18640327\nKAIGEN|慶応|1865|4|7|18650501\nKAIGEN|明治|1868|9|8|18681023\n");
+/* 享年・行年の早見と計算 — 計算部分
+ * 数え年: 生まれた年を1歳とし、新年を迎えるごとに1歳加える（デジタル大辞泉）。
+ *   明治5年（1872年）までに生まれた人・亡くなった人は、当時の暦（旧暦）の正月で数える。
+ *   その換算には ../koseki-hizuke/calc.js（国立天文台の暦の表どおり）を使う。use(KosekiHizuke) で渡す。
+ * 満年齢: 年齢計算ニ関スル法律（出生の日から起算、民法143条を準用）。誕生日の前日が終わると1つ増える。
+ * ブラウザでは window.Kyonen、Node では module.exports。
+ */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.Kyonen = api;
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+  let K = null;
+  function use(k) { K = k; }
+
+  // 新暦になってからの元号の始まり（明治は1873年からの分だけ使う）
+  const MODERN = [
+    { name: '明治', y: 1868, m: 1, d: 1, abbr: 'M' },
+    { name: '大正', y: 1912, m: 7, d: 30, abbr: 'T' },
+    { name: '昭和', y: 1926, m: 12, d: 25, abbr: 'S' },
+    { name: '平成', y: 1989, m: 1, d: 8, abbr: 'H' },
+    { name: '令和', y: 2019, m: 5, d: 1, abbr: 'R' },
+  ];
+  const STEMS = '甲乙丙丁戊己庚辛壬癸', BRANCHES = '子丑寅卯辰巳午未申酉戌亥';
+  const kanshi = (y) => STEMS[((y - 4) % 10 + 10) % 10] + BRANCHES[((y - 4) % 12 + 12) % 12];
+  const ETO = { 子: 'ねずみ', 丑: 'うし', 寅: 'とら', 卯: 'うさぎ', 辰: 'たつ', 巳: 'へび', 午: 'うま', 未: 'ひつじ', 申: 'さる', 酉: 'とり', 戌: 'いぬ', 亥: 'いのしし' };
+
+  // ---------- 漢数字 ----------
+  const D = '〇一二三四五六七八九';
+  function kanji(n) {
+    if (!Number.isInteger(n) || n < 0 || n > 9999) return String(n);
+    if (n === 0) return '〇';
+    let s = '';
+    const th = Math.floor(n / 1000), h = Math.floor(n / 100) % 10, t = Math.floor(n / 10) % 10, o = n % 10;
+    if (th) s += (th > 1 ? D[th] : '') + '千';
+    if (h) s += (h > 1 ? D[h] : '') + '百';
+    if (t) s += (t > 1 ? D[t] : '') + '十';
+    if (o) s += D[o];
+    return s;
+  }
+  const yearWord = (y) => (y === 1 ? '元' : kanji(y));
+
+  // ---------- その年の元号（新暦の年） ----------
+  function erasOfYear(y) {
+    const out = [];
+    for (let i = 0; i < MODERN.length; i++) {
+      const e = MODERN[i], next = MODERN[i + 1];
+      if (e.y > y) break;
+      if (next && next.y < y) continue;
+      const row = { name: e.name, abbr: e.abbr, year: y - e.y + 1 };
+      if (e.y === y && !(e.m === 1 && e.d === 1)) row.from = e.m + '/' + e.d;
+      if (next && next.y === y) {
+        const last = new Date(Date.UTC(next.y, next.m - 1, next.d - 1));
+        row.to = (last.getUTCMonth() + 1) + '/' + last.getUTCDate();
+      }
+      out.push(row);
+    }
+    return out;
+  }
+
+  // 「1947」「昭和22」「S22」「昭和22年」 → 西暦の年（早見表の検索用）
+  function yearFromText(text) {
+    const t = String(text || '').normalize('NFKC').replace(/\s+/g, '').replace(/年$/, '');
+    let m = t.match(/^(\d{4})$/);
+    if (m) return +m[1];
+    m = t.match(/^(明治|大正|昭和|平成|令和|[MTSHRmtshr])(元|\d{1,2})$/);
+    if (!m) return null;
+    const e = MODERN.find((x) => x.name === m[1] || x.abbr === m[1].toUpperCase());
+    const n = m[2] === '元' ? 1 : +m[2];
+    return e ? e.y + n - 1 : null;
+  }
+
+  // ---------- 日付の読み取り ----------
+  // 返り値: { ok, g:{y,m,d}（グレゴリオ暦）, count（数え年に使う年）, cal:'new'|'old', wareki:{era,year,month,day,leap}, notes:[] } か { error }
+  function readDate(text) {
+    const t = String(text || '').normalize('NFKC').replace(/\s+/g, '');
+    if (!t) return { error: '日付を入れてください。' };
+    // 西暦
+    let m = t.match(/^(\d{4})[-/.年](\d{1,2})[-/.月](\d{1,2})日?$/);
+    if (m) {
+      const y = +m[1], mo = +m[2], d = +m[3];
+      const j = K.jdn(y, mo, d), back = K.fromJdn(j);
+      if (back.m !== mo || back.d !== d) return { error: y + '年' + mo + '月に' + d + '日はありません。' };
+      if (j >= K.jdn(1873, 1, 1)) {
+        const w = K.fromGregorian(y, mo, d);
+        return { ok: true, g: { y, m: mo, d }, count: y, cal: 'new', wareki: { era: w.era, year: w.year, month: mo, day: d }, notes: [] };
+      }
+      const w = K.fromGregorian(y, mo, d);
+      if (w.error) return { error: '1873年より前の日付は1781年以降に対応しています。' };
+      const era = K.ERAS.find((e) => e.name === w.era);
+      return { ok: true, g: { y, m: mo, d }, count: era.start + w.year - 1, cal: 'old',
+        wareki: { era: w.era, year: w.year, month: w.month, day: w.day, leap: w.leap }, notes: w.notes || [] };
+    }
+    // 和暦（漢数字・旧暦・閏月も）
+    const p = K.parse(t);
+    if (!p) return { error: '「1947-03-15」「昭和22年3月15日」「天保三年十二月廿日」のように、年月日まで入れてください。' };
+    let day = p.day;
+    if (day === 'last') day = K.lastDay(p.eraName, p.year, p.month, p.leap);
+    if (!day) return { error: '晦日を日付にできませんでした。' };
+    const r = K.toGregorian(p.eraName, p.year, p.month, day, p.leap);
+    if (r.error) return { error: r.error };
+    const count = r.calendar === 'old' ? r.lunarYear : r.y;
+    return { ok: true, g: { y: r.y, m: r.m, d: r.d }, count, cal: r.calendar,
+      wareki: { era: p.eraName, year: p.year, month: p.month, day, leap: p.leap }, notes: r.notes || [] };
+  }
+
+  // ---------- 年齢 ----------
+  function man(b, d) {
+    let a = d.y - b.y;
+    if (d.m < b.m || (d.m === b.m && d.d < b.d)) a -= 1;
+    return a;
+  }
+
+  function compute(birthText, deathText) {
+    const b = readDate(birthText), d = readDate(deathText);
+    if (b.error) return { error: '生年月日：' + b.error };
+    if (d.error) return { error: '亡くなった日：' + d.error };
+    const jb = K.jdn(b.g.y, b.g.m, b.g.d), jd = K.jdn(d.g.y, d.g.m, d.g.d);
+    if (jd < jb) return { error: '亡くなった日が生年月日より前になっています。' };
+    const res = { birth: b, death: d, kazoe: d.count - b.count + 1, man: man(b.g, d.g), notes: [] };
+    if (b.cal === 'old' || d.cal === 'old') {
+      res.notes.push('明治5年までは旧暦なので、数え年は旧暦の正月で数えました。' +
+        (b.cal === 'old' && b.count !== b.g.y ? '生まれた日は西暦では' + b.g.y + '年ですが、旧暦では' + b.count + '年の内（' + b.wareki.era + yearWord(b.wareki.year) + '年）です。' : ''));
+      res.notes.push('当時は数え年で年齢を言っていたので、満年齢は参考です。');
+    }
+    // 誕生日の前日に亡くなった場合（その日の終わりに1つ増える）
+    const next = K.fromJdn(jd + 1);
+    if (man(b.g, next) > res.man) res.notes.push('亡くなった日は誕生日の前日です。満年齢はこの日の終わりに1つ増えるので、増える前の年齢にしています。');
+    return res;
+  }
+
+  // 位牌・墓誌に書く形
+  function writeDate(w) {
+    return w.era + yearWord(w.year) + '年' + (w.leap ? '閏' : '') + kanji(w.month) + '月' + kanji(w.day) + '日';
+  }
+  function writeAge(label, n, suffix) {
+    return label + kanji(n) + (suffix || '');
+  }
+
+  // ---------- 早見表 ----------
+  function hayami(deathYear, span) {
+    span = span || 110;
+    const rows = [];
+    for (let y = deathYear; y >= deathYear - span; y--) {
+      const k = kanshi(y);
+      rows.push({ y, eras: erasOfYear(y), kanshi: k, eto: ETO[k[1]], kazoe: deathYear - y + 1, manAfter: deathYear - y, manBefore: deathYear - y - 1 });
+    }
+    return rows;
+  }
+
+  return { use, MODERN, kanshi, ETO, kanji, yearWord, erasOfYear, yearFromText, readDate, man, compute, writeDate, writeAge, hayami };
+});
+</script>
+<script>
+(function () {
+  'use strict';
+  const K = window.KosekiHizuke, Y = window.Kyonen;
+  Y.use(K);
+  const $ = (id) => document.getElementById(id);
+  const STORE = 'kyonen-hayami';
+  const st = { label: '享年', count: 'kazoe', suffix: '' };
+  try { const s = JSON.parse(localStorage.getItem(STORE) || '{}'); for (const k of ['label', 'count', 'suffix']) if (typeof s[k] === 'string') st[k] = s[k]; } catch (e) {}
+  const save = () => { try { localStorage.setItem(STORE, JSON.stringify(st)); } catch (e) {} };
+
+  // 入れ方の例
+  for (const ex of ['昭和22年3月15日', '1947-03-15', '天保三年十二月廿日']) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.textContent = ex;
+    b.addEventListener('click', () => {
+      $('birth').value = ex;
+      if (ex.startsWith('天保')) $('death').value = '明治二十年三月一日';
+      calc();
+    });
+    $('birthEx').appendChild(b);
+  }
+
+  // 書き方の選択
+  const OPTS = {
+    label: [['享年', '享年'], ['行年', '行年']],
+    count: [['kazoe', '数え年'], ['man', '満年齢']],
+    suffix: [['', 'なし'], ['歳', '歳'], ['才', '才']],
+  };
+  for (const box of document.querySelectorAll('#styleBox .chips')) {
+    const k = box.dataset.k;
+    for (const [v, label] of OPTS[k]) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.textContent = label; b.dataset.v = v;
+      b.addEventListener('click', () => { st[k] = v; save(); calc(); });
+      box.appendChild(b);
+    }
+  }
+
+  let last = null;
+  function calc() {
+    for (const box of document.querySelectorAll('#styleBox .chips')) for (const b of box.children) b.setAttribute('aria-pressed', String(st[box.dataset.k] === b.dataset.v));
+    const out = $('out');
+    out.textContent = '';
+    const r = Y.compute($('birth').value, $('death').value);
+    last = r;
+    if (r.error) {
+      const p = document.createElement('p'); p.className = 'err'; p.textContent = r.error; out.appendChild(p);
+      $('flat').textContent = '—'; $('ihaiDate').textContent = ''; $('ihaiAge').textContent = '';
+      return;
+    }
+    const ages = document.createElement('div'); ages.className = 'ages';
+    const add = (k, v) => {
+      const d = document.createElement('div'); d.className = 'age';
+      const a = document.createElement('span'); a.className = 'k'; a.textContent = k;
+      const b = document.createElement('span'); b.className = 'v'; b.textContent = v;
+      const s = document.createElement('small'); s.textContent = '歳'; b.appendChild(s);
+      d.append(a, b); ages.appendChild(d);
+    };
+    add('数え年', r.kazoe);
+    add('満年齢', r.man);
+    out.appendChild(ages);
+    const notes = document.createElement('div'); notes.className = 'notes';
+    const wb = r.birth, wd = r.death;
+    const line = document.createElement('p'); line.className = 'cap';
+    line.textContent = '生まれ ' + Y.writeDate(wb.wareki) + '（' + wb.g.y + '年' + wb.g.m + '月' + wb.g.d + '日）／亡くなった日 ' + Y.writeDate(wd.wareki) + '（' + wd.g.y + '年' + wd.g.m + '月' + wd.g.d + '日）';
+    notes.appendChild(line);
+    for (const n of r.notes.concat(wb.notes || [], wd.notes || [])) {
+      const p = document.createElement('p'); p.className = 'note'; p.textContent = n; notes.appendChild(p);
+    }
+    out.appendChild(notes);
+    const n = st.count === 'man' ? r.man : r.kazoe;
+    const dateText = Y.writeDate(wd.wareki) + '没';
+    const ageText = Y.writeAge(st.label, n, st.suffix);
+    $('flat').textContent = dateText + '　' + ageText;
+    $('ihaiDate').textContent = dateText;
+    $('ihaiAge').textContent = ageText;
+  }
+  $('birth').addEventListener('input', calc);
+  $('death').addEventListener('input', calc);
+  $('copy').addEventListener('click', async () => {
+    const text = $('flat').textContent;
+    try { await navigator.clipboard.writeText(text); $('copy').textContent = '写しました'; }
+    catch (e) {
+      const range = document.createRange(); range.selectNodeContents($('flat'));
+      const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      $('copy').textContent = '選びました';
+    }
+    setTimeout(() => { $('copy').textContent = '写す'; }, 1600);
+  });
+
+  // 早見表
+  const now = new Date(); // 端末の日付（toISOString は使わない）
+  const thisYear = now.getFullYear();
+  let dy = thisYear;
+  for (const y of [thisYear - 1, thisYear, thisYear + 1]) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.textContent = y + '年に亡くなった方'; b.dataset.y = y;
+    b.addEventListener('click', () => { dy = y; table(); });
+    $('dyChips').appendChild(b);
+  }
+  function eraCell(eras) {
+    const td = document.createElement('td');
+    eras.forEach((e, i) => {
+      const s = document.createElement('span');
+      if (i > 0) s.className = 'era2';
+      s.textContent = e.name + (e.year === 1 ? '元' : e.year) + '年' + (e.to ? '（〜' + e.to + '）' : '') + (e.from ? '（' + e.from + '〜）' : '');
+      td.appendChild(s);
+    });
+    return td;
+  }
+  function table() {
+    for (const b of $('dyChips').children) b.setAttribute('aria-pressed', String(Number(b.dataset.y) === dy));
+    const tb = $('hy').tBodies[0];
+    tb.textContent = '';
+    for (const r of Y.hayami(dy)) {
+      const tr = document.createElement('tr'); tr.dataset.y = r.y;
+      const c1 = document.createElement('td'); c1.textContent = r.y + '年';
+      const c3 = document.createElement('td'); c3.textContent = r.kanshi + '（' + r.eto + '）';
+      const c4 = document.createElement('td'); c4.className = 'big'; c4.textContent = r.kazoe + '歳';
+      const c5 = document.createElement('td'); c5.className = 'n';
+      c5.textContent = r.manBefore < 0 ? '0歳' : r.manAfter + '歳';
+      if (r.manBefore >= 0) { const s = document.createElement('span'); s.className = 'sub'; s.textContent = '／' + r.manBefore + '歳'; c5.appendChild(s); }
+      tr.append(c1, eraCell(r.eras), c3, c4, c5);
+      tb.appendChild(tr);
+    }
+    find(false);
+  }
+  function find(scroll) {
+    const y = Y.yearFromText($('find').value);
+    const sum = $('hitSum');
+    for (const tr of document.querySelectorAll('#hy tr.hit')) tr.classList.remove('hit');
+    if (!$('find').value.trim()) { sum.hidden = true; return; }
+    const tr = document.querySelector('#hy tr[data-y="' + y + '"]');
+    sum.hidden = false;
+    if (!y || !tr) { sum.textContent = y ? y + '年はこの表の範囲外です（' + (dy - 110) + '〜' + dy + '年生まれ）。' : '「昭和22」「S22」「1947」のように入れてください。'; return; }
+    tr.classList.add('hit');
+    const r = Y.hayami(dy).find((x) => x.y === y);
+    const eras = r.eras.map((e) => e.name + (e.year === 1 ? '元' : e.year) + '年').join('・');
+    sum.textContent = y + '年（' + eras + '）生まれで' + dy + '年に亡くなった方は、数え年 ' + r.kazoe + '歳、満年齢 ' +
+      (r.manBefore < 0 ? '0歳' : r.manAfter + '歳（その年の誕生日の前なら' + r.manBefore + '歳）') + 'です。';
+    if (scroll !== false) {
+      const box = $('tablebox');
+      box.scrollTop = tr.offsetTop - box.clientHeight / 2 + tr.offsetHeight / 2;
+    }
+  }
+  $('find').addEventListener('input', () => find(true));
+
+  calc();
+  table();
+})();
+</script>
+</body>
+</html>

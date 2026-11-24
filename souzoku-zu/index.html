@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>法定相続情報一覧図・相続関係説明図の作成｜法務局の記載例の形でA4に作る</title>
+<meta name="description" content="家族の名前と生年月日を入れると、法務局の記載例と同じ並びの図をA4縦で作ります。法務局に出す「法定相続情報一覧図」と、相続登記に添える「相続関係説明図」を切り替えられ、相続人と法定相続分もあわせて出します。HTML・PNG・SVGで保存できます。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/houyou-calendar/souzoku-zu/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="相続関係説明図メーカー | HAKONIWA LAB">
+<meta property="og:description" content="法定相続情報一覧図・相続関係説明図を、法務局の記載例と同じ並びでA4縦に作ります。">
+<meta property="og:url" content="https://hakoniwalab.com/houyou-calendar/souzoku-zu/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root {
+  --color-bg: #efe6ce;
+  --color-surface: #f8f2e3;
+  --color-border: #dbcba0;
+  --color-text: #2b2620;
+  --color-text-muted: #6e6248;
+  --color-primary: #a8631f;
+  --color-primary-hover: #8b5119;
+  --color-primary-contrast: #fbf3e2;
+  --color-accent: #55704a;
+  --color-badge-bg: #e4d6ae;
+  --color-badge-text: #6e4a1e;
+  --color-warn-bg: #efd3c0;
+  --color-warn-text: #8a4322;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-card: 0 2px 8px rgba(43, 38, 32, 0.12);
+  --max-width: 640px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #211f1a;
+    --color-surface: #2c2a22;
+    --color-border: #423e30;
+    --color-text: #f1e9d8;
+    --color-text-muted: #b3a585;
+    --color-primary: #e3a23b;
+    --color-primary-hover: #edb259;
+    --color-primary-contrast: #241c0d;
+    --color-accent: #8fae7d;
+    --color-badge-bg: #3a3626;
+    --color-badge-text: #e3a23b;
+    --color-warn-bg: #3d2a1d;
+    --color-warn-text: #e0a876;
+    --shadow-card: 0 2px 14px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* 配置: 左に家族の入力、右にA4の図（法務局の記載例と同じ並び）と相続人の判定。
+   下に一覧図と説明図のちがい、図に書かないこと、出し方、できないこと、出典 */
+:root {
+  --bg: #eef0f3;
+  --surface: #ffffff;
+  --ink: #1b1f26;
+  --muted: #5a6170;
+  --line: #d4d9e1;
+  --accent: #2b4a7e;
+  --accent-ink: #ffffff;
+  --accent-soft: #e3e9f4;
+  --warn: #9a4a10;
+  --warn-soft: #fbeedd;
+  --paper-edge: #b8c0cc;
+  --font-head: "Zen Kaku Gothic New", "Yu Gothic UI", "Hiragino Sans", sans-serif;
+  --font-body: "BIZ UDPGothic", "Yu Gothic UI", "Meiryo", "Hiragino Sans", sans-serif;
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151a; --surface: #1a1e25; --ink: #e5e8ee; --muted: #a2a9b6; --line: #313744;
+    --accent: #9fb9ea; --accent-ink: #101a2e; --accent-soft: #222c3d;
+    --warn: #f2b37a; --warn-soft: #3a2a1a; --paper-edge: #3b4252;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151a; --surface: #1a1e25; --ink: #e5e8ee; --muted: #a2a9b6; --line: #313744;
+  --accent: #9fb9ea; --accent-ink: #101a2e; --accent-soft: #222c3d;
+  --warn: #f2b37a; --warn-soft: #3a2a1a; --paper-edge: #3b4252;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.7; }
+.wrap {
+  max-width: 1180px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px; display: grid; gap: 22px;
+}
+h1, h2, h3 { font-family: var(--font-head); font-weight: 700; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(1.7rem, 5vw, 2.3rem); line-height: 1.3; letter-spacing: 0.03em; }
+h2 { font-size: 1.15rem; }
+h3 { font-size: 0.98rem; }
+p { margin: 0; }
+a { color: var(--accent); }
+.lede { color: var(--muted); max-width: 50em; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: grid; gap: 12px; min-width: 0; }
+@media (max-width: 480px) { .card { padding: 14px; } }
+.cap { font-size: 12.5px; color: var(--muted); }
+.main { display: grid; gap: 18px; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); align-items: start; }
+@media (max-width: 900px) { .main { grid-template-columns: minmax(0, 1fr); } }
+.form { display: grid; gap: 14px; }
+fieldset { border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin: 0; display: grid; gap: 10px; min-width: 0; }
+legend { font-family: var(--font-head); font-weight: 700; padding: 0 6px; }
+.f { display: grid; gap: 3px; min-width: 0; }
+.f > label, .f > .lab { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+input[type="text"], input[type="number"], select {
+  font: inherit; font-size: 16px; color: var(--ink); background: var(--bg); min-width: 0;
+  border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px;
+}
+input[type="text"] { width: 100%; }
+.date { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.date input { width: 3.4em; padding-inline: 6px; }
+.date span { font-size: 13.5px; }
+.row2 { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 420px) { .row2 { grid-template-columns: minmax(0, 1fr); } }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip, .btn {
+  appearance: none; font: inherit; font-size: 13.5px; cursor: pointer; color: var(--ink); line-height: 1.5;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px;
+}
+.chip:hover, .btn:hover { border-color: var(--accent); color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.btn.primary:hover { color: var(--accent-ink); opacity: 0.92; }
+.btn.sm { font-size: 12.5px; padding: 1px 10px; }
+:is(.chip, .btn, input, select, a):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.person { border: 1px solid var(--line); border-radius: 10px; padding: 10px; display: grid; gap: 8px; background: var(--surface); }
+.person.sub { margin-left: 12px; border-style: dashed; }
+.person .ph { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; justify-content: space-between; }
+.person .ph b { font-family: var(--font-head); }
+.ck { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; }
+.example { font-size: 12.5px; color: var(--muted); }
+.out { display: grid; gap: 14px; position: sticky; top: env(safe-area-inset-top, 0px); }
+@media (max-width: 900px) { .out { position: static; } }
+.paper { background: var(--paper-edge); border-radius: 10px; padding: 10px; }
+.paper svg { display: block; width: 100%; height: auto; box-shadow: 0 1px 4px rgba(0,0,0,0.18); }
+.saves { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.status { font-size: 13px; color: var(--muted); min-height: 1.3em; }
+.alert { background: var(--warn-soft); color: var(--ink); border-radius: 10px; padding: 10px 12px; font-size: 14px; display: grid; gap: 4px; }
+.alert b { color: var(--warn); }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12.5px; color: var(--muted); }
+td.s { font-family: var(--font-head); font-size: 1.08rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+ul.notes { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 14px; }
+.cmp { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 640px) { .cmp { grid-template-columns: minmax(0, 1fr); } }
+.cmp section { border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; }
+.cmp .w { font-family: var(--font-head); font-weight: 700; }
+.cmp p { font-size: 14px; }
+.pngview img { max-width: 100%; border: 1px solid var(--line); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+:root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
+  --bg: var(--color-bg); --surface: var(--color-surface); --ink: var(--color-text); --muted: var(--color-text-muted); --line: var(--color-border); --accent: var(--color-primary); --accent-ink: var(--color-primary-contrast); --accent-soft: var(--color-badge-bg);
+}
+
+.guide-nav { font-size: 0.85rem; color: var(--color-text-muted); }
+.guide-nav a { color: var(--color-text-muted); }
+.pr-note { font-size: 0.75rem; color: var(--color-text-muted); margin: 0; }
+.port-faq details { border-top: 1px solid var(--color-border); padding: 8px 0; }
+.port-faq summary { cursor: pointer; font-weight: 700; }
+.port-faq p { margin: 6px 0 0; }
+.port-related ul { margin: 0; padding-left: 1.2em; }
+.port-related li { margin: 4px 0; }
+.port-related a { color: var(--color-primary); }
+.app-footer { margin-top: 8px; text-align: center; font-size: 0.72rem; color: var(--color-text-muted); }
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "法定相続情報一覧図と相続関係説明図はどう違いますか？", "acceptedAnswer": {"@type": "Answer", "text": "法定相続情報一覧図は、法務局に戸籍の束と一緒に出すと、登記官が確かめて認証文付きの写しを無料で何通でも出してくれる図です。写しは銀行や相続登記で戸籍の束の代わりに使えます。相続関係説明図は相続登記の申請書に添える図で、出すと戸籍謄本などの原本を返してもらえます。"}}, {"@type": "Question", "name": "一覧図はどこに出しますか？", "acceptedAnswer": {"@type": "Answer", "text": "①被相続人の本籍地、②被相続人の最後の住所地、③申出人の住所地、④被相続人名義の不動産の所在地、のどれかを受け持つ法務局（登記所）です。郵送でも出せて、手数料はかかりません。一覧図は法務局で5年間保管され、その間は再交付を受けられます。"}}, {"@type": "Question", "name": "相続放棄をした人も一覧図に書きますか？", "acceptedAnswer": {"@type": "Answer", "text": "書きます。一覧図は戸籍に書いてあることだけで作るので、相続放棄をした人も載ります。放棄したことは一覧図には書かれないので、手続きでは別の書類が要ります。廃除された人は一覧図に載せません。"}}, {"@type": "Question", "name": "続柄は「子」と書いてもいいですか？", "acceptedAnswer": {"@type": "Answer", "text": "「子」「配偶者」と書くこともできます。ただしそう書くと、相続税の申告など使えない手続きがあります。基本は戸籍のとおり（長男・二女など）に書きます。"}}, {"@type": "Question", "name": "このページで作れない形はありますか？", "acceptedAnswer": {"@type": "Answer", "text": "再代襲（ひ孫）、数次相続、祖父母が相続人になる形、養子が孫でもある二重の身分などは作れません。相続分は今の民法で計算するので、平成25年9月5日より前に亡くなった人には使えません（図の形だけは使えます）。"}}]}</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="guide-nav" aria-label="パンくずリスト">
+    <a href="../../">HAKONIWA LAB</a> &raquo;
+    <a href="../">法要日程カレンダー</a> &raquo;
+    <a href="../tetsuzuki/">死亡後の手続きの期限</a> &raquo;
+    <span aria-current="page">相続関係説明図メーカー</span>
+  </nav>
+
+  <header style="display:grid;gap:10px">
+    <h1>相続関係説明図メーカー</h1>
+    <p class="lede">家族の名前と生年月日を入れると、法務局の記載例と同じ並びの図をA4縦で作ります。法務局に出す「法定相続情報一覧図」と、相続登記に添える「相続関係説明図」を切り替えられます。だれが相続人になるか、法定相続分もあわせて出します。</p>
+  </header>
+
+  <div class="main">
+    <form class="form card" id="form" autocomplete="off" onsubmit="return false">
+      <p class="example" id="exampleNote">はじめは作例（架空の家族）を入れてあります。名前や日付を書きかえて使ってください。</p>
+      <div id="formBody"></div>
+    </form>
+
+    <div class="out">
+      <section class="card" aria-labelledby="h-heirs">
+        <h2 id="h-heirs">相続人と法定相続分</h2>
+        <div id="heirs" aria-live="polite"></div>
+      </section>
+      <section class="card" aria-labelledby="h-fig">
+        <h2 id="h-fig">図（A4縦）</h2>
+        <div id="figAlert"></div>
+        <div class="paper" id="paper"></div>
+        <p class="cap">薄い青の帯は、法務局が認証文を付けるので何も書かない「下から約5cm」です。保存する図には入りません。</p>
+        <div class="saves" id="saves">
+          <button type="button" class="btn primary" id="saveHtml">印刷用のファイルを保存（HTML）</button>
+          <button type="button" class="btn" id="savePng">画像で保存（PNG）</button>
+          <button type="button" class="btn" id="saveSvg">SVGで保存</button>
+        </div>
+        <p class="status" id="saveStatus"></p>
+        <div class="pngview" id="pngView"></div>
+      </section>
+    </div>
+  </div>
+
+  <section class="card" aria-labelledby="h-cmp">
+    <h2 id="h-cmp">「法定相続情報一覧図」と「相続関係説明図」</h2>
+    <div class="cmp">
+      <section>
+        <span class="w">法定相続情報一覧図</span>
+        <p>法務局に戸籍の束と一緒に出すと、登記官が確かめて認証文付きの写しを無料で何通でも出してくれます。写しは銀行や相続登記で戸籍の束の代わりに使えます。一覧図は法務局で5年間保管され、その間は再交付を受けられます。</p>
+        <p class="cap">続柄は戸籍のとおり（長男・二女など）。申し出る人に「（申出人）」と付け、最後に作成日・作成者を書きます。</p>
+      </section>
+      <section>
+        <span class="w">相続関係説明図</span>
+        <p>相続登記の申請書に添える図です。出すと、戸籍謄本などの原本を返してもらえます（東京法務局管内の手引き）。「登記の住所」を書く欄があり、相続人には「（相続人）」と書きます。</p>
+        <p class="cap">このページの説明図は、法定相続分どおりに相続する場合の記載例の形です。遺産分割で決めた形は作れません。</p>
+      </section>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-not">
+    <h2 id="h-not">図に書かないこと・注意</h2>
+    <ul class="notes">
+      <li>一覧図は戸籍に書いてあることだけで作ります。相続放棄をした人も一覧図には載ります。放棄したことは一覧図には書かれないので、手続きでは別の書類が要ります。</li>
+      <li>廃除された人は一覧図に載せません。</li>
+      <li>相続分は一覧図に書きません。このページの「法定相続分」は手続きの参考です。</li>
+      <li>相続人の住所は書いても書かなくてもかまいません。書くときは住民票の写しなどを一緒に出します。</li>
+      <li>続柄は「子」「配偶者」と書くこともできます。ただしそう書くと、相続税の申告など使えない手続きがあります。</li>
+      <li>被相続人の最後の住所は、住民票の除票（または戸籍の附票）で確かめて書きます。最後の本籍は書かなくてもかまいません。ただし住民票の除票などが市区町村で廃棄されているときは、最後の住所の代わりに最後の本籍を必ず書きます。</li>
+      <li>一覧図はA4縦の丈夫な白い紙に。パソコンで作るか、黒いインク・ボールペン（こすると消えるものは不可）で、楷書ではっきり書きます。</li>
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="h-how">
+    <h2 id="h-how">一覧図の出し方（法定相続情報証明制度）</h2>
+    <ul class="notes">
+      <li>出す先は、①被相続人の本籍地、②被相続人の最後の住所地、③申出人の住所地、④被相続人名義の不動産の所在地、のどれかを受け持つ法務局（登記所）です。郵送でも出せます。</li>
+      <li>一緒に出すもの：被相続人が生まれてから亡くなるまでの戸籍関係の書類など、申出書、申出人の氏名・住所が確かめられる公的書類（運転免許証のコピーなど）。</li>
+      <li>申し出られるのは相続人です。代理人になれるのは、法定代理人、民法上の親族、弁護士・司法書士・行政書士などの資格者に限られます。</li>
+      <li>手数料はかかりません。</li>
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="h-scope">
+    <h2 id="h-scope">このページで作れないもの</h2>
+    <ul class="notes">
+      <li>相続分は今の民法で計算します。平成25年9月5日より前に亡くなった人には、嫡出でない子などの扱いがちがうので使えません。図の形だけは使えます。</li>
+      <li>代襲は1代（孫・甥姪）までです。再代襲（ひ孫）、数次相続（相続人が手続き前に亡くなった）、祖父母が相続人になる形、養子が孫でもある二重の身分、父だけ同じ兄弟と母だけ同じ兄弟が両方いる形は作れません。</li>
+      <li>甥・姪が代襲するときの続柄の書き方（このページでは「甥　代襲者」）は、法務局の記載例にない形です。出す前に法務局で確かめてください。</li>
+      <li>1枚に収まらないときは、法務局の「複数枚にわたる場合」の様式を使ってください。</li>
+      <li>このページは手続きの手助けで、法律相談ではありません。判断に迷うときは法務局の相談や司法書士に確かめてください。</li>
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="h-src">
+    <h2 id="h-src">出典（2026年11月17日に確認）</h2>
+    <ul class="notes">
+      <li><a href="https://houmukyoku.moj.go.jp/homu/page7_000015.html" target="_blank" rel="noopener">法務局「主な法定相続情報一覧図の様式及び記載例」</a></li>
+      <li><a href="https://houmukyoku.moj.go.jp/homu/page7_000014.html" target="_blank" rel="noopener">法務局「法定相続情報証明制度の具体的な手続について」</a></li>
+      <li><a href="https://houmukyoku.moj.go.jp/homu/content/001394034.pdf" target="_blank" rel="noopener">法務省民事局「法定相続情報証明制度について」（令和6年4月1日改訂・PDF）</a></li>
+      <li><a href="https://houmukyoku.moj.go.jp/tokyo/content/001396085.pdf" target="_blank" rel="noopener">東京法務局ほか「相続登記の手続について」の記載例（相続関係説明図例・PDF）</a></li>
+      <li><a href="https://laws.e-gov.go.jp/law/129AC0000000089" target="_blank" rel="noopener">e-Gov法令検索 民法（887・889・890・900・901・939条）</a></li>
+    </ul>
+  </section>
+
+  <section class="card port-related" aria-labelledby="h-related">
+    <h2 id="h-related">あわせて使えるページ</h2>
+    <ul>
+      <li><a href="../tetsuzuki/">死亡後の手続きの期限</a></li>
+      <li><a href="../katoku/">家督相続と古い戸籍</a></li>
+      <li><a href="../guide/souzoku-kigen-kazoekata/">相続放棄・相続税の期限の数え方</a></li>
+    </ul>
+  </section>
+
+  <section class="card port-faq" aria-labelledby="h-faq">
+    <h2 id="h-faq">よくある質問</h2>
+    <details>
+      <summary>法定相続情報一覧図と相続関係説明図はどう違いますか？</summary>
+      <p>法定相続情報一覧図は、法務局に戸籍の束と一緒に出すと、登記官が確かめて認証文付きの写しを無料で何通でも出してくれる図です。写しは銀行や相続登記で戸籍の束の代わりに使えます。相続関係説明図は相続登記の申請書に添える図で、出すと戸籍謄本などの原本を返してもらえます。</p>
+    </details>
+    <details>
+      <summary>一覧図はどこに出しますか？</summary>
+      <p>①被相続人の本籍地、②被相続人の最後の住所地、③申出人の住所地、④被相続人名義の不動産の所在地、のどれかを受け持つ法務局（登記所）です。郵送でも出せて、手数料はかかりません。一覧図は法務局で5年間保管され、その間は再交付を受けられます。</p>
+    </details>
+    <details>
+      <summary>相続放棄をした人も一覧図に書きますか？</summary>
+      <p>書きます。一覧図は戸籍に書いてあることだけで作るので、相続放棄をした人も載ります。放棄したことは一覧図には書かれないので、手続きでは別の書類が要ります。廃除された人は一覧図に載せません。</p>
+    </details>
+    <details>
+      <summary>続柄は「子」と書いてもいいですか？</summary>
+      <p>「子」「配偶者」と書くこともできます。ただしそう書くと、相続税の申告など使えない手続きがあります。基本は戸籍のとおり（長男・二女など）に書きます。</p>
+    </details>
+    <details>
+      <summary>このページで作れない形はありますか？</summary>
+      <p>再代襲（ひ孫）、数次相続、祖父母が相続人になる形、養子が孫でもある二重の身分などは作れません。相続分は今の民法で計算するので、平成25年9月5日より前に亡くなった人には使えません（図の形だけは使えます）。</p>
+    </details>
+  </section>
+
+  <!-- site-nav:start -->
+  <style>
+  .site-nav { margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--color-border, var(--line, #dbcba0)); color: var(--color-text, var(--ink, #2b2620)); text-align: left; }
+  .site-nav__title { margin: 0 0 14px; font-size: 0.82rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__title a { font-family: Georgia, "Times New Roman", serif; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--color-text, var(--ink, #2b2620)); text-decoration: none; }
+  .site-nav__groups { display: grid; gap: 14px 24px; }
+  @media (min-width: 560px) { .site-nav__groups { grid-template-columns: 1fr 1fr; } }
+  .site-nav__label { margin: 0 0 4px; font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; font-size: 0.86rem; line-height: 1.7; }
+  .site-nav__links li { margin: 0; padding: 0; }
+  .site-nav__links li::before { content: none; }
+  .site-nav__links a { color: var(--color-primary, var(--navy, #a8631f)); }
+  .site-nav__all { margin: 16px 0 0; font-size: 0.86rem; text-align: right; }
+  .site-nav__all a { color: var(--color-primary, var(--navy, #a8631f)); font-weight: 700; }
+  .app-footer a { color: var(--color-text-muted, var(--muted, #6e6248)); }
+  </style>
+  <nav class="site-nav" aria-label="HAKONIWA LABのツール">
+    <p class="site-nav__title"><a href="../../">HAKONIWA LAB</a> の無料ツール</p>
+    <div class="site-nav__groups">
+      <div>
+        <p class="site-nav__label">家族を見送ったあとに</p>
+        <ul class="site-nav__links">
+          <li><a href="../../houyou-calendar/">法要日程カレンダー</a></li>
+          <li><a href="../../houyou-calendar/hayami/">年忌早見表</a></li>
+          <li><a href="../../houyou-calendar/tetsuzuki/">死亡後の手続きの期限</a></li>
+          <li><a href="../../houyou-calendar/pet/">ペットの法要</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">仕事を辞めるとき・変えるとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../resignation-letter-generator/">退職願・退職届を作る</a></li>
+          <li><a href="../../retirement-simulator/">退職金の手取り</a></li>
+          <li><a href="../../subsidy-checker/">使える給付金を探す</a></li>
+          <li><a href="../../career-checker/">転職エージェントを選ぶ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">収入と税金を知りたいとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../takehome-calculator/">手取り年収</a></li>
+          <li><a href="../../furusato-simulator/">ふるさと納税の上限額</a></li>
+          <li><a href="../../sidejob-tax-simulator/">副業の税金</a></li>
+          <li><a href="../../sidejob-checker/">向いている副業</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">備えと資産</p>
+        <ul class="site-nav__links">
+          <li><a href="../../insurance-checker/">必要な保険</a></li>
+          <li><a href="../../retirement-simulator/ideco/">iDeCoの受け取り方</a></li>
+          <li><a href="../../stock-screener/">株の条件検索</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">暦と楽しみ</p>
+        <ul class="site-nav__links">
+          <li><a href="../../birthday-fortune/">生まれ日診断</a></li>
+          <li><a href="../../birthday-fortune/calendar/">吉日カレンダー</a></li>
+          <li><a href="../../birthday-fortune/tools/">暦と占いの道具 一覧</a></li>
+          <li><a href="../../meguri-log/">めぐった場所の記録</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-nav__all"><a href="../../">すべてのツールを見る →</a></p>
+  </nav>
+  <!-- site-nav:end -->
+
+  <footer class="app-footer">
+    <p>このページは手続きの手助けで、法律相談ではありません。判断に迷うときは法務局の相談や司法書士に確かめてください。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+</div>
+
+<script>
+/* Artifact の downloads 機能の代わり（サイトではふつうのダウンロードで保存する） */
+window.claude = window.claude || { use: async function (name) {
+  if (name !== 'downloads') return null;
+  return { save: async function (o) {
+    var blob = o.data instanceof Blob ? o.data : new Blob([o.data]);
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = o.filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    return { status: 'saved' };
+  } };
+} };
+</script>
+<script>
+// 相続関係説明図／法定相続情報一覧図：相続人の判定（民法887・889・890・900・901・939条）と、
+// 法務局の記載例の形に並べた図（A4縦・mm単位のSVG）。ブラウザでは window.SOUZOKU、node では module.exports。
+(function (root) {
+  'use strict';
+
+  // ---------- 和暦 ----------
+  const ERAS = [
+    { n: '明治', base: 1867, from: '1868-01-25', to: '1912-07-29' },
+    { n: '大正', base: 1911, from: '1912-07-30', to: '1926-12-24' },
+    { n: '昭和', base: 1925, from: '1926-12-25', to: '1989-01-07' },
+    { n: '平成', base: 1988, from: '1989-01-08', to: '2019-04-30' },
+    { n: '令和', base: 2018, from: '2019-05-01', to: '9999-12-31' },
+  ];
+  const pad = n => String(n).padStart(2, '0');
+  const ZEN = s => String(s).replace(/[0-9]/g, c => String.fromCharCode(c.charCodeAt(0) + 0xFEE0));
+  function wareki(dt) {
+    if (!dt) return null;
+    const e = ERAS.find(x => x.n === dt.era);
+    const y = +dt.y, m = +dt.m, d = +dt.d;
+    if (!e || !(y >= 1) || !(m >= 1 && m <= 12) || !(d >= 1 && d <= 31)) return null;
+    const gy = e.base + y;
+    const date = new Date(Date.UTC(gy, m - 1, d));
+    if (date.getUTCMonth() !== m - 1) return null;
+    const iso = gy + '-' + pad(m) + '-' + pad(d);
+    if (iso < e.from || iso > e.to) return null;
+    return { iso, text: e.n + (y === 1 ? '元' : ZEN(y)) + '年' + ZEN(m) + '月' + ZEN(d) + '日' };
+  }
+  function dateText(dt) { const w = wareki(dt); return w ? w.text : '○年○月○日'; }
+
+  // ---------- 分数 ----------
+  const gcd = (a, b) => (b ? gcd(b, a % b) : Math.abs(a));
+  const fr = (n, d) => { const g = gcd(n, d) || 1; return [n / g, d / g]; };
+  const mul = (a, b) => fr(a[0] * b[0], a[1] * b[1]);
+  const add = (a, b) => fr(a[0] * b[1] + b[0] * a[1], a[1] * b[1]);
+  const sub = (a, b) => fr(a[0] * b[1] - b[0] * a[1], a[1] * b[1]);
+  const fracText = f => (f[0] === 0 ? '0' : f[1] === 1 ? String(f[0]) : f[0] + '/' + f[1]);
+
+  // ---------- 相続人 ----------
+  // input: { spouse:{has,status}, children:[{status:'alive'|'pre'|'houki', kids:[{status}]}],
+  //          parents:{father:{alive,status}, mother:{alive,status}}, siblings:[{status,blood:'full'|'father'|'mother',kids}] }
+  // status: alive=相続人 / houki=相続放棄（一覧図には載る・相続分なし）/ pre=先に死亡（子があれば代襲）
+  function heirs(input) {
+    const warn = [];
+    const sp = input.spouse && input.spouse.has ? input.spouse : null;
+    const spIn = sp && sp.status !== 'houki';
+    const listed = [];       // 図に載る人（被代襲者を含む）
+    let rank = 0;
+
+    const lineOf = (p, role, kidRole) => {
+      if (p.status === 'pre') {
+        const kids = (p.kids || []).filter(k => k);
+        if (!kids.length) return null; // 先に亡くなり子もいない → 図に出ない
+        return { p, role, pre: true, kids: kids.map(k => ({ p: k, role: kidRole })) };
+      }
+      return { p, role, kids: [] };
+    };
+
+    const ch = (input.children || []).map(c => lineOf(c, 'child', 'grandchild')).filter(Boolean);
+    if (ch.length) { rank = 1; listed.push(...ch); }
+    if (!rank) {
+      const ps = [];
+      const P = input.parents || {};
+      if (P.father && P.father.alive) ps.push({ p: P.father, role: 'father', kids: [] });
+      if (P.mother && P.mother.alive) ps.push({ p: P.mother, role: 'mother', kids: [] });
+      if (ps.length) { rank = 2; listed.push(...ps); }
+    }
+    if (!rank) {
+      const sb = (input.siblings || []).map(s => lineOf(s, 'sibling', 'nephew')).filter(Boolean);
+      if (sb.length) { rank = 3; listed.push(...sb); }
+    }
+
+    // 相続分（放棄した人は初めから相続人でなかったものとみなす：939条）
+    const active = k => k.p.status !== 'houki';
+    const weightOf = l => (rank === 3 && l.p.blood && l.p.blood !== 'full' ? 1 : (rank === 3 ? 2 : 1));
+    const lines = listed.map(l => ({ ...l, kids: l.kids.map(k => ({ ...k })) }));
+    const effective = lines.filter(l => (l.pre ? l.kids.some(active) : active(l)));
+    if (rank && !effective.length) warn.push('allHouki');
+    let spShare = [0, 1];
+    if (spIn) {
+      if (rank === 0 || !effective.length) spShare = [1, 1];
+      else spShare = rank === 1 ? [1, 2] : rank === 2 ? [2, 3] : [3, 4];
+    }
+    const rest = spIn ? sub([1, 1], spShare) : [1, 1];
+    const wsum = effective.reduce((s, l) => s + weightOf(l), 0);
+    for (const l of lines) {
+      l.share = [0, 1];
+      for (const k of l.kids) k.share = [0, 1];
+      if (!effective.includes(l) || !wsum) continue;
+      const s = mul(rest, fr(weightOf(l), wsum));
+      if (l.pre) {
+        const ak = l.kids.filter(active);
+        for (const k of ak) k.share = mul(s, fr(1, ak.length)); // 901条：被代襲者の分を等しく
+      } else l.share = s;
+    }
+    let total = spShare;
+    for (const l of lines) { total = add(total, l.share); for (const k of l.kids) total = add(total, k.share); }
+    if (!rank && !spIn) warn.push('noHeir');
+    if (rank === 3 && (input.siblings || []).some(s => s.blood === 'father') && (input.siblings || []).some(s => s.blood === 'mother')) warn.push('bothHalf');
+    return { rank, spouse: sp ? { p: sp, share: spShare } : null, lines, total, warn };
+  }
+
+  // ---------- 図（mm） ----------
+  const PAGE = { w: 210, h: 297, bottomFree: 50 };
+  const FS = 3.5, LH = 5.4, TITLE_FS = 4.6;
+  function textWidth(s, fs) {
+    let w = 0;
+    for (const ch of String(s)) w += /[\x20-\x7e]/.test(ch) ? fs * 0.55 : fs;
+    return w;
+  }
+  function wrap(s, width, fs) {
+    const out = []; let cur = '';
+    for (const ch of String(s)) {
+      if (textWidth(cur + ch, fs) > width && cur) { out.push(cur); cur = ch; } else cur += ch;
+    }
+    if (cur) out.push(cur);
+    return out.length ? out : [''];
+  }
+  const spaced = name => (String(name || '').replace(/\s+/g, '') || '○○').split('').join(' ');
+
+  // 人の欄（下から上へ：最後の行が名前＝線をつなぐ高さ）
+  function personLines(p, label, mode, width, opts) {
+    const L = [];
+    if (opts && opts.deceased) {
+      if (mode === 'setsumei') {
+        L.push(...wrap('最後の本籍　' + (p.honseki || '○○'), width, FS));
+        L.push(...wrap('登記の住所　' + (p.tokiAddr || p.addr || '○○'), width, FS));
+        L.push(...wrap('最後の住所　' + (p.addr || '○○'), width, FS));
+        L.push('死亡　' + dateText(p.death));
+      } else {
+        L.push('最後の住所');
+        L.push(...wrap(p.addr || '○○', width, FS));
+        if (p.honseki) { L.push('最後の本籍'); L.push(...wrap(p.honseki, width, FS)); }
+        L.push('出生　' + dateText(p.birth));
+        L.push('死亡　' + dateText(p.death));
+      }
+      L.push('（被相続人）');
+    } else {
+      if (p.addr || mode === 'setsumei') L.push(...wrap('住所　' + (p.addr || '○○'), width, FS));
+      L.push('出生　' + dateText(p.birth));
+      L.push('（' + label + '）');
+    }
+    return L;
+  }
+
+  function relLabel(role, p, mode, useKo) {
+    if (mode === 'setsumei') return '相続人';
+    if (role === 'spouse') return useKo ? '配偶者' : (p.rel || '妻');
+    if (role === 'child') return useKo ? '子' : (p.rel || '子');
+    if (role === 'grandchild') return (p.rel || '孫') + '　代襲者';
+    if (role === 'nephew') return (p.rel || '甥') + '　代襲者';
+    if (role === 'father') return '父';
+    if (role === 'mother') return '母';
+    return p.rel || '兄弟姉妹';
+  }
+
+  function layout(input, H) {
+    const mode = input.mode === 'setsumei' ? 'setsumei' : 'ichiran';
+    const useKo = !!input.useKo;
+    const T = [], Ls = [], DL = []; // texts, lines, double lines
+    const d = input.deceased || {};
+    const title = '被相続人　' + (String(d.name || '○○').replace(/\s+/g, '')) + '　' + (mode === 'setsumei' ? '相続関係説明図' : '法定相続情報');
+    T.push({ x: PAGE.w / 2, y: 26, s: title, fs: TITLE_FS, anchor: 'middle' });
+    const top = 40;
+    const appl = input.applicant;
+
+    // 1人分の欄を置く。返り値 {anchor, top, bottom}
+    function block(lines, x, anchorY, name, mark) {
+      const n = lines.length;
+      const y0 = anchorY - n * LH;
+      lines.forEach((s, i) => T.push({ x, y: y0 + i * LH, s }));
+      T.push({ x, y: anchorY, s: spaced(name), name: true });
+      if (mark) T.push({ x: x + Math.max(textWidth(spaced(name), FS) + 8, 36), y: anchorY, s: '（申出人）' });
+      return { anchor: anchorY, top: y0 - FS, bottom: anchorY + 1.5 };
+    }
+    const blockH = n => n * LH; // 名前の上にある行の高さ
+
+    // 子・兄弟姉妹の並び（代襲者は右の列）。startTop から下へ。返り値: rows と anchors
+    function stackRows(lines, xM, wM, xR, wR, startTop, gap) {
+      let y = startTop; const rows = [];
+      for (const l of lines) {
+        const isMark = id => mode === 'ichiran' && appl && id === appl;
+        if (l.pre) {
+          // 被代襲者：「被代襲者」「（○年○月○日死亡）」、右に代襲者
+          const kidBlocks = l.kids.map(k => personLines(k.p, relLabel(k.role, k.p, mode, useKo), mode, wR));
+          // 代襲者の名前の高さの真ん中に被代襲者の行を合わせる
+          let ky = y; const kAnch = [];
+          kidBlocks.forEach((b, i) => { ky += blockH(b.length); kAnch.push(ky); ky += LH * 0.6 + gap; });
+          const midK = (kAnch[0] + kAnch[kAnch.length - 1]) / 2;
+          const anchor = Math.max(midK, y + FS);
+          const shift = anchor - midK;
+          kAnch.forEach((a, i) => {
+            const b = block(kidBlocks[i], xR, a + shift, l.kids[i].p.name, isMark(l.kids[i].p.id));
+          });
+          T.push({ x: xM, y: anchor, s: '被代襲者' });
+          T.push({ x: xM - 1, y: anchor + LH, s: '（' + dateText(l.p.death) + '死亡）' });
+          const subBus = xR - 4;
+          Ls.push({ x1: xM + textWidth('被代襲者', FS) + 2, y1: anchor - FS * 0.35, x2: subBus, y2: anchor - FS * 0.35 });
+          if (kAnch.length > 1) Ls.push({ x1: subBus, y1: kAnch[0] + shift - FS * 0.35, x2: subBus, y2: kAnch[kAnch.length - 1] + shift - FS * 0.35 });
+          kAnch.forEach(a => Ls.push({ x1: subBus, y1: a + shift - FS * 0.35, x2: xR - 1, y2: a + shift - FS * 0.35 }));
+          const bottom = Math.max(anchor + LH + 1.5, kAnch[kAnch.length - 1] + shift + 1.5);
+          rows.push({ anchor, bottom });
+          y = bottom + gap + FS;
+        } else {
+          const b = personLines(l.p, relLabel(l.role, l.p, mode, useKo), mode, wM);
+          const anchor = y + blockH(b.length);
+          block(b, xM, anchor, l.p.name, isMark(l.p.id));
+          rows.push({ anchor, bottom: anchor + 1.5 });
+          y = anchor + 1.5 + gap + FS;
+        }
+      }
+      return rows;
+    }
+    const tick = y => y - FS * 0.35; // 線は文字の真ん中の高さ
+
+    const anyKids = H.lines.some(l => l.pre);
+    let maxY = top;
+    if (H.rank === 1 || H.rank === 0) {
+      // 左：被相続人と配偶者、真ん中：子、右：代襲者
+      const xL = 15, wL = 70, xM = 95, wM = anyKids ? 50 : 95, xR = 150, wR = 45, bus = xM - 4;
+      const dl = personLines(d, '', mode, wL, { deceased: true });
+      let decA = top + blockH(dl.length);
+      const rows = stackRows(H.lines, xM, wM, xR, wR, top, 6);
+      let yH = null;
+      if (rows.length) {
+        const a1 = rows[0].anchor, an = rows[rows.length - 1].anchor;
+        const need = decA + 9;
+        // 横線の高さを子の並びの範囲に入れる
+        if (need > an) { // 子の並びを下へずらす
+          const dy = need - an; T.forEach(t => { if (t.x >= xM - 2 && t.y > top - 1) t.y += dy; }); Ls.forEach(l => { if (l.x1 >= xM - 6) { l.y1 += dy; l.y2 += dy; } });
+          rows.forEach(r => { r.anchor += dy; r.bottom += dy; });
+        }
+        const A1 = rows[0].anchor, AN = rows[rows.length - 1].anchor;
+        yH = Math.min(Math.max(need, A1), AN);
+        if (rows.length > 1) Ls.push({ x1: bus, y1: tick(A1), x2: bus, y2: tick(AN) });
+        rows.forEach(r => Ls.push({ x1: bus, y1: tick(r.anchor), x2: xM - 1, y2: tick(r.anchor) }));
+        maxY = Math.max(maxY, rows[rows.length - 1].bottom);
+      }
+      block(dl, xL, decA, d.name, false);
+      maxY = Math.max(maxY, decA);
+      const vx = xL + 3;
+      if (H.spouse) {
+        const sp = H.spouse.p;
+        const sl = personLines(sp, relLabel('spouse', sp, mode, useKo), mode, wL);
+        const spFirst = (yH != null ? tick(yH) + 9 : decA + 14) + FS;
+        const spA = spFirst + blockH(sl.length);
+        block(sl, xL, spA, sp.name, mode === 'ichiran' && appl === sp.id);
+        DL.push({ x: vx, y1: decA + 2, y2: spFirst - FS - 1.5 });
+        maxY = Math.max(maxY, spA + 1.5);
+      } else if (yH != null) {
+        Ls.push({ x1: vx, y1: decA + 2, x2: vx, y2: tick(yH) });
+      }
+      if (yH != null) Ls.push({ x1: vx + (H.spouse ? 0.8 : 0), y1: tick(yH), x2: bus, y2: tick(yH) });
+    } else if (H.rank === 2) {
+      // 左：父母、右：被相続人と配偶者
+      const xL = 15, wL = 62, xM = 95, wM = 95;
+      const dl = personLines(d, '', mode, wM, { deceased: true });
+      const ps = H.lines;
+      const pl = ps.map(l => personLines(l.p, relLabel(l.role, l.p, mode, useKo), mode, wL));
+      let decA = top + blockH(dl.length);
+      if (ps.length === 2) {
+        // 父の名前と母の1行目の間（二重線）の真ん中を被相続人の名前の高さに
+        const fa = decA - 9;
+        const fTop = fa - blockH(pl[0].length);
+        if (fTop < top) decA += top - fTop;
+      } else {
+        const fTop = decA - blockH(pl[0].length);
+        if (fTop < top) decA += top - fTop;
+      }
+      block(dl, xM, decA, d.name, false);
+      if (ps.length === 2) {
+        const fa = decA - 9;
+        block(pl[0], xL, fa, ps[0].p.name, mode === 'ichiran' && appl === ps[0].p.id);
+        const mFirst = decA + 9 + FS;
+        const ma = mFirst + blockH(pl[1].length);
+        block(pl[1], xL, ma, ps[1].p.name, mode === 'ichiran' && appl === ps[1].p.id);
+        DL.push({ x: xL + 3, y1: fa + 2, y2: mFirst - FS - 1.5 });
+        Ls.push({ x1: xL + 3.8, y1: tick(decA), x2: xM - 2, y2: tick(decA) });
+        maxY = Math.max(maxY, ma + 1.5);
+      } else {
+        block(pl[0], xL, decA, ps[0].p.name, mode === 'ichiran' && appl === ps[0].p.id);
+        Ls.push({ x1: xL + Math.max(textWidth(spaced(ps[0].p.name), FS) + 4, 40), y1: tick(decA), x2: xM - 2, y2: tick(decA) });
+        maxY = Math.max(maxY, decA + 1.5);
+      }
+      if (H.spouse) {
+        const sp = H.spouse.p;
+        const sl = personLines(sp, relLabel('spouse', sp, mode, useKo), mode, wM);
+        const spFirst = decA + 14 + FS;
+        const spA = spFirst + blockH(sl.length);
+        block(sl, xM, spA, sp.name, mode === 'ichiran' && appl === sp.id);
+        DL.push({ x: xM + 3, y1: decA + 2, y2: spFirst - FS - 1.5 });
+        maxY = Math.max(maxY, spA + 1.5);
+      }
+    } else if (H.rank === 3) {
+      // 左：（父）（母）、真ん中：配偶者・被相続人・兄弟姉妹、右：代襲者（甥姪）
+      const xLab = 30, xM = 95, anyK = H.lines.some(l => l.pre), wM = anyK ? 50 : 95, xR = 150, wR = 45, bus = xM - 4;
+      let yf = top; // 被相続人の1行目
+      if (H.spouse) {
+        const sp = H.spouse.p;
+        const sl = personLines(sp, relLabel('spouse', sp, mode, useKo), mode, wM);
+        const spA = top + blockH(sl.length);
+        block(sl, xM, spA, sp.name, mode === 'ichiran' && appl === sp.id);
+        yf = spA + 12 + FS;
+        DL.push({ x: xM + 3, y1: spA + 2, y2: yf - FS - 1.5 });
+      }
+      const dl = personLines(d, '', mode, wM, { deceased: true });
+      const decA = yf + blockH(dl.length);
+      block(dl, xM, decA, d.name, false);
+      const full = H.lines.filter(l => (l.p.blood || 'full') === 'full');
+      const half = H.lines.filter(l => (l.p.blood || 'full') !== 'full');
+      const fullRows = [{ anchor: decA, bottom: decA + 1.5 }].concat(stackRows(full, xM, wM, xR, wR, decA + 1.5 + 6 + FS, 6));
+      const fBottom = fullRows[fullRows.length - 1].bottom;
+      const halfRows = half.length ? stackRows(half, xM, wM, xR, wR, fBottom + 12 + FS, 6) : [];
+      const fA1 = fullRows[0].anchor, fAN = fullRows[fullRows.length - 1].anchor;
+      // 親のラベル：全血だけ→（父）（母）。父だけ同じ→（母）（父）（母）。母だけ同じ→（父）（母）（父）
+      const halfKind = half.length ? (half[0].p.blood) : null;
+      const labs = [];
+      const l1 = fA1 - 7;
+      if (!half.length) {
+        labs.push({ y: l1, s: '（父）' }, { y: fAN + 7, s: '（母）' });
+      } else {
+        const hA1 = halfRows[0].anchor, hAN = halfRows[halfRows.length - 1].anchor;
+        const mid = (fAN + hA1) / 2;
+        if (halfKind === 'father') labs.push({ y: l1, s: '（母）' }, { y: mid, s: '（父）' }, { y: hAN + 7, s: '（母）' });
+        else labs.push({ y: l1, s: '（父）' }, { y: mid, s: '（母）' }, { y: hAN + 7, s: '（父）' });
+      }
+      labs.forEach(l => T.push({ x: xLab, y: l.y, s: l.s }));
+      const vx = xLab + 4;
+      for (let i = 0; i + 1 < labs.length; i++) DL.push({ x: vx, y1: labs[i].y + 2, y2: labs[i + 1].y - FS - 1.5 });
+      const seg = (rows, a, b) => {
+        const A1 = rows[0].anchor, AN = rows[rows.length - 1].anchor;
+        const yH = Math.min(Math.max((a + b) / 2, A1), AN);
+        if (rows.length > 1) Ls.push({ x1: bus, y1: tick(A1), x2: bus, y2: tick(AN) });
+        rows.forEach(r => Ls.push({ x1: bus, y1: tick(r.anchor), x2: xM - 1, y2: tick(r.anchor) }));
+        Ls.push({ x1: vx + 0.8, y1: tick(yH), x2: bus, y2: tick(yH) });
+      };
+      seg(fullRows, labs[0].y, labs[1].y);
+      if (halfRows.length) seg(halfRows, labs[1].y, labs[2].y);
+      maxY = Math.max(fBottom, halfRows.length ? halfRows[halfRows.length - 1].bottom : 0, labs[labs.length - 1].y);
+    } else if (H.spouse) {
+      // 子・親・兄弟姉妹がいない：配偶者だけ
+      const xL = 15, wL = 95;
+      const dl = personLines(d, '', mode, wL, { deceased: true });
+      const decA = top + blockH(dl.length);
+      block(dl, xL, decA, d.name, false);
+      const sp = H.spouse.p;
+      const sl = personLines(sp, relLabel('spouse', sp, mode, useKo), mode, wL);
+      const spFirst = decA + 14 + FS; const spA = spFirst + blockH(sl.length);
+      block(sl, xL, spA, sp.name, mode === 'ichiran' && appl === sp.id);
+      DL.push({ x: xL + 3, y1: decA + 2, y2: spFirst - FS - 1.5 });
+      maxY = spA + 1.5;
+    } else {
+      const dl = personLines(d, '', mode, 95, { deceased: true });
+      const decA = top + blockH(dl.length);
+      block(dl, 15, decA, d.name, false);
+      maxY = decA + 1.5;
+    }
+
+    // 以下余白・作成者
+    let y = maxY + 12;
+    T.push({ x: 120, y, s: '以下余白', anchor: 'middle' });
+    const box = [];
+    if (mode === 'ichiran') {
+      const a = input.author || {};
+      const by = y + 8;
+      const inner = [
+        '作成日：　' + dateText(a.date),
+        ...wrap('作成者：住所　' + (a.addr || '○○'), 118, FS),
+        '　　　　氏名　' + (String(a.name || '').trim() || '○○'),
+      ];
+      const bh = inner.length * LH + 6;
+      box.push({ x: 45, y: by, w: 130, h: bh });
+      inner.forEach((s, i) => T.push({ x: 52, y: by + 6 + i * LH + FS * 0.2, s }));
+      y = by + bh;
+    }
+    const limit = PAGE.h - PAGE.bottomFree;
+    return { T, Ls, DL, box, bottom: y, limit, overflow: y > limit, title };
+  }
+
+  const FONT = '"Yu Gothic","YuGothic","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Noto Sans CJK JP","Meiryo",sans-serif';
+  const xmlEsc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function svg(Lo, opts) {
+    const o = opts || {};
+    const r = n => Math.round(n * 100) / 100;
+    const parts = [];
+    parts.push('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 297" width="210mm" height="297mm" font-family=\'' + FONT + '\'>');
+    parts.push('<rect x="0" y="0" width="210" height="297" fill="#ffffff"/>');
+    if (o.guide) {
+      parts.push('<rect x="0" y="' + (297 - 50) + '" width="210" height="50" fill="#eef1f6"/>');
+      parts.push('<text x="105" y="' + (297 - 26) + '" font-size="3.2" fill="#7b8698" text-anchor="middle">下から約5cmは法務局が認証文を付ける所（何も書かない）</text>');
+    }
+    parts.push('<g stroke="#000000" stroke-width="0.3" fill="none">');
+    for (const l of Lo.Ls) parts.push('<line x1="' + r(l.x1) + '" y1="' + r(l.y1) + '" x2="' + r(l.x2) + '" y2="' + r(l.y2) + '"/>');
+    for (const l of Lo.DL) {
+      parts.push('<line x1="' + r(l.x - 0.4) + '" y1="' + r(l.y1) + '" x2="' + r(l.x - 0.4) + '" y2="' + r(l.y2) + '"/>');
+      parts.push('<line x1="' + r(l.x + 0.4) + '" y1="' + r(l.y1) + '" x2="' + r(l.x + 0.4) + '" y2="' + r(l.y2) + '"/>');
+    }
+    for (const b of Lo.box) parts.push('<rect x="' + r(b.x) + '" y="' + r(b.y) + '" width="' + r(b.w) + '" height="' + r(b.h) + '"/>');
+    parts.push('</g><g fill="#000000">');
+    for (const t of Lo.T) {
+      parts.push('<text x="' + r(t.x) + '" y="' + r(t.y) + '" font-size="' + (t.fs || FS) + '"' + (t.anchor ? ' text-anchor="' + t.anchor + '"' : '') + '>' + xmlEsc(t.s) + '</text>');
+    }
+    parts.push('</g></svg>');
+    return parts.join('');
+  }
+
+  // 文字の重なりを調べる（テスト用）。おおよその箱で判定
+  function overlaps(Lo) {
+    const boxes = Lo.T.map(t => {
+      const w = textWidth(t.s, t.fs || FS);
+      const x0 = t.anchor === 'middle' ? t.x - w / 2 : t.x;
+      return { x0, x1: x0 + w, y0: t.y - (t.fs || FS) * 0.85, y1: t.y + 0.4, s: t.s };
+    });
+    const out = [];
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i], b = boxes[j];
+      if (a.x0 < b.x1 - 0.2 && b.x0 < a.x1 - 0.2 && a.y0 < b.y1 - 0.2 && b.y0 < a.y1 - 0.2) out.push([a.s, b.s]);
+    }
+    const outside = boxes.filter(b => b.x0 < 5 || b.x1 > 205).map(b => b.s);
+    return { pairs: out, outside };
+  }
+
+  const api = { ERAS, wareki, dateText, fr, fracText, heirs, layout, svg, overlaps, textWidth, wrap, PAGE };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else root.SOUZOKU = api;
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+(function () {
+  'use strict';
+  const S = window.SOUZOKU;
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  let seq = 0; const nid = () => 'p' + (++seq);
+  const D = (era, y, m, d) => ({ era, y, m, d });
+  const today = new Date();
+  const todayW = (() => { const y = today.getFullYear(), m = today.getMonth() + 1, d = today.getDate(); return y >= 2019 ? D('令和', y - 2018, m, d) : D('平成', y - 1988, m, d); })();
+  const person = (o) => Object.assign({ id: nid(), name: '', rel: '', birth: D('昭和', '', '', ''), addr: '', status: 'alive', death: D('令和', '', '', ''), kids: [], blood: 'full' }, o);
+
+  // 作例（架空の家族）
+  const st = {
+    mode: 'ichiran', useKo: false,
+    deceased: { name: '山川 太郎', addr: '○○県○○市○○町一丁目２番３号', honseki: '○○県○○市○○町１００番地', tokiAddr: '○○県○○市○○町１００番地', birth: D('昭和', 20, 5, 6), death: D('令和', 8, 3, 10) },
+    spouse: person({ has: true, name: '山川 花子', rel: '妻', birth: D('昭和', 23, 2, 14), addr: '○○県○○市○○町一丁目２番３号' }),
+    children: [
+      person({ name: '山川 一郎', rel: '長男', birth: D('昭和', 48, 7, 1), addr: '○○県○○市○○町４番５号' }),
+      person({ name: '山川 次郎', rel: '二男', birth: D('昭和', 51, 10, 20), status: 'pre', death: D('平成', 30, 3, 1),
+        kids: [person({ name: '山川 健太', rel: '孫', birth: D('平成', 15, 4, 3) }), person({ name: '山川 美咲', rel: '孫', birth: D('平成', 18, 9, 9) })] }),
+    ],
+    parents: { father: person({ alive: false, rel: '父' }), mother: person({ alive: false, rel: '母' }) },
+    siblings: [],
+    applicant: null,
+    author: { addr: '○○県○○市○○町４番５号', name: '山川 一郎', date: todayW },
+  };
+  st.applicant = st.children[0].id;
+
+  const ERAS = ['明治', '大正', '昭和', '平成', '令和'];
+  const CHILD_RELS = ['長男', '二男', '三男', '四男', '長女', '二女', '三女', '四女', '養子', '養女', '男', '女'];
+  const SIB_RELS = ['兄', '弟', '姉', '妹'];
+
+  // ---- 入力欄 ----
+  function dateHtml(path, dt) {
+    return '<div class="date">'
+      + '<select data-path="' + path + '.era" aria-label="元号">' + ERAS.map(e => '<option' + (e === dt.era ? ' selected' : '') + '>' + e + '</option>').join('') + '</select>'
+      + '<input type="number" inputmode="numeric" min="1" max="99" data-path="' + path + '.y" value="' + esc(dt.y) + '" aria-label="年"><span>年</span>'
+      + '<input type="number" inputmode="numeric" min="1" max="12" data-path="' + path + '.m" value="' + esc(dt.m) + '" aria-label="月"><span>月</span>'
+      + '<input type="number" inputmode="numeric" min="1" max="31" data-path="' + path + '.d" value="' + esc(dt.d) + '" aria-label="日"><span>日</span></div>';
+  }
+  const txt = (path, val, label, ph) => '<div class="f"><label for="i-' + path + '">' + label + '</label><input type="text" id="i-' + path + '" data-path="' + path + '" value="' + esc(val) + '"' + (ph ? ' placeholder="' + esc(ph) + '"' : '') + '></div>';
+  const sel = (path, val, opts, label) => '<div class="f"><label for="i-' + path + '">' + label + '</label><select id="i-' + path + '" data-path="' + path + '">' + opts.map(o => { const [v, t] = Array.isArray(o) ? o : [o, o]; return '<option value="' + esc(v) + '"' + (v === val ? ' selected' : '') + '>' + esc(t) + '</option>'; }).join('') + '</select></div>';
+  const dt = (path, v, label) => '<div class="f"><span class="lab">' + label + '</span>' + dateHtml(path, v) + '</div>';
+
+  function personHtml(p, path, kind, title, sub) {
+    const rels = kind === 'child' ? CHILD_RELS : kind === 'sib' ? SIB_RELS : kind === 'kid' ? (path.includes('siblings') ? ['甥', '姪'] : ['孫']) : null;
+    let h = '<div class="person' + (sub ? ' sub' : '') + '"><div class="ph"><b>' + esc(title) + '</b>'
+      + (kind !== 'spouse' ? '<button type="button" class="btn sm" data-del="' + path + '">消す</button>' : '') + '</div>';
+    h += '<div class="row2">' + txt(path + '.name', p.name, '氏名') + (rels ? sel(path + '.rel', p.rel || rels[0], rels, '続柄（戸籍のとおり）') : sel(path + '.rel', p.rel || '妻', ['妻', '夫'], '続柄')) + '</div>';
+    if (kind === 'sib') h += sel(path + '.blood', p.blood, [['full', '父母とも同じ'], ['father', '父だけ同じ'], ['mother', '母だけ同じ']], '父母');
+    h += dt(path + '.birth', p.birth, '出生');
+    h += txt(path + '.addr', p.addr, st.mode === 'setsumei' ? '住所' : '住所（書かなくてもよい）');
+    const stOpts = (kind === 'child' || kind === 'sib') ? [['alive', '相続人'], ['houki', '相続放棄した'], ['pre', '被相続人より先に亡くなった']] : [['alive', '相続人'], ['houki', '相続放棄した']];
+    h += sel(path + '.status', p.status, stOpts, 'この人は');
+    if (p.status === 'pre') {
+      h += dt(path + '.death', p.death, '亡くなった日');
+      h += '<p class="cap">先に亡くなった人の子が代わりに相続人になります（代襲相続）。子がいなければ図には出ません。</p>';
+      (p.kids || []).forEach((k, i) => { h += personHtml(k, path + '.kids.' + i, 'kid', (kind === 'sib' ? '甥・姪' : '孫') + (i + 1), true); });
+      h += '<button type="button" class="btn sm" data-add="' + path + '.kids">＋ ' + (kind === 'sib' ? '甥・姪' : '孫') + 'を足す</button>';
+    }
+    return h + '</div>';
+  }
+
+  function renderForm() {
+    const H = S.heirs(model());
+    let h = '';
+    h += '<fieldset><legend>作る図</legend><div class="chips" role="group" aria-label="作る図">'
+      + '<button type="button" class="chip" data-mode="ichiran" aria-pressed="' + (st.mode === 'ichiran') + '">法定相続情報一覧図</button>'
+      + '<button type="button" class="chip" data-mode="setsumei" aria-pressed="' + (st.mode === 'setsumei') + '">相続関係説明図（登記）</button></div>'
+      + (st.mode === 'ichiran' ? '<label class="ck"><input type="checkbox" data-path="useKo"' + (st.useKo ? ' checked' : '') + '> 続柄を「子」「配偶者」と書く</label>' : '')
+      + '</fieldset>';
+    const d = st.deceased;
+    h += '<fieldset><legend>亡くなった人（被相続人）</legend>' + txt('deceased.name', d.name, '氏名')
+      + txt('deceased.addr', d.addr, '最後の住所（住民票の除票のとおり）')
+      + txt('deceased.honseki', d.honseki, st.mode === 'setsumei' ? '最後の本籍' : '最後の本籍（書かなくてもよい）')
+      + (st.mode === 'setsumei' ? txt('deceased.tokiAddr', d.tokiAddr, '登記の住所（登記簿に載っている住所）') : '')
+      + (st.mode === 'ichiran' ? dt('deceased.birth', d.birth, '出生') : '') + dt('deceased.death', d.death, '死亡') + '</fieldset>';
+    h += '<fieldset><legend>配偶者</legend><div class="chips" role="group" aria-label="配偶者">'
+      + '<button type="button" class="chip" data-spouse="1" aria-pressed="' + !!st.spouse.has + '">いる（亡くなったとき）</button>'
+      + '<button type="button" class="chip" data-spouse="0" aria-pressed="' + !st.spouse.has + '">いない</button></div>'
+      + (st.spouse.has ? personHtml(st.spouse, 'spouse', 'spouse', '配偶者') : '') + '</fieldset>';
+    h += '<fieldset><legend>子</legend>' + st.children.map((c, i) => personHtml(c, 'children.' + i, 'child', '子' + (i + 1))).join('')
+      + '<button type="button" class="btn sm" data-add="children">＋ 子を足す</button></fieldset>';
+    if (H.rank !== 1) {
+      const P = st.parents;
+      h += '<fieldset><legend>父母（子も孫もいないとき）</legend>'
+        + ['father', 'mother'].map(k => {
+          const p = P[k]; const lab = k === 'father' ? '父' : '母';
+          return '<label class="ck"><input type="checkbox" data-path="parents.' + k + '.alive"' + (p.alive ? ' checked' : '') + '> ' + lab + 'が生きている</label>'
+            + (p.alive ? '<div class="person sub">' + txt('parents.' + k + '.name', p.name, lab + 'の氏名') + dt('parents.' + k + '.birth', p.birth, '出生') + txt('parents.' + k + '.addr', p.addr, '住所（書かなくてもよい）') + '</div>' : '');
+        }).join('') + '</fieldset>';
+    }
+    if (H.rank === 0 || H.rank === 3) {
+      h += '<fieldset><legend>兄弟姉妹（子も父母もいないとき）</legend>' + st.siblings.map((c, i) => personHtml(c, 'siblings.' + i, 'sib', '兄弟姉妹' + (i + 1))).join('')
+        + '<button type="button" class="btn sm" data-add="siblings">＋ 兄弟姉妹を足す</button></fieldset>';
+    }
+    if (st.mode === 'ichiran') {
+      const cands = listedPeople(H).filter(x => x.p.status !== 'houki');
+      if (!cands.find(x => x.p.id === st.applicant)) st.applicant = cands.length ? cands[0].p.id : null;
+      h += '<fieldset><legend>申出人・作成者</legend>'
+        + '<div class="f"><label for="i-applicant">法務局に申し出る人（申出人）</label><select id="i-applicant" data-path="applicant">'
+        + cands.map(x => '<option value="' + x.p.id + '"' + (x.p.id === st.applicant ? ' selected' : '') + '>' + esc(x.p.name || '（名前なし）') + '</option>').join('') + '</select></div>'
+        + dt('author.date', st.author.date, '作成日') + txt('author.addr', st.author.addr, '作成者の住所') + txt('author.name', st.author.name, '作成者の氏名')
+        + '</fieldset>';
+    }
+    $('#formBody').innerHTML = h;
+  }
+
+  function listedPeople(H) {
+    const out = [];
+    if (H.spouse) out.push({ p: H.spouse.p, role: 'spouse', share: H.spouse.share });
+    for (const l of H.lines) {
+      if (l.pre) for (const k of l.kids) out.push({ p: k.p, role: k.role, share: k.share, via: l.p });
+      else out.push({ p: l.p, role: l.role, share: l.share });
+    }
+    return out;
+  }
+
+  // ---- 状態の読み書き ----
+  function getAt(path) { return path.split('.').reduce((o, k) => (o == null ? o : o[k]), st); }
+  function setAt(path, v) { const ks = path.split('.'); const last = ks.pop(); const o = ks.reduce((o, k) => o[k], st); o[last] = v; }
+  function model() {
+    const sp = st.spouse.has ? Object.assign({}, st.spouse, { has: true }) : { has: false };
+    return {
+      mode: st.mode, useKo: st.useKo, deceased: st.deceased, spouse: sp, children: st.children,
+      parents: st.parents, siblings: st.siblings, applicant: st.applicant, author: st.author,
+    };
+  }
+
+  const form = $('#form');
+  const STRUCT = /\.(status|blood)$|^parents\.\w+\.alive$|^useKo$/;
+  form.addEventListener('input', e => {
+    const t = e.target; const path = t.dataset.path; if (!path) return;
+    const v = t.type === 'checkbox' ? t.checked : t.value;
+    setAt(path, v);
+    hideExample();
+    if (STRUCT.test(path)) renderForm(); // 相続人の顔ぶれが変わる入力だけ欄を作り直す（文字の入力中は作り直さない）
+    renderOut();
+  });
+  form.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.mode) { st.mode = b.dataset.mode; }
+    else if (b.dataset.spouse) { st.spouse.has = b.dataset.spouse === '1'; }
+    else if (b.dataset.add) {
+      const arr = getAt(b.dataset.add);
+      const isKid = /kids$/.test(b.dataset.add);
+      arr.push(person({ rel: isKid ? (b.dataset.add.includes('siblings') ? '甥' : '孫') : (b.dataset.add === 'siblings' ? '兄' : '長男') }));
+    } else if (b.dataset.del) {
+      const ks = b.dataset.del.split('.'); const i = +ks.pop(); getAt(ks.join('.')).splice(i, 1);
+    } else return;
+    hideExample(); renderForm(); renderOut();
+  });
+  function hideExample() { const n = $('#exampleNote'); if (n) n.hidden = true; }
+
+  // ---- 出力 ----
+  const ROLE = { spouse: '配偶者', child: '子', grandchild: '孫（代襲）', father: '父', mother: '母', sibling: '兄弟姉妹', nephew: '甥・姪（代襲）' };
+  const RANK = ['子も親も兄弟姉妹もいない', '第1順位：子（民法887条）', '第2順位：父母（民法889条1項1号）', '第3順位：兄弟姉妹（民法889条1項2号）'];
+  let last = null;
+  function renderOut() {
+    const M = model();
+    const H = S.heirs(M);
+    const Lo = S.layout(M, H);
+    last = { M, H, Lo };
+    // 相続人
+    const ppl = listedPeople(H);
+    const apSel = $('#i-applicant'); // 名前を打ちかえたら申出人の選択肢の表示も合わせる
+    if (apSel) for (const o of apSel.options) { const x = ppl.find(y => y.p.id === o.value); if (x) o.textContent = x.p.name || '（名前なし）'; }
+    const dw = S.wareki(M.deceased.death);
+    const notes = [];
+    if (dw && dw.iso < '2013-09-05') notes.push('<b>相続分は計算の参考になりません。</b>平成25年9月4日以前に亡くなった人は、嫡出でない子などの扱いが今とちがいます。図の形は使えます。');
+    if (H.warn.includes('allHouki')) notes.push('<b>この順位の全員が相続放棄しています。</b>次の順位の人が相続人になりますが、このページでは計算しません。一覧図には放棄した人も載ります。');
+    if (H.warn.includes('bothHalf')) notes.push('<b>父だけ同じ兄弟と母だけ同じ兄弟が両方いる形は、図が正しく描けません。</b>相続分の計算は合っています。');
+    if (H.warn.includes('noHeir')) notes.push('<b>相続人がいません。</b>子・父母・兄弟姉妹・配偶者のどれかを入れてください。');
+    const showShare = !H.warn.includes('allHouki');
+    let h = '<p><b>' + esc(RANK[H.rank]) + (H.spouse ? '＋配偶者（民法890条：配偶者はいつも相続人）' : '') + '</b></p>';
+    h += '<div class="scroll"><table><thead><tr><th>氏名</th><th>立場</th><th>法定相続分</th></tr></thead><tbody>'
+      + ppl.map(x => '<tr><td>' + esc(x.p.name || '（名前なし）') + (x.via ? '<br><span class="cap">' + esc(x.via.name || '') + 'の代わり</span>' : '') + '</td><td>' + ROLE[x.role] + (x.p.status === 'houki' ? '・相続放棄' : '') + '</td><td class="s">' + (showShare ? S.fracText(x.share) : '―') + '</td></tr>').join('')
+      + '</tbody></table></div>';
+    if (showShare && ppl.length) h += '<p class="cap">民法900条・901条で計算（平成25年9月5日以後の相続）。相続放棄した人は、初めから相続人でなかったものとして数えます（939条）。この割合は一覧図には書きません。</p>';
+    if (notes.length) h += '<div class="alert">' + notes.map(n => '<p>' + n + '</p>').join('') + '</div>';
+    $('#heirs').innerHTML = h;
+    // 図
+    const fa = [];
+    if (Lo.overflow) fa.push('<b>1枚に収まりません。</b>下から5cmに入っています。法務局の「複数枚にわたる場合」の様式を使うか、相続人の住所を省いてください。');
+    if (M.mode === 'setsumei' && ppl.some(x => x.p.status === 'houki')) fa.push('<b>相続放棄した人がいます。</b>このページの説明図は法定相続分どおりの形です。放棄がある登記の説明図は法務局の記載例で確かめてください。');
+    $('#figAlert').innerHTML = fa.length ? '<div class="alert">' + fa.map(n => '<p>' + n + '</p>').join('') + '</div>' : '';
+    $('#paper').innerHTML = S.svg(Lo, { guide: true });
+    const svgEl = $('#paper svg'); svgEl.removeAttribute('width'); svgEl.removeAttribute('height');
+    svgEl.setAttribute('role', 'img'); svgEl.setAttribute('aria-label', Lo.title);
+    $('#pngView').innerHTML = '';
+  }
+
+  // ---- 保存 ----
+  let dl = null;
+  const status = m => { $('#saveStatus').textContent = m; };
+  const fileBase = () => (last.M.mode === 'setsumei' ? '相続関係説明図' : '法定相続情報一覧図') + '_' + (String(last.M.deceased.name || '').replace(/\s+/g, '') || '被相続人');
+  function htmlDoc() {
+    return '<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>' + esc(last.Lo.title) + '</title>'
+      + '<style>@page{size:A4 portrait;margin:0}html,body{margin:0;padding:0;background:#fff}svg{display:block;width:210mm;height:297mm}</style></head><body>'
+      + S.svg(last.Lo) + '</body></html>';
+  }
+  function pngBlob() {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(new Blob([S.svg(last.Lo)], { type: 'image/svg+xml' }));
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement('canvas'); c.width = 2480; c.height = 3508; // A4・300dpi
+        const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+        ctx.drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+        c.toBlob(b => (b ? resolve(b) : reject(new Error('png'))), 'image/png');
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('img')); };
+      img.src = url;
+    });
+  }
+  async function save(kind) {
+    try {
+      if (!dl) {
+        if (kind === 'png') {
+          const b = await pngBlob(); const u = URL.createObjectURL(b);
+          $('#pngView').innerHTML = '<p class="cap">この画面では保存ボタンが使えません。下の画像を長押し（右クリック）して保存してください。</p><img alt="' + esc(last.Lo.title) + '" src="' + u + '">';
+        } else status('この画面では保存できません。「画像で保存（PNG）」を押すと、長押しで保存できる画像を出します。');
+        return;
+      }
+      status('保存の確認を出しています…');
+      let data, ext;
+      if (kind === 'html') { data = htmlDoc(); ext = 'html'; }
+      else if (kind === 'svg') { data = S.svg(last.Lo); ext = 'svg'; }
+      else { data = await pngBlob(); ext = 'png'; }
+      const r = await dl.save({ filename: fileBase() + '.' + ext, data });
+      status(r && r.status === 'saved' ? '保存しました。' + (ext === 'html' ? 'ブラウザで開いて印刷すると、A4縦1枚に印刷できます（余白なし・倍率100%）。' : '') : '渡しました。');
+    } catch (err) {
+      const code = err && err.code;
+      if (code === 'declined') status('保存をやめました。');
+      else if (code === 'rate_limited') status('少し待ってからもう一度押してください。');
+      else status('保存できませんでした（' + (code || err.message || 'エラー') + '）。');
+    }
+  }
+  $('#saveHtml').addEventListener('click', () => save('html'));
+  $('#savePng').addEventListener('click', () => save('png'));
+  $('#saveSvg').addEventListener('click', () => save('svg'));
+  (async () => {
+    try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
+    if (!dl) { $('#saveHtml').hidden = true; $('#saveSvg').hidden = true; $('#savePng').textContent = '画像を表示（長押しで保存）'; }
+  })();
+
+  renderForm();
+  renderOut();
+})();
+</script>
+</body>
+</html>

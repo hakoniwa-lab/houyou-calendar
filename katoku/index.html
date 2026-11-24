@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>家督相続とは？｜古い戸籍の相続人を亡くなった日の決まりで判定、記載の読み方つき</title>
+<meta name="description" content="古い戸籍の「前戸主○○死亡ニ因リ家督相続」のような記載を読み、亡くなった日と家族の構成から、その時の決まりで誰が相続人になったかを条文どおりに出します。家督相続は昭和22年5月2日までに始まった相続だけ。戸籍の記載を貼り付けると、日付と用語の意味も読みます。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/houyou-calendar/katoku/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="家督相続と古い戸籍 | HAKONIWA LAB">
+<meta property="og:description" content="亡くなった日の決まりで、古い戸籍の相続人を条文どおりに判定します。記載の読み方つき。">
+<meta property="og:url" content="https://hakoniwalab.com/houyou-calendar/katoku/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root {
+  --color-bg: #efe6ce;
+  --color-surface: #f8f2e3;
+  --color-border: #dbcba0;
+  --color-text: #2b2620;
+  --color-text-muted: #6e6248;
+  --color-primary: #a8631f;
+  --color-primary-hover: #8b5119;
+  --color-primary-contrast: #fbf3e2;
+  --color-accent: #55704a;
+  --color-badge-bg: #e4d6ae;
+  --color-badge-text: #6e4a1e;
+  --color-warn-bg: #efd3c0;
+  --color-warn-text: #8a4322;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-card: 0 2px 8px rgba(43, 38, 32, 0.12);
+  --max-width: 640px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #211f1a;
+    --color-surface: #2c2a22;
+    --color-border: #423e30;
+    --color-text: #f1e9d8;
+    --color-text-muted: #b3a585;
+    --color-primary: #e3a23b;
+    --color-primary-hover: #edb259;
+    --color-primary-contrast: #241c0d;
+    --color-accent: #8fae7d;
+    --color-badge-bg: #3a3626;
+    --color-badge-text: #e3a23b;
+    --color-warn-bg: #3d2a1d;
+    --color-warn-text: #e0a876;
+    --shadow-card: 0 2px 14px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* 配置: 冒頭に「家督相続はいつまで」と時期の年表。亡くなった日から決まりと相続人（家族構成を入れる）、
+   古い戸籍の記載を読む（貼り付け→日付と用語）、用語、今読む理由、判定の範囲、出典 */
+:root {
+  --bg: #f3f2ef;
+  --surface: #ffffff;
+  --ink: #1e1d1b;
+  --muted: #5d5a55;
+  --line: #dcd8d1;
+  --accent: #2c3f6b;
+  --accent-ink: #ffffff;
+  --accent-soft: #e5e9f2;
+  --shu: #a8382a;
+  --shu-soft: #f7e4df;
+  --mark: #fff1c2;
+  --font-head: "Zen Old Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --font-body: "BIZ UDPGothic", "Yu Gothic UI", "Meiryo", "Hiragino Sans", sans-serif;
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131312; --surface: #1b1b19; --ink: #e9e7e2; --muted: #a9a59d; --line: #33322e;
+    --accent: #a9bcef; --accent-ink: #111a30; --accent-soft: #232a3c;
+    --shu: #f08a78; --shu-soft: #3a211c; --mark: #4a3d12;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131312; --surface: #1b1b19; --ink: #e9e7e2; --muted: #a9a59d; --line: #33322e;
+  --accent: #a9bcef; --accent-ink: #111a30; --accent-soft: #232a3c;
+  --shu: #f08a78; --shu-soft: #3a211c; --mark: #4a3d12;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.75; }
+.wrap {
+  max-width: 980px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px; display: grid; gap: 22px;
+}
+h1, h2, h3 { font-family: var(--font-head); font-weight: 700; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); line-height: 1.25; letter-spacing: 0.05em; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1rem; }
+p { margin: 0; }
+.head { display: grid; gap: 10px; }
+.lede { color: var(--muted); max-width: 46em; }
+.answer { border-left: 4px solid var(--shu); padding: 4px 0 4px 14px; display: grid; gap: 2px; }
+.answer .k { font-size: 13.5px; color: var(--muted); }
+.answer .v { font-family: var(--font-head); font-size: clamp(1.3rem, 4.6vw, 1.75rem); line-height: 1.4; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.cap { font-size: 13px; color: var(--muted); }
+.field { display: grid; gap: 4px; }
+.field > label, .field .lab { font-size: 13px; font-weight: 700; }
+input[type="number"], select, textarea {
+  font: inherit; font-size: 16px; color: var(--ink); background: var(--bg); min-width: 0;
+  border: 1px solid var(--line); border-radius: 10px; padding: 5px 10px;
+}
+input[type="number"] { width: 4.6em; }
+textarea { width: 100%; min-height: 5.2em; resize: vertical; line-height: 1.6; font-family: var(--font-head); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip, .btn {
+  appearance: none; font: inherit; font-size: 13.5px; cursor: pointer; color: var(--ink); line-height: 1.5;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px;
+}
+.chip:hover, .btn:hover { border-color: var(--accent); color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.chip:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.datein { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.datein input[type="number"] { width: 3.3em; padding-inline: 6px; }
+@media (max-width: 480px) { .card { padding: 16px; } .datein input[type="number"] { width: 2.9em; padding-inline: 4px; } .datein select { padding-inline: 6px; } }
+.datein span { font-size: 14px; }
+.row { display: flex; flex-wrap: wrap; gap: 12px 22px; align-items: flex-end; }
+
+/* 年表 */
+.tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.tl li { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 2px 14px; padding: 8px 0 8px 12px; border-left: 3px solid var(--line); position: relative; }
+.tl li::before { content: ""; position: absolute; left: -7px; top: 15px; width: 11px; height: 11px; border-radius: 50%; background: var(--surface); border: 2px solid var(--line); }
+.tl li.on { border-left-color: var(--shu); background: var(--shu-soft); border-radius: 0 8px 8px 0; }
+.tl li.on::before { border-color: var(--shu); background: var(--shu); }
+.tl .when { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tl .what { display: grid; gap: 1px; }
+.tl .what b { font-family: var(--font-head); font-size: 1.02rem; }
+.tl .what span { font-size: 13.5px; }
+@media (max-width: 560px) { .tl li { grid-template-columns: minmax(0, 1fr); } }
+
+/* 家族構成 */
+.kids { display: grid; gap: 6px; }
+.kid { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; }
+.kid .no { font-family: var(--font-head); min-width: 5.5em; }
+.kid label.ck { display: inline-flex; align-items: center; gap: 4px; font-size: 13.5px; }
+.kid .x { margin-left: auto; }
+.result { display: grid; gap: 10px; }
+.law { display: grid; gap: 2px; }
+.law b { font-family: var(--font-head); font-size: 1.2rem; }
+.law span { font-size: 13px; color: var(--muted); }
+table.h { border-collapse: collapse; width: 100%; font-size: 15px; }
+.h th, .h td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--line); text-align: left; }
+.h td.s { text-align: right; font-family: var(--font-head); font-size: 1.1rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.h tr.top td { background: var(--shu-soft); }
+.why { font-size: 14px; }
+ul.notes { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 14px; }
+ol.steps { margin: 0; padding-left: 1.4em; display: grid; gap: 6px; font-size: 14.5px; }
+
+/* 戸籍の記載 */
+.entry { font-family: var(--font-head); font-size: 1.15rem; line-height: 2.1; word-break: break-all; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.entry .dt { background: var(--accent-soft); border-radius: 4px; padding: 1px 2px; }
+.entry .tm { background: var(--mark); border-radius: 4px; padding: 1px 2px; }
+.entry rt { font-family: var(--font-body); font-size: 0.55em; color: var(--accent); }
+.explain { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 720px) { .explain { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.explain section { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 2px; }
+.explain .w { font-family: var(--font-head); font-size: 1.05rem; }
+.explain .d { font-size: 14px; }
+.explain .a { font-size: 12px; color: var(--muted); }
+
+.gloss { display: grid; gap: 6px 22px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 720px) { .gloss { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.gloss div { padding: 6px 0; border-bottom: 1px solid var(--line); }
+.gloss dt { font-family: var(--font-head); font-size: 1.02rem; }
+.gloss dd { margin: 0; font-size: 14px; }
+.gloss dd small { color: var(--muted); font-size: 12px; }
+.src { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; }
+.src a { color: var(--accent); }
+.src ul { margin: 0; padding-left: 1.2em; }
+
+:root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
+  --bg: var(--color-bg); --surface: var(--color-surface); --ink: var(--color-text); --muted: var(--color-text-muted); --line: var(--color-border); --accent: var(--color-primary); --accent-ink: var(--color-primary-contrast); --accent-soft: var(--color-badge-bg);
+}
+
+.guide-nav { font-size: 0.85rem; color: var(--color-text-muted); }
+.guide-nav a { color: var(--color-text-muted); }
+.pr-note { font-size: 0.75rem; color: var(--color-text-muted); margin: 0; }
+.port-faq details { border-top: 1px solid var(--color-border); padding: 8px 0; }
+.port-faq summary { cursor: pointer; font-weight: 700; }
+.port-faq p { margin: 6px 0 0; }
+.port-related ul { margin: 0; padding-left: 1.2em; }
+.port-related li { margin: 4px 0; }
+.port-related a { color: var(--color-primary); }
+.app-footer { margin-top: 8px; text-align: center; font-size: 0.72rem; color: var(--color-text-muted); }
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "家督相続はいつまでありましたか？", "acceptedAnswer": {"@type": "Answer", "text": "昭和22年5月2日までに始まった相続だけです。昭和22年5月3日からは家督相続の規定を使いません（応急措置法7条）。それより前に始まった相続には、今も旧民法を当てはめます（昭和22年法律第222号 附則25条）。"}}, {"@type": "Question", "name": "なぜ今、古い戸籍を読む必要があるのですか？", "acceptedAnswer": {"@type": "Answer", "text": "令和6年4月1日から、相続で不動産を取得したことを知った日から3年以内の相続登記が義務になりました。それより前に知った不動産でまだ登記していないものは、令和9年3月31日までに登記する必要があります（法務省）。名義が祖父母や曾祖父母のままの土地では、昔の相続をたどることになります。"}}, {"@type": "Question", "name": "古い戸籍の記載を読むのを手伝ってもらえますか？", "acceptedAnswer": {"@type": "Answer", "text": "記載を貼り付けると、日付を西暦に直し、出てくる用語に説明を付けます。大字（壱・弐・参・拾）や「同年」「同月」「同日」も読みます。"}}, {"@type": "Question", "name": "判定に入っていない場合はありますか？", "acceptedAnswer": {"@type": "Answer", "text": "遺言、相続の放棄、廃除、養子、孫が親に代わって相続する場合（代襲相続）、祖父母が相続する場合は入れていません。条文の順番と割合だけを当てはめています。"}}]}</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="guide-nav" aria-label="パンくずリスト">
+    <a href="../../">HAKONIWA LAB</a> &raquo;
+    <a href="../">法要日程カレンダー</a> &raquo;
+    <a href="../tetsuzuki/">死亡後の手続きの期限</a> &raquo;
+    <span aria-current="page">家督相続と古い戸籍</span>
+  </nav>
+
+  <header class="head">
+    <h1>家督相続と古い戸籍</h1>
+    <p class="lede">古い戸籍には「前戸主○○死亡ニ因リ家督相続」のような記載が出てきます。相続のしかたは、亡くなった日によって決まりが変わります。亡くなった日と家族の構成から、その時の決まりで誰が相続人になったかを条文どおりに出します。戸籍の記載を貼り付けると、日付と用語の意味を読みます。</p>
+    <div class="answer">
+      <span class="k">家督相続はいつまで？</span>
+      <span class="v">昭和22年5月2日までに始まった相続だけです</span>
+      <span class="k">昭和22年5月3日からは家督相続の規定を使いません（応急措置法7条）。それより前に始まった相続には、今も旧民法を当てはめます（昭和22年法律第222号 附則25条）。</span>
+    </div>
+  </header>
+
+  <section class="card" aria-labelledby="h-t">
+    <h2 id="h-t">亡くなった日で変わる相続の決まり</h2>
+    <ol class="tl" id="tl"></ol>
+  </section>
+
+  <section class="card" aria-labelledby="h-s">
+    <h2 id="h-s">誰が相続人になったか</h2>
+    <div class="row">
+      <div class="field"><span class="lab">亡くなった日</span>
+        <div class="datein">
+          <select id="dEra" aria-label="元号"></select>
+          <input type="number" id="dY" min="1" max="99" inputmode="numeric" aria-label="年"><span>年</span>
+          <input type="number" id="dM" min="1" max="12" inputmode="numeric" aria-label="月"><span>月</span>
+          <input type="number" id="dD" min="1" max="31" inputmode="numeric" aria-label="日"><span>日</span>
+        </div>
+        <span class="cap" id="dOut"></span>
+      </div>
+      <div class="field" id="koshuF"><span class="lab">亡くなった人は</span>
+        <div class="chips" role="group" aria-label="戸主かどうか">
+          <button type="button" class="chip" data-koshu="1" aria-pressed="true">戸主</button>
+          <button type="button" class="chip" data-koshu="0" aria-pressed="false">戸主ではない家族</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field"><span class="lab">配偶者</span>
+        <div class="chips" role="group" aria-label="配偶者">
+          <button type="button" class="chip" data-sp="1" aria-pressed="true">いる</button>
+          <button type="button" class="chip" data-sp="0" aria-pressed="false">いない</button>
+        </div>
+      </div>
+      <div class="field"><label for="par">生きている親</label>
+        <select id="par"><option value="0">いない</option><option value="1">1人</option><option value="2">2人</option></select></div>
+      <div class="field"><label for="sib">兄弟姉妹（父母とも同じ）</label><input type="number" id="sib" min="0" max="20" inputmode="numeric" value="0"></div>
+      <div class="field"><label for="hsib">兄弟姉妹（父母の一方だけ同じ）</label><input type="number" id="hsib" min="0" max="20" inputmode="numeric" value="0"></div>
+    </div>
+    <div class="field"><span class="lab">子（年上から順に。亡くなった時に生きていた子）</span>
+      <div class="kids" id="kids"></div>
+      <div><button type="button" class="btn" id="addKid">＋ 子を加える</button></div>
+    </div>
+    <div class="result" id="res" aria-live="polite"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-r">
+    <h2 id="h-r">古い戸籍の記載を読む</h2>
+    <p class="cap">記載を貼り付けると、日付を西暦に直し、出てくる用語に説明を付けます。大字（壱・弐・参・拾）や「同年」「同月」「同日」も読みます。下の例は読み方を試すための作例で、名前は架空です。</p>
+    <div class="chips" id="samples" role="group" aria-label="例"></div>
+    <textarea id="entry" aria-label="戸籍の記載"></textarea>
+    <div id="entryOut" aria-live="polite"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-g">
+    <h2 id="h-g">古い戸籍に出てくる言葉</h2>
+    <dl class="gloss" id="gloss"></dl>
+  </section>
+
+  <section class="card" aria-labelledby="h-w">
+    <h2 id="h-w">今、古い戸籍を読むことになる理由</h2>
+    <p>令和6年4月1日から、不動産を相続で取得したことを知った日から3年以内に、相続登記をすることが法律上の義務になりました。それより前に相続したことを知った不動産で、まだ登記していないものは、令和9年3月31日までに登記する必要があります（法務省）。登記の名義が祖父母や曾祖父母のままの土地では、昔の相続をたどることになり、古い戸籍と、その時の相続の決まりが必要になります。</p>
+  </section>
+
+  <section class="card" aria-labelledby="h-l">
+    <h2 id="h-l">この判定の範囲</h2>
+    <ul class="notes">
+      <li>条文の順番と割合だけを当てはめています。遺言、相続の放棄、廃除、養子、孫が親に代わって相続する場合（代襲相続）、祖父母が相続する場合は入れていません。</li>
+      <li>家督相続人の判定は、家にいる子どうしの比べ方だけです。認知や養子縁組で嫡出子になった子は、その時に生まれたものとみなすなど、細かい決まりがあります（旧民法970条2項）。</li>
+      <li>実際の手続きでは、亡くなった人の戸籍をさかのぼって集め、相続人を確かめます。判断に迷うときは、法務局（登記所）や司法書士などに確かめてください。</li>
+    </ul>
+  </section>
+
+  <footer class="src">
+    <span>出典（2026年11月16日に確認。条文は名古屋大学の旧法令データベースの本文）</span>
+    <ul>
+      <li><a href="https://jahis.law.nagoya-u.ac.jp/lawdb/l/131a0009" target="_blank" rel="noopener">民法（明治31年法律第9号）第4編・第5編</a>、<a href="https://jahis.law.nagoya-u.ac.jp/lawdb/l/131i0123" target="_blank" rel="noopener">勅令第123号（明治31年7月16日施行）</a>、<a href="https://jahis.law.nagoya-u.ac.jp/lawdb/l/131a0011" target="_blank" rel="noopener">民法施行法（1条）</a></li>
+      <li><a href="https://jahis.law.nagoya-u.ac.jp/lawdb/l/317a0007" target="_blank" rel="noopener">民法中改正法律（昭和17年法律第7号）</a>、<a href="https://jahis.law.nagoya-u.ac.jp/lawdb/l/317i0093" target="_blank" rel="noopener">勅令第93号（昭和17年3月1日施行）</a></li>
+      <li><a href="https://jahis.law.nagoya-u.ac.jp/lawdb/l/322a0074" target="_blank" rel="noopener">日本国憲法の施行に伴う民法の応急的措置に関する法律（昭和22年法律第74号）</a></li>
+      <li><a href="https://jahis.law.nagoya-u.ac.jp/lawdb/l/322a0222" target="_blank" rel="noopener">民法の一部を改正する法律（昭和22年法律第222号）附則</a>、<a href="https://jahis.law.nagoya-u.ac.jp/lawdb/l/337a0040" target="_blank" rel="noopener">昭和37年法律第40号</a>、<a href="https://jahis.law.nagoya-u.ac.jp/lawdb/l/355a0051" target="_blank" rel="noopener">昭和55年法律第51号</a></li>
+      <li><a href="https://jahis.law.nagoya-u.ac.jp/lawdb/l/203a0026" target="_blank" rel="noopener">戸籍法（大正3年法律第26号）</a>（16条・23条・125条）</li>
+      <li><a href="https://www.moj.go.jp/MINJI/minji07_00143.html" target="_blank" rel="noopener">法務省「民法の一部が改正されました」</a>（嫡出でない子の相続分、平成25年）</li>
+      <li><a href="https://www.moj.go.jp/MINJI/minji05_00565.html" target="_blank" rel="noopener">法務省「相続登記の申請義務化について」</a></li>
+    </ul>
+  </footer>
+
+  <section class="card port-related" aria-labelledby="h-related">
+    <h2 id="h-related">あわせて使えるページ</h2>
+    <ul>
+      <li><a href="../souzoku-zu/">相続関係説明図メーカー</a></li>
+      <li><a href="../../birthday-fortune/kyureki-koseki/">古い戸籍の日付換算</a></li>
+      <li><a href="../../mukashi/senzo/">ご先祖さかのぼり計算</a></li>
+      <li><a href="../tetsuzuki/">死亡後の手続きの期限</a></li>
+    </ul>
+  </section>
+
+  <section class="card port-faq" aria-labelledby="h-faq">
+    <h2 id="h-faq">よくある質問</h2>
+    <details>
+      <summary>家督相続はいつまでありましたか？</summary>
+      <p>昭和22年5月2日までに始まった相続だけです。昭和22年5月3日からは家督相続の規定を使いません（応急措置法7条）。それより前に始まった相続には、今も旧民法を当てはめます（昭和22年法律第222号 附則25条）。</p>
+    </details>
+    <details>
+      <summary>なぜ今、古い戸籍を読む必要があるのですか？</summary>
+      <p>令和6年4月1日から、相続で不動産を取得したことを知った日から3年以内の相続登記が義務になりました。それより前に知った不動産でまだ登記していないものは、令和9年3月31日までに登記する必要があります（法務省）。名義が祖父母や曾祖父母のままの土地では、昔の相続をたどることになります。</p>
+    </details>
+    <details>
+      <summary>古い戸籍の記載を読むのを手伝ってもらえますか？</summary>
+      <p>記載を貼り付けると、日付を西暦に直し、出てくる用語に説明を付けます。大字（壱・弐・参・拾）や「同年」「同月」「同日」も読みます。</p>
+    </details>
+    <details>
+      <summary>判定に入っていない場合はありますか？</summary>
+      <p>遺言、相続の放棄、廃除、養子、孫が親に代わって相続する場合（代襲相続）、祖父母が相続する場合は入れていません。条文の順番と割合だけを当てはめています。</p>
+    </details>
+  </section>
+
+  <!-- site-nav:start -->
+  <style>
+  .site-nav { margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--color-border, var(--line, #dbcba0)); color: var(--color-text, var(--ink, #2b2620)); text-align: left; }
+  .site-nav__title { margin: 0 0 14px; font-size: 0.82rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__title a { font-family: Georgia, "Times New Roman", serif; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--color-text, var(--ink, #2b2620)); text-decoration: none; }
+  .site-nav__groups { display: grid; gap: 14px 24px; }
+  @media (min-width: 560px) { .site-nav__groups { grid-template-columns: 1fr 1fr; } }
+  .site-nav__label { margin: 0 0 4px; font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; font-size: 0.86rem; line-height: 1.7; }
+  .site-nav__links li { margin: 0; padding: 0; }
+  .site-nav__links li::before { content: none; }
+  .site-nav__links a { color: var(--color-primary, var(--navy, #a8631f)); }
+  .site-nav__all { margin: 16px 0 0; font-size: 0.86rem; text-align: right; }
+  .site-nav__all a { color: var(--color-primary, var(--navy, #a8631f)); font-weight: 700; }
+  .app-footer a { color: var(--color-text-muted, var(--muted, #6e6248)); }
+  </style>
+  <nav class="site-nav" aria-label="HAKONIWA LABのツール">
+    <p class="site-nav__title"><a href="../../">HAKONIWA LAB</a> の無料ツール</p>
+    <div class="site-nav__groups">
+      <div>
+        <p class="site-nav__label">家族を見送ったあとに</p>
+        <ul class="site-nav__links">
+          <li><a href="../../houyou-calendar/">法要日程カレンダー</a></li>
+          <li><a href="../../houyou-calendar/hayami/">年忌早見表</a></li>
+          <li><a href="../../houyou-calendar/tetsuzuki/">死亡後の手続きの期限</a></li>
+          <li><a href="../../houyou-calendar/pet/">ペットの法要</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">仕事を辞めるとき・変えるとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../resignation-letter-generator/">退職願・退職届を作る</a></li>
+          <li><a href="../../retirement-simulator/">退職金の手取り</a></li>
+          <li><a href="../../subsidy-checker/">使える給付金を探す</a></li>
+          <li><a href="../../career-checker/">転職エージェントを選ぶ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">収入と税金を知りたいとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../takehome-calculator/">手取り年収</a></li>
+          <li><a href="../../furusato-simulator/">ふるさと納税の上限額</a></li>
+          <li><a href="../../sidejob-tax-simulator/">副業の税金</a></li>
+          <li><a href="../../sidejob-checker/">向いている副業</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">備えと資産</p>
+        <ul class="site-nav__links">
+          <li><a href="../../insurance-checker/">必要な保険</a></li>
+          <li><a href="../../retirement-simulator/ideco/">iDeCoの受け取り方</a></li>
+          <li><a href="../../stock-screener/">株の条件検索</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">暦と楽しみ</p>
+        <ul class="site-nav__links">
+          <li><a href="../../birthday-fortune/">生まれ日診断</a></li>
+          <li><a href="../../birthday-fortune/calendar/">吉日カレンダー</a></li>
+          <li><a href="../../birthday-fortune/tools/">暦と占いの道具 一覧</a></li>
+          <li><a href="../../meguri-log/">めぐった場所の記録</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-nav__all"><a href="../../">すべてのツールを見る →</a></p>
+  </nav>
+  <!-- site-nav:end -->
+
+  <footer class="app-footer">
+    <p>条文の順番と割合を当てはめた判定です。実際の手続きでは亡くなった人の戸籍をさかのぼって相続人を確かめ、迷うときは法務局（登記所）や司法書士などに確かめてください。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+</div>
+
+<script>
+// 家督相続と古い戸籍 — 判定と読み取り
+// 条文は名古屋大学「日本法令外国語訳・旧法令データベース」(jahis) の本文で確かめた（2026-11-16）:
+//   民法 明治31年法律第9号（第4編・第5編）／民法施行法 明治31年法律第11号／勅令第123号（施行日）
+//   民法中改正法律 昭和17年法律第7号・勅令第93号（施行日）／日本国憲法の施行に伴う民法の応急的措置に関する法律 昭和22年法律第74号
+//   民法の一部を改正する法律 昭和22年法律第222号（附則）／昭和37年法律第40号／昭和55年法律第51号／戸籍法 大正3年法律第26号
+// 嫡出でない子の相続分（平成25年）は法務省「民法の一部が改正されました」。
+
+// ---------- どの決まりか ----------
+const D = {
+  KYU: '1898-07-16',      // 明治31年7月16日 旧民法第4編・第5編の施行（勅令第123号）
+  S17: '1942-03-01',      // 昭和17年3月1日 民法中改正法律の施行（勅令第93号）「私生子」→「嫡出ニ非サル子」
+  KENPO_KOFU: '1946-11-03', // 日本国憲法公布の日（附則27条の基準）
+  OUKYU: '1947-05-03',    // 昭和22年5月3日 応急措置法の施行（日本国憲法施行の日）
+  SHIN: '1948-01-01',     // 昭和23年1月1日 新しい民法の施行・応急措置法の失効
+  S37: '1962-07-01',      // 昭和37年7月1日
+  S56: '1981-01-01',      // 昭和56年1月1日
+  H13: '2001-07-01',      // 平成13年7月1日（最高裁平成25年9月4日決定が違憲とした時点）
+  H25: '2013-09-05',      // 平成25年9月5日以後に開始した相続に新しい900条
+};
+
+const PERIODS = [
+  { id: 'pre', to: '1898-07-15', name: '旧民法より前', law: '明治31年7月15日まで' },
+  { id: 'kyu', from: D.KYU, to: '1947-05-02', name: '旧民法（家督相続と遺産相続）', law: '民法（明治31年法律第9号）第5編' },
+  { id: 'oukyu', from: D.OUKYU, to: '1947-12-31', name: '応急措置法', law: '日本国憲法の施行に伴う民法の応急的措置に関する法律（昭和22年法律第74号）' },
+  { id: 'shin1', from: D.SHIN, to: '1962-06-30', name: '新しい民法（はじめの形）', law: '民法（昭和22年法律第222号で第4編・第5編を改正）' },
+  { id: 'shin2', from: D.S37, to: '1980-12-31', name: '新しい民法（昭和37年の改正後）', law: '民法の一部を改正する法律（昭和37年法律第40号）' },
+  { id: 'shin3', from: D.S56, name: '新しい民法（昭和55年の改正後）', law: '民法及び家事審判法の一部を改正する法律（昭和55年法律第51号）' },
+];
+
+function iso(y, m, d) { return `${String(y).padStart(4, '0')}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`; }
+function validDate(y, m, d) {
+  const t = new Date(Date.UTC(y, m - 1, d));
+  return t.getUTCFullYear() === y && t.getUTCMonth() === m - 1 && t.getUTCDate() === d;
+}
+function periodOf(date) {
+  for (const p of PERIODS) if ((!p.from || date >= p.from) && (!p.to || date <= p.to)) return p;
+  return null;
+}
+
+// ---------- 和暦 ----------
+// 新暦（明治6年1月1日〜）の日付だけを西暦に直す。明治5年までは旧暦なので年だけ示す
+const ERAS = [
+  { name: '明治', base: 1867, from: '1868-01-25', max: 45 }, // 明治元年の始まりは旧暦の慶応4年1月1日（ここでは新暦に直さない）
+  { name: '大正', base: 1911, from: '1912-07-30', max: 15 },
+  { name: '昭和', base: 1925, from: '1926-12-25', max: 64 },
+  { name: '平成', base: 1988, from: '1989-01-08', max: 31 },
+  { name: '令和', base: 2018, from: '2019-05-01', max: 99 },
+];
+const ERA_NAMES = ERAS.map((e) => e.name);
+
+// 戸籍に出てくる漢数字・大字（壱弐参拾廿卅）を数に
+const DIG = { '〇': 0, '零': 0, '一': 1, '壱': 1, '壹': 1, '二': 2, '弐': 2, '貳': 2, '三': 3, '参': 3, '參': 3, '四': 4, '肆': 4, '五': 5, '伍': 5, '六': 6, '七': 7, '八': 8, '九': 9 };
+const TENS = { '十': 10, '拾': 10, '廿': 20, '卄': 20, '卅': 30, '丗': 30 };
+function kanjiNum(s) {
+  s = String(s).normalize('NFKC').trim();
+  if (/^\d+$/.test(s)) return +s;
+  if (s === '元') return 1;
+  let total = 0, cur = 0, seen = false;
+  for (const ch of s) {
+    if (ch in DIG) { cur = cur * 10 + DIG[ch]; seen = true; }
+    else if (ch in TENS) { const u = TENS[ch]; total += u === 10 ? (cur || 1) * 10 : u; cur = 0; seen = true; }
+    else return NaN;
+  }
+  return seen ? total + cur : NaN;
+}
+
+// 和暦 → { iso, y, m, d, lunar }。日付として正しくなければ null
+function warekiToDate(eraName, y, m, d) {
+  const e = ERAS.find((x) => x.name === eraName);
+  if (!e || !(y >= 1) || y > e.max) return null;
+  const Y = e.base + y;
+  if (eraName === '明治' && y <= 5) return { y: Y, m, d, iso: null, lunar: true }; // 旧暦
+  if (!validDate(Y, m, d)) return null;
+  const s = iso(Y, m, d);
+  const next = ERAS[ERAS.indexOf(e) + 1];
+  if (s < e.from && !(eraName === '明治')) return null; // 元号の始まりより前
+  if (next && s >= next.from) return null;             // 次の元号に入っている
+  return { y: Y, m, d, iso: s, lunar: false };
+}
+
+// ---------- 戸籍の記載を読む ----------
+const NUM = '[0-9０-９〇零一壱壹二弐貳三参參四肆五伍六七八九十拾廿卄卅丗]+';
+const DATE_RE = new RegExp(`(?:(${ERA_NAMES.join('|')})(元|${NUM})年|(同年))?(?:(${NUM})月|(同月))?(${NUM})日|(同日)`, 'g');
+
+const GLOSSARY = [
+  { t: '前戸主', d: '家督相続の前の戸主。家督相続人は、前戸主が持っていた権利と義務を引き継ぎます。', a: '旧民法986条' },
+  { t: '戸主', d: '家の長。家族の婚姻や養子縁組には戸主の同意が要りました。', a: '旧民法750条' },
+  { t: '家族', d: '戸主の親族でその家にいる人と、その配偶者。', a: '旧民法732条' },
+  { t: '家督相続', d: '戸主の地位と財産を、1人がまとめて引き継ぐ相続。戸主の死亡・隠居・国籍喪失などで始まります。昭和22年5月3日からは行われていません。', a: '旧民法964条・986条、応急措置法7条' },
+  { t: '遺産相続', d: '戸主ではない家族が亡くなったときの相続。子（直系卑属）が同じ割合で分けます。', a: '旧民法992条・994条・1004条' },
+  { t: '隠居', d: '戸主が生きているうちに戸主をやめること。原則は満60歳以上で、家督相続人が相続を単純承認することが条件でした。隠居でも家督相続が始まります。', a: '旧民法752条・964条' },
+  { t: '国籍喪失', d: '戸主が日本の国籍を失うと、家督相続が始まりました。', a: '旧民法964条' },
+  { t: '入夫婚姻', d: '女戸主と結婚した夫が、妻の家に入る婚姻。原則として夫が戸主になりました。', a: '旧民法736条・788条' },
+  { t: '入夫', d: '入夫婚姻で妻の家に入った夫。', a: '旧民法736条・788条' },
+  { t: '女戸主', d: '女性の戸主。', a: '旧民法736条' },
+  { t: '婿養子', d: '妻の家に入る養子。', a: '旧民法788条' },
+  { t: '推定家督相続人', d: '戸主が亡くなったら家督相続人になる予定の人。家にいる子などの中から、男・嫡出・年長などの順で決まりました。', a: '旧民法970条' },
+  { t: '指定', d: '法定の推定家督相続人がいないとき、戸主は家督相続人を指定できました（届け出て効力が出る）。', a: '旧民法979条・980条' },
+  { t: '選定', d: '法定・指定の家督相続人がいないとき、父・母・親族会が家族の中から家督相続人を選びました。', a: '旧民法982条・985条' },
+  { t: '親族会', d: '家督相続人の選定などをした親族の集まり。', a: '旧民法982条・985条' },
+  { t: '分家', d: '家族が戸主の同意を得て、新しい家を立てること。', a: '旧民法743条' },
+  { t: '廃家', d: '新しく家を立てた人が、その家をやめて他の家に入ること。家督相続で戸主になった人は、原則としてできません。', a: '旧民法762条' },
+  { t: '絶家', d: '戸主がいなくなり、家督相続人もいない家。家族はそれぞれ一家を創立しました。', a: '旧民法764条' },
+  { t: '一家創立', d: '新しい家を作ること。父母が分からない子や、絶家した家の家族などがしました。', a: '旧民法733条・764条' },
+  { t: '離籍', d: '戸主が家族を家から出すこと（戸主の同意なく婚姻した家族など）。', a: '旧民法749条・750条' },
+  { t: '除籍', d: '家督相続などで戸籍の全部が消されると、除籍簿に移して保存されました。家督相続があると、新しい戸主の戸籍が作られます。', a: '戸籍法（大正3年）16条・23条' },
+  { t: '庶子', d: '父が認知した、結婚していない父母の子。', a: '旧民法827条' },
+  { t: '私生子', d: '結婚していない父母の子。昭和17年3月1日からは「嫡出ニ非サル子」と呼びます。', a: '旧民法827条、昭和17年法律第7号' },
+  { t: '嫡出ニ非サル子', d: '結婚していない父母の子（昭和17年3月1日から「私生子」に代わった呼び方）。', a: '昭和17年法律第7号' },
+  { t: '嫡出子', d: '結婚している父母の子。', a: '' },
+  { t: '届出', d: '役場への届け出。家督相続の届出は、戸主になった人が相続を知った日から1か月以内にしました。届書には家督相続の原因と戸主になった年月日、前戸主の氏名と続柄を書きます。', a: '戸籍法（大正3年）125条' },
+  { t: '受附', d: '役場が届出を受け付けた日。', a: '' },
+];
+// 長い語から先に当てる
+const TERMS = GLOSSARY.slice().sort((a, b) => b.t.length - a.t.length);
+
+function readEntry(text) {
+  const src = String(text || '');
+  const t = src.normalize('NFKC').replace(/\s+/g, '');
+  const tokens = [];
+  let last = { era: null, y: null, m: null, d: null };
+  let i = 0;
+  const dates = [];
+  DATE_RE.lastIndex = 0;
+  let m;
+  const marks = [];
+  while ((m = DATE_RE.exec(t))) {
+    if (!m[0]) { DATE_RE.lastIndex++; continue; }
+    let era = last.era, y = last.y, mo = last.m, d = last.d;
+    if (m[7]) { /* 同日 */ }
+    else {
+      if (m[1]) { era = m[1]; y = kanjiNum(m[2]); }
+      else if (m[3]) { /* 同年 */ }
+      if (m[4]) mo = kanjiNum(m[4]);
+      // 「同月」は月を変えない
+      d = kanjiNum(m[6]);
+      // 年も月もない「◯日」だけは日付として扱わない（「◯日内」など）
+      if (!m[1] && !m[3] && !m[4] && !m[5]) continue;
+    }
+    if (!era || !(y > 0) || !(mo > 0) || !(d > 0)) continue;
+    const g = warekiToDate(era, y, mo, d);
+    last = { era, y, m: mo, d };
+    const info = { kind: 'date', text: m[0], era, y, m: mo, d, date: g };
+    marks.push({ start: m.index, end: m.index + m[0].length, info });
+    dates.push(info);
+  }
+  // 用語
+  let p = 0;
+  while (p < t.length) {
+    const inDate = marks.find((k) => p >= k.start && p < k.end);
+    if (inDate) { p = inDate.end; continue; }
+    const term = TERMS.find((g) => t.startsWith(g.t, p));
+    if (term) { marks.push({ start: p, end: p + term.t.length, info: { kind: 'term', text: term.t, term } }); p += term.t.length; }
+    else p++;
+  }
+  marks.sort((a, b) => a.start - b.start);
+  for (const k of marks) {
+    if (k.start > i) tokens.push({ kind: 'text', text: t.slice(i, k.start) });
+    tokens.push(k.info);
+    i = k.end;
+  }
+  if (i < t.length) tokens.push({ kind: 'text', text: t.slice(i) });
+  // 何についての記載か
+  const has = (w) => t.includes(w);
+  const cause = ['死亡', '隠居', '国籍喪失', '入夫婚姻', '入夫ノ離婚', '婚姻ノ取消', '養子縁組ノ取消'].find((w) => has(w + 'ニ因リ') || has(w + 'ニ因ル')) || null;
+  return { normalized: t, tokens, dates, isKatoku: has('家督相続'), cause };
+}
+
+// ---------- 分数 ----------
+function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a || 1; }
+function frac(n, d) { const g = gcd(n, d); return [n / g, d / g]; }
+function mul(a, b) { return frac(a[0] * b[0], a[1] * b[1]); }
+function sub1(a) { return frac(a[1] - a[0], a[1]); }
+
+// group: [{label, w}] を share（分数）で重みどおりに分ける
+function split(group, share) {
+  const W = group.reduce((s, x) => s + x.w, 0);
+  return group.map((x) => ({ label: x.label, share: mul(share, [x.w, W]) }));
+}
+
+// ---------- 相続人 ----------
+// input = { date: 'YYYY-MM-DD', koshu: bool, spouse: bool,
+//           children: [{ sex: 'm'|'f', kind: 'chaku'|'shoshi'|'hi', sameHouse: bool }]（年上から順）,
+//           parents: 0..2, siblings: n（父母とも同じ）, halfSiblings: n（父母の一方だけ同じ） }
+// kind: chaku=嫡出子、shoshi=庶子（父が認知した子・旧民法の言い方）、hi=私生子／嫡出でない子（父が認知していない）
+const KIND_OLD = { chaku: '嫡出子', shoshi: '庶子', hi: '私生子' };
+function childLabel(c, i, date) {
+  const sex = c.sex === 'm' ? '男' : '女';
+  let kind;
+  if (!date || date >= D.OUKYU) kind = c.kind === 'chaku' ? '嫡出子' : '嫡出でない子';
+  else kind = c.kind === 'hi' && date >= D.S17 ? '嫡出ニ非サル子' : KIND_OLD[c.kind];
+  return `${i + 1}番目の子（${sex}・${kind}）`;
+}
+
+// 旧民法970条の順番（子どうし）。小さいほど先
+function katokuRank(c) {
+  if (c.kind === 'hi') return c.sex === 'm' ? 4 : 5; // 4号：嫡出子・庶子は女でも私生子より先
+  if (c.sex === 'm') return c.kind === 'chaku' ? 0 : 1; // 2号：男を先、3号：同じ性では嫡出子を先
+  return c.kind === 'chaku' ? 2 : 3;
+}
+
+function heirs(input) {
+  const p = periodOf(input.date);
+  const kids = (input.children || []).map((c, i) => ({ ...c, i, label: childLabel(c, i, input.date) }));
+  const notes = [];
+  if (!p) return null;
+  if (p.id === 'pre') {
+    return { period: p, kind: 'pre', heirs: [], notes: ['旧民法は明治31年7月16日から施行され、それより前に生じた事項には適用しません（民法施行法1条）。それより前の相続は、当時の決まりによります。このページでは扱いません。'] };
+  }
+  if (p.id === 'kyu' && input.koshu) {
+    // 家督相続
+    const inHouse = kids.filter((c) => c.sameHouse);
+    const out = kids.filter((c) => !c.sameHouse);
+    if (out.length) notes.push(`家を出ている子（${out.map((c) => c.label).join('、')}）は、家督相続人になりません。家督相続人になるのは「被相続人の家族である直系卑属」です（旧民法970条）。婚姻で夫の家に入った娘は、夫の家の家族です（788条）。`);
+    if (inHouse.length) {
+      const order = inHouse.slice().sort((a, b) => katokuRank(a) - katokuRank(b) || a.i - b.i);
+      const h = order[0];
+      // 2番目の人と比べて、どの号で決まったか
+      const why = [];
+      if (order.length > 1) {
+        const second = order[1];
+        if (katokuRank(h) === katokuRank(second)) why.push('条件が同じなら年長者を先にする（970条1項5号）');
+        else if (h.kind !== 'hi' && second.kind === 'hi') why.push(input.date >= D.S17 ? '女でも嫡出子・庶子を先にする（970条1項4号、昭和17年の改正後）' : '嫡出子・庶子は女でも私生子より先にする（970条1項4号）');
+        else if (h.sex !== second.sex) why.push('男を先にする（970条1項2号）');
+        else why.push('同じ性では嫡出子を先にする（970条1項3号）');
+      }
+      notes.push('家督相続人は1人で、前戸主の権利と義務をまとめて引き継ぎます（986条）。系譜・祭具・墳墓も家督相続人のものです（987条）。');
+      if (input.date >= D.KENPO_KOFU) notes.push('日本国憲法公布の日（昭和21年11月3日）以後に戸主の死亡で家督相続が始まった場合、新しい民法なら共同相続人になるはずだった人は、家督相続人に財産の一部の分配を請求できました（昭和22年法律第222号 附則27条。家事審判所への請求は新しい民法の施行から1年以内）。');
+      notes.push('この判定は、家にいる子どうしだけで比べています。孫が親に代わって相続する場合（974条）、認知や養子縁組で嫡出子になった子の扱い（970条2項）、廃除（975条）は入れていません。');
+      return { period: p, kind: 'katoku', heirs: [{ label: h.label, share: [1, 1], whole: true }], order: order.map((c) => c.label), why, notes };
+    }
+    const steps = [
+      '戸主が家督相続人を指定していれば、その人（死亡・隠居のときだけ。979条）',
+      '父、いなければ母、どちらもいなければ親族会が、家族の中から選ぶ。順番は ①家女である配偶者 ②兄弟 ③姉妹 ④①に当たらない配偶者 ⑤兄弟姉妹の直系卑属（982条）',
+      'それでもいなければ、家にいる直系尊属のうち親等の近い人（同じなら男）（984条）',
+      'それでもいなければ、親族会が親族・家族・分家の戸主などから選ぶ。いなければ他人から（985条）',
+    ];
+    notes.push('家督相続人がいないと、その家は絶家となり、家族はそれぞれ一家を創立しました（764条）。');
+    if (input.date < D.OUKYU) notes.push('選定をしないまま昭和23年1月1日を過ぎた場合は、その相続に新しい民法を当てはめます（昭和22年法律第222号 附則25条2項）。');
+    return { period: p, kind: 'katoku-none', heirs: [], steps, notes };
+  }
+
+  // 遺産相続・応急措置法・新しい民法
+  const halfRule = (() => {
+    if (p.id === 'kyu') return true; // 1004条：庶子・私生子は嫡出子の半分
+    if (p.id === 'oukyu') return true; // 7条2項で遺産相続の規定（1004条）による
+    if (input.date >= D.H25) return false;
+    if (input.date >= D.H13) return 'court'; // 最高裁決定（平成13年7月1日〜平成25年9月4日）
+    return true;
+  })();
+  // 重み：半分の決まりがあるときは 嫡出子2・それ以外1、ないときは全員1
+  const childGroup = kids.map((c) => ({ label: c.label, w: halfRule === true ? (c.kind === 'chaku' ? 2 : 1) : 1 }));
+  const parentGroup = Array.from({ length: input.parents || 0 }, (_, i) => ({ label: input.parents > 1 ? `親${i + 1}` : '親', w: 1 }));
+  // 新しい民法900条4号ただし書：父母の一方だけ同じ兄弟姉妹は半分。応急措置法の時期は旧民法1004条（同順位は等しい）
+  const sibHalf = !(p.id === 'kyu' || p.id === 'oukyu');
+  const sibGroup = [
+    ...Array.from({ length: input.siblings || 0 }, (_, i) => ({ label: `兄弟姉妹${i + 1}（父母とも同じ）`, w: sibHalf ? 2 : 1 })),
+    ...Array.from({ length: input.halfSiblings || 0 }, (_, i) => ({ label: `兄弟姉妹（父母の一方だけ同じ）${i + 1}`, w: 1 })),
+  ];
+  const sp = input.spouse ? [{ label: '配偶者', w: 1 }] : [];
+  let res = [];
+  let kind = 'isan';
+
+  if (p.id === 'kyu') {
+    // 戸主でない家族の死亡：遺産相続
+    if (childGroup.length) res = split(childGroup, [1, 1]);
+    else if (sp.length) res = [{ label: '配偶者', share: [1, 1] }];
+    else if (parentGroup.length) res = split(parentGroup, [1, 1]);
+    else res = [{ label: '戸主', share: [1, 1] }];
+    notes.push('戸主ではない家族が亡くなったときは「遺産相続」です（992条）。順番は ①直系卑属 ②配偶者 ③直系尊属 ④戸主（994条・996条）。');
+    if (childGroup.length && sp.length) notes.push('子がいると、配偶者は相続人になりません（996条）。');
+    if (childGroup.length && kids.some((c) => c.kind !== 'chaku') && kids.some((c) => c.kind === 'chaku')) notes.push(input.date >= D.S17 ? '嫡出ニ非サル子の相続分は嫡出子の半分です（1004条、昭和17年の改正後）。' : '庶子と私生子の相続分は嫡出子の半分です（1004条）。');
+    if (!childGroup.length && !sp.length && !parentGroup.length) notes.push('直系卑属・配偶者・直系尊属がいないときは、戸主が遺産相続人です（996条）。兄弟姉妹は遺産相続人になりません。');
+  } else {
+    // 応急措置法・新しい民法：配偶者は常に相続人
+    kind = p.id === 'oukyu' ? 'oukyu' : 'shin';
+    const after81 = input.date >= D.S56;
+    const spShare = childGroup.length ? (after81 ? [1, 2] : [1, 3])
+      : parentGroup.length ? (after81 ? [2, 3] : [1, 2])
+      : sibGroup.length ? (after81 ? [3, 4] : [2, 3]) : [1, 1];
+    const group = childGroup.length ? childGroup : parentGroup.length ? parentGroup : sibGroup;
+    if (sp.length) res.push({ label: '配偶者', share: group.length ? spShare : [1, 1] });
+    if (group.length) res.push(...split(group, sp.length ? sub1(spShare) : [1, 1]));
+    if (p.id === 'oukyu') {
+      notes.push('家督相続の規定は使わず、遺産相続の規定によります（応急措置法7条）。順番は ①直系卑属 ②直系尊属 ③兄弟姉妹で、配偶者は常に相続人です（8条）。');
+    } else {
+      notes.push(p.id === 'shin1' ? '順番は ①直系卑属 ②直系尊属 ③兄弟姉妹で、配偶者は常に相続人です（887条・889条・890条）。'
+        : '順番は ①子 ②直系尊属 ③兄弟姉妹で、配偶者は常に相続人です（887条・889条・890条）。');
+      if (!after81) notes.push('配偶者の相続分は、子とともになら3分の1、直系尊属とともになら2分の1、兄弟姉妹とともになら3分の2でした（昭和55年の改正前の900条）。');
+      else notes.push('昭和56年1月1日からは、配偶者の相続分が 子とともに2分の1、直系尊属とともに3分の2、兄弟姉妹とともに4分の3 になりました（昭和55年法律第51号）。');
+      if (sibGroup.length && !childGroup.length && !parentGroup.length && (input.halfSiblings || 0) > 0 && (input.siblings || 0) > 0) notes.push('父母の一方だけが同じ兄弟姉妹の相続分は、父母とも同じ兄弟姉妹の半分です（900条4号ただし書）。');
+    }
+    if (childGroup.length && kids.some((c) => c.kind !== 'chaku') && kids.some((c) => c.kind === 'chaku')) {
+      if (halfRule === true) notes.push(p.id === 'oukyu' ? '嫡出でない子の相続分は嫡出子の半分です（応急措置法7条2項で旧民法1004条による）。' : '嫡出でない子の相続分は嫡出子の半分でした（平成25年の改正前の900条4号ただし書）。');
+      else if (halfRule === 'court') notes.push('平成13年7月1日から平成25年9月4日までに始まった相続で、まだ遺産分割をしていないなら、嫡出でない子も嫡出子と同じ相続分として扱われます（最高裁平成25年9月4日決定、法務省の説明）。分割が済んでいる場合は覆りません。上の割合は「同じ」として計算しています。');
+      else notes.push('平成25年9月5日以後に始まった相続では、嫡出でない子も嫡出子と同じ相続分です（平成25年の改正、附則2項）。');
+    }
+  }
+  if (!res.length) notes.push('相続人が見当たりません。');
+  return { period: p, kind, heirs: res, notes: notes.filter(Boolean) };
+}
+
+// 分数を「3分の1」に
+function fracText(f) { return f[0] === f[1] ? '全部' : `${f[1]}分の${f[0]}`; }
+
+const KATOKU = { D, PERIODS, ERAS, ERA_NAMES, GLOSSARY, periodOf, warekiToDate, kanjiNum, readEntry, heirs, fracText, iso, validDate, katokuRank };
+if (typeof module !== 'undefined') module.exports = KATOKU;
+(() => {
+  const K = KATOKU;
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const st = {
+    era: '昭和', y: 10, m: 3, d: 5, koshu: true, spouse: true,
+    kids: [{ sex: 'f', kind: 'chaku', sameHouse: false }, { sex: 'm', kind: 'chaku', sameHouse: true }, { sex: 'm', kind: 'chaku', sameHouse: true }],
+  };
+
+  // 年表
+  const TL = [
+    { id: 'pre', when: '〜明治31年7月15日', b: '旧民法より前', s: '民法の第4編・第5編はまだない（このページでは扱わない）' },
+    { id: 'kyu', when: '明治31年7月16日〜昭和22年5月2日', b: '旧民法', s: '戸主が亡くなると家督相続（1人がまとめて継ぐ）、家族が亡くなると遺産相続（子が分ける）。昭和17年3月1日から「私生子」は「嫡出ニ非サル子」に' },
+    { id: 'oukyu', when: '昭和22年5月3日〜同年12月31日', b: '応急措置法', s: '家督相続をやめ、配偶者が常に相続人に（子とともに3分の1）' },
+    { id: 'shin1', when: '昭和23年1月1日〜昭和37年6月30日', b: '新しい民法', s: '直系卑属・直系尊属・兄弟姉妹の順。配偶者は子とともに3分の1' },
+    { id: 'shin2', when: '昭和37年7月1日〜昭和55年12月31日', b: '昭和37年の改正', s: '「直系卑属」が「子」に。子が先に亡くなっていれば、その子が代わって相続（代襲）' },
+    { id: 'shin3', when: '昭和56年1月1日〜', b: '昭和55年の改正', s: '配偶者の相続分が 子とともに2分の1・直系尊属とともに3分の2・兄弟姉妹とともに4分の3 に。平成25年9月5日からは嫡出でない子も同じ相続分' },
+  ];
+  function renderTL(pid) {
+    $('tl').innerHTML = TL.map((t) => `<li class="${t.id === pid ? 'on' : ''}"><span class="when">${t.when}</span><span class="what"><b>${t.b}</b><span>${t.s}</span></span></li>`).join('');
+  }
+
+  // 日付
+  $('dEra').innerHTML = K.ERA_NAMES.map((e) => `<option${e === st.era ? ' selected' : ''}>${e}</option>`).join('');
+  $('dY').value = st.y; $('dM').value = st.m; $('dD').value = st.d;
+  const readDateIn = () => { st.era = $('dEra').value; st.y = +$('dY').value; st.m = +$('dM').value; st.d = +$('dD').value; render(); };
+  for (const id of ['dEra', 'dY', 'dM', 'dD']) $(id).addEventListener(id === 'dEra' ? 'change' : 'input', readDateIn);
+
+  const chipGroup = (sel, key, conv) => document.querySelectorAll(sel).forEach((b) => b.addEventListener('click', () => {
+    st[key] = conv(b);
+    document.querySelectorAll(sel).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    render();
+  }));
+  chipGroup('[data-koshu]', 'koshu', (b) => b.dataset.koshu === '1');
+  chipGroup('[data-sp]', 'spouse', (b) => b.dataset.sp === '1');
+  for (const id of ['par', 'sib', 'hsib']) $(id).addEventListener(id === 'par' ? 'change' : 'input', render);
+
+  // 子
+  function kindLabels(date) {
+    if (date && date >= K.D.OUKYU) return { chaku: '嫡出子', shoshi: '嫡出でない子（父が認知）', hi: '嫡出でない子' };
+    if (date && date >= K.D.S17) return { chaku: '嫡出子', shoshi: '庶子（父が認知）', hi: '嫡出ニ非サル子' };
+    return { chaku: '嫡出子', shoshi: '庶子（父が認知）', hi: '私生子' };
+  }
+  function renderKids(date, showHouse) {
+    const L = kindLabels(date);
+    $('kids').innerHTML = st.kids.map((c, i) => `<div class="kid" data-i="${i}">
+      <span class="no">${i + 1}番目の子</span>
+      <select data-f="sex" aria-label="${i + 1}番目の子の性別"><option value="m"${c.sex === 'm' ? ' selected' : ''}>男</option><option value="f"${c.sex === 'f' ? ' selected' : ''}>女</option></select>
+      <select data-f="kind" aria-label="${i + 1}番目の子の生まれ">${['chaku', 'shoshi', 'hi'].map((k) => `<option value="${k}"${c.kind === k ? ' selected' : ''}>${L[k]}</option>`).join('')}</select>
+      ${showHouse ? `<label class="ck"><input type="checkbox" data-f="sameHouse"${c.sameHouse ? ' checked' : ''}>同じ家（戸籍）にいた</label>` : ''}
+      <button type="button" class="btn x" data-f="del" aria-label="${i + 1}番目の子を消す">消す</button>
+    </div>`).join('') || '<p class="cap">子はいません。</p>';
+  }
+  $('kids').addEventListener('change', (e) => {
+    const row = e.target.closest('.kid'); if (!row) return;
+    const c = st.kids[+row.dataset.i], f = e.target.dataset.f;
+    if (f === 'sameHouse') c.sameHouse = e.target.checked; else if (f) c[f] = e.target.value;
+    render();
+  });
+  $('kids').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-f="del"]'); if (!b) return;
+    st.kids.splice(+b.closest('.kid').dataset.i, 1); render();
+  });
+  $('addKid').addEventListener('click', () => { st.kids.push({ sex: 'm', kind: 'chaku', sameHouse: true }); render(); });
+
+  function render() {
+    const g = K.warekiToDate(st.era, st.y, st.m, st.d);
+    const ok = g && g.iso;
+    $('dOut').textContent = !g ? '日付が正しくありません（元号の範囲や日付を確かめてください）'
+      : g.lunar ? `明治5年までは旧暦です（西暦では${g.y}年ごろ）。旧民法より前の相続です。`
+      : `西暦 ${g.y}年${g.m}月${g.d}日`;
+    const date = ok ? g.iso : (g && g.lunar ? '1872-12-31' : null);
+    const p = date ? K.periodOf(date) : null;
+    renderTL(p ? p.id : null);
+    const isKyu = p && p.id === 'kyu';
+    $('koshuF').style.display = isKyu ? '' : 'none';
+    renderKids(date, isKyu && st.koshu);
+    if (!date) { $('res').innerHTML = ''; return; }
+    const r = K.heirs({ date, koshu: st.koshu, spouse: st.spouse, children: st.kids, parents: +$('par').value, siblings: Math.max(0, +$('sib').value || 0), halfSiblings: Math.max(0, +$('hsib').value || 0) });
+    let h = `<div class="law"><b>${esc(r.period.name)}</b><span>${esc(r.period.law)}</span></div>`;
+    if (r.kind === 'katoku') {
+      h += `<p>戸主が亡くなったので<strong>家督相続</strong>です（旧民法964条）。</p>`;
+      h += `<table class="h"><tbody><tr class="top"><td>家督相続人：${esc(r.heirs[0].label)}</td><td class="s">ひとりで全部</td></tr></tbody></table>`;
+      if (r.why.length) h += `<p class="why">決め手：${r.why.map(esc).join('、')}</p>`;
+      if (r.order.length > 1) h += `<p class="cap">家にいる子の順番：${r.order.map(esc).join(' → ')}</p>`;
+    } else if (r.kind === 'katoku-none') {
+      h += `<p>戸主が亡くなったので<strong>家督相続</strong>ですが、家にいる子（法定の推定家督相続人）がいません。次の順で家督相続人が決まりました。</p><ol class="steps">${r.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>`;
+    } else if (r.kind === 'pre') {
+      // 説明だけ
+    } else if (r.heirs.length) {
+      h += `<table class="h"><thead><tr><th>相続人</th><th style="text-align:right">相続分</th></tr></thead><tbody>${r.heirs.map((x) => `<tr><td>${esc(x.label)}</td><td class="s">${esc(K.fracText(x.share))}</td></tr>`).join('')}</tbody></table>`;
+    }
+    if (r.notes.length) h += `<ul class="notes">${r.notes.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
+    $('res').innerHTML = h;
+  }
+
+  // 戸籍の記載
+  const SAMPLES = [
+    ['死亡で家督相続', '昭和拾年参月五日前戸主山田太郎死亡ニ因リ家督相続届出同月拾日受附'],
+    ['隠居で家督相続', '大正六年拾月弐拾日前戸主山田一郎隠居ニ因リ家督相続届出同日受附'],
+    ['分家', '明治参拾九年参月壱日分家届出同年四月弐日受附'],
+    ['入夫婚姻', '明治四拾参年五月八日山田花子ト入夫婚姻届出同日受附'],
+  ];
+  $('samples').innerHTML = SAMPLES.map(([t], i) => `<button type="button" class="chip" data-s="${i}">${esc(t)}</button>`).join('');
+  $('samples').addEventListener('click', (e) => { const b = e.target.closest('[data-s]'); if (!b) return; $('entry').value = SAMPLES[+b.dataset.s][1]; renderEntry(); });
+  $('entry').value = SAMPLES[0][1];
+  $('entry').addEventListener('input', renderEntry);
+  function renderEntry() {
+    const r = K.readEntry($('entry').value);
+    if (!r.normalized) { $('entryOut').innerHTML = ''; return; }
+    const html = r.tokens.map((t) => {
+      if (t.kind === 'date') {
+        const g = t.date;
+        const rt = !g ? '日付が読めません' : g.lunar ? `旧暦・${g.y}年ごろ` : `${g.y}年${g.m}月${g.d}日`;
+        return `<ruby class="dt">${esc(t.text)}<rt>${esc(rt)}</rt></ruby>`;
+      }
+      if (t.kind === 'term') return `<span class="tm">${esc(t.text)}</span>`;
+      return esc(t.text);
+    }).join('');
+    const seen = new Set();
+    const terms = r.tokens.filter((t) => t.kind === 'term' && !seen.has(t.text) && seen.add(t.text));
+    let sum = '';
+    if (r.isKatoku) {
+      const d0 = r.dates[0];
+      sum = `<p>家督相続の記載です。${r.cause ? `原因は「${esc(r.cause)}」。` : ''}${d0 && d0.date && d0.date.iso ? `最初の日付（${d0.date.y}年${d0.date.m}月${d0.date.d}日）は、家督相続が始まった日、つまり新しい戸主が戸主になった日とみられます。家督相続の届書には「家督相続の原因と戸主になった年月日」を書くことになっていました（戸籍法（大正3年）125条）。` : ''}${r.normalized.includes('受附') ? '「受附」の前の日付は、役場が届出を受け付けた日です。' : ''}</p>`;
+    }
+    const dates = r.dates.map((d) => `<section><span class="w">${esc(d.text)}</span><span class="d">${!d.date ? '日付として読めませんでした' : d.date.lunar ? `明治5年までは旧暦です（西暦では${d.date.y}年ごろ。月日は旧暦のまま）` : `${d.era}${d.y === 1 ? '元' : d.y}年${d.m}月${d.d}日 ＝ 西暦${d.date.y}年${d.date.m}月${d.date.d}日`}</span></section>`).join('');
+    const ex = terms.map((t) => `<section><span class="w">${esc(t.term.t)}</span><span class="d">${esc(t.term.d)}</span>${t.term.a ? `<span class="a">${esc(t.term.a)}</span>` : ''}</section>`).join('');
+    $('entryOut').innerHTML = `<div style="display:grid;gap:10px"><div class="entry">${html}</div>${sum}<div class="explain">${dates}${ex}</div></div>`;
+  }
+
+  // 用語
+  $('gloss').innerHTML = K.GLOSSARY.map((g) => `<div><dt>${esc(g.t)}</dt><dd>${esc(g.d)}${g.a ? ` <small>${esc(g.a)}</small>` : ''}</dd></div>`).join('');
+
+  render(); renderEntry();
+})();
+</script>
+</body>
+</html>

@@ -550,5 +550,34 @@ const find = (s, key) => s.items.find(it => it.key === key);
   eq("十六日祭 2034(閏11月の案)", md(O(2034).juroku), "3/6");
 }
 
+/* 四十九日の早見表(guide/shijukunichi-hayami/): 全行の四十九日と百箇日を、本体を通さず Date の足し算で確かめる */
+{
+  const html = fs.readFileSync(path.join(__dirname, "..", "guide", "shijukunichi-hayami", "index.html"), "utf8");
+  const blocks = [...html.matchAll(/<details class="month-49" id="m(\d+)-(\d+)">([\s\S]*?)<\/details>/g)];
+  eq("四十九日の早見表は24か月分", blocks.length, 24);
+  const bad = [];
+  let rows = 0;
+  for (const [, ys, ms, body] of blocks) {
+    const y = Number(ys), m = Number(ms);
+    const trs = [...body.matchAll(/<tr><th>(\d+)月(\d+)日\([^)]*\)(?:<small>([^<]*)<\/small>)?<\/th><td class="num[^"]*">(?:(\d+)年)?(\d+)月(\d+)日\([^)]*\)<\/td><td>[^<]*<\/td><td class="num">(\d+)\/(\d+)\(/g)];
+    const nd = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    if (trs.length !== nd) bad.push(`${y}-${m} 行数${trs.length}`);
+    for (const t of trs) {
+      rows++;
+      const d = Number(t[2]);
+      const base = Date.UTC(y, m - 1, d);
+      const d49 = new Date(base + 48 * 86400000), d100 = new Date(base + 99 * 86400000);
+      const y49 = t[4] ? Number(t[4]) : y;
+      if (y49 !== d49.getUTCFullYear() || Number(t[5]) !== d49.getUTCMonth() + 1 || Number(t[6]) !== d49.getUTCDate()) bad.push(`${y}-${m}-${d} 49`);
+      if (Number(t[7]) !== d100.getUTCMonth() + 1 || Number(t[8]) !== d100.getUTCDate()) bad.push(`${y}-${m}-${d} 100`);
+      // 三月越し: 四十九日が命日の月から数えて3つめ以降の月(※の有無)
+      const span = (d49.getUTCFullYear() * 12 + d49.getUTCMonth()) - (y * 12 + m - 1);
+      if ((span >= 2) !== !!t[3]) bad.push(`${y}-${m}-${d} 三月越し`);
+    }
+  }
+  eq("四十九日の早見表の行数", rows, 730);
+  eq("四十九日・百箇日・三月越しが Date の計算と食い違う行", bad.slice(0, 5), []);
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

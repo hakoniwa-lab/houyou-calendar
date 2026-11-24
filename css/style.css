@@ -704,6 +704,12 @@ html, body {
 .spec tr.is-minor th, .spec tr.is-minor td { font-weight: 400; font-size: 0.8rem; }
 .spec tr.is-now th, .spec tr.is-now td { color: var(--color-primary); font-weight: 700; }
 .spec td.is-rest { color: var(--color-primary); font-weight: 700; }
+/* 四十九日の早見表: 月ごとに開く */
+.month-49 { border-bottom: 1px dashed var(--color-border); padding: 8px 0; }
+.month-49 summary { cursor: pointer; font-weight: 700; font-size: 0.9rem; }
+.month-49 summary::marker { color: var(--color-primary); }
+.month-49 .table-scroll { margin-top: 8px; }
+.spec--49 th small { display: block; font-weight: 400; color: var(--color-text-muted); }
 /* 年忌早見表の宗派の表: ○△— を中央に、○は濃く、—は薄く */
 .spec.spec--shuha { font-size: 0.8rem; }
 .spec--shuha th, .spec--shuha td { text-align: center; padding: 8px 3px; }

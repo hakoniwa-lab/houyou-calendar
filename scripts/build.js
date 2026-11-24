@@ -341,6 +341,92 @@ function writeSafe(file, content, minBytes) {
   writeSafe(path.join(root, "guide", "okinawa-juurokunichi-shiimii", "index.html"), out, tpl.length);
 }
 
+/* ---- 四十九日の早見表(guide/shijukunichi-hayami/) ----
+ * 命日ごとの四十九日・前倒しの候補・百箇日を、本体の buildSchedule からそのまま作る(数え方を写さない)。
+ * 範囲は Y1 の前の年の1月〜Y1の12月(build.js 2027 なら 2026〜2027年に亡くなった方) */
+{
+  const YA = Y1 - 1, YB = Y1;
+  const md = (i) => `${i.m}月${i.d}日(${i.wdName}${i.holiday ? "・祝" : ""})`;
+  const mdS = (i) => `${i.m}/${i.d}`;
+  const rowsOf = (y, m) => {
+    const n = call("daysInMonth", y, m);
+    const out = [];
+    for (let d = 1; d <= n; d++) {
+      const s = call("buildSchedule", { y, m, d });
+      const it = (k) => s.items.find((x) => x.key === k);
+      const d49 = it("49"), d35 = it("35"), d100 = it("100");
+      out.push({ death: s.death, d49, d35, d100, mitsuki: !!s.mitsukigoshi });
+    }
+    return out;
+  };
+  const cand = (it) => it.info.isRest ? "当日が休日" : it.candidates.map((c) => `${mdS(c)}(${c.wdName})`).join("・");
+  const monthTable = (y, m) => {
+    const rows = rowsOf(y, m).map((r) => {
+      const th = `<th>${md(r.death)}${r.mitsuki ? `<small>※三十五日 ${mdS(r.d35.info)}(${r.d35.info.wdName})</small>` : ""}</th>`;
+      const c49 = `<td class="num${r.d49.info.isRest ? " is-rest" : ""}">${r.d49.info.y !== y ? r.d49.info.y + "年" : ""}${md(r.d49.info)}</td>`;
+      return `<tr>${th}${c49}<td>${cand(r.d49)}</td><td class="num">${mdS(r.d100.info)}(${r.d100.info.wdName})</td></tr>`;
+    }).join("");
+    return `<table class="spec spec--wrap spec--49"><thead><tr><th>命日</th><th>四十九日</th><th>平日なら前倒しの候補</th><th>百箇日</th></tr></thead><tbody>${rows}</tbody></table>`;
+  };
+  const blocks = [];
+  for (const y of [YA, YB]) {
+    for (let m = 1; m <= 12; m++) {
+      blocks.push(`      <details class="month-49" id="m${y}-${m}">\n        <summary>${y}年${m}月に亡くなった方</summary>\n        <div class="table-scroll">\n${monthTable(y, m)}\n        </div>\n      </details>`);
+    }
+  }
+  const TABLES = blocks.join("\n");
+
+  // 四十九日が年末年始(12/29〜1/3)にかかる命日の範囲(YA・YBの年末)
+  const nenmatsu = [YA, YB].map((y) => {
+    const hits = [];
+    for (const m of [11, 12]) for (const r of rowsOf(y, m)) {
+      const i = r.d49.info;
+      if ((i.m === 12 && i.d >= 29) || (i.m === 1 && i.d <= 3)) hits.push(r);
+    }
+    const a = hits[0], b = hits[hits.length - 1];
+    return { y, from: a.death, to: b.death, firstCand: a.d49.candidates, lastCand: b.d49.candidates };
+  });
+  const NENMATSU_ROWS = nenmatsu.map((n) =>
+    `<tr><th>${n.y}年${mdS(n.from)}〜${mdS(n.to)}</th><td>${n.y}年12月29日〜${n.y + 1}年1月3日</td></tr>`).join("");
+  const n0 = nenmatsu[0];
+
+  // 例(本文・FAQ): 11月15日に亡くなった方
+  const ex = call("buildSchedule", { y: YA, m: 11, d: 15 });
+  const ex49 = ex.items.find((x) => x.key === "49");
+  const EX_TEXT = `${YA}年11月15日(${ex.death.wdName})に亡くなった方の四十九日は、${ex49.info.y}年${md(ex49.info)}です`;
+
+  const faq = [
+    ["四十九日はいつですか？どう数えますか？",
+      "亡くなった日(命日)を1日目と数えて49日目、つまり命日の48日後です。曜日は命日の前の曜日になります(月曜に亡くなったら日曜)。関西の一部では命日の前日を1日目として数えるので、1日早くなります。"],
+    [`${YA}年11月15日に亡くなった場合、四十九日はいつですか？`,
+      `${ex49.info.y}年${md(ex49.info)}です。` + (ex49.info.isRest ? "休日なので、そのまま法要を営みやすい日です。" : `平日なので、前倒しするなら${cand(ex49)}が候補です。`)],
+    ["四十九日が平日のときはどうしますか？",
+      "直前の土日(休日)に前倒しして営むのが一般的です。後ろにずらすのは避けるとされます。表の「平日なら前倒しの候補」は、四十九日より前でいちばん近い休日のかたまりです。"],
+    ["三月越し(みつきごし)とは何ですか？",
+      "四十九日が、亡くなった月から数えて3つめの月にかかることです。「始終苦労が身に付く」として、三十五日(五七日)で忌明けとする地域があります。月の半ば以降に亡くなるとほぼ該当します。表では※で示し、三十五日の日付を添えています。"],
+    ["四十九日が年末年始にかかるときは？",
+      `${n0.y}年は${mdS(n0.from)}〜${mdS(n0.to)}に亡くなった方の四十九日が、12月29日〜1月3日にかかります。お寺や会場が休みのことが多い時期なので、早めに菩提寺と相談しておくと安心です。後ろにずらさないなら、12月中の土日に前倒しします。`],
+  ];
+  const faqJson = JSON.stringify({
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  });
+  const faqHtml = faq.map(([q, a]) =>
+    `      <details class="faq-item">\n        <summary>${q}</summary>\n        <p>${a}</p>\n      </details>`).join("\n");
+
+  const vars = {
+    YA: String(YA), YB: String(YB), TABLES, NENMATSU_ROWS, EX_TEXT,
+    FAQ_JSON: faqJson, FAQ_HTML: faqHtml,
+  };
+  const tpl = fs.readFileSync(path.join(__dirname, "shijuku.template.html"), "utf8");
+  const out = tpl.replace(/\{\{([A-Z0-9_]+)\}\}/g, (m, k) => {
+    if (!(k in vars)) throw new Error(`テンプレートの ${m} に値がありません`);
+    return vars[k];
+  });
+  fs.mkdirSync(path.join(root, "guide", "shijukunichi-hayami"), { recursive: true });
+  writeSafe(path.join(root, "guide", "shijukunichi-hayami", "index.html"), out, tpl.length);
+}
+
 /* ---- お彼岸の早見表の記事(guide/higan-hayami/) ----
  * 年の範囲は固定。OFFICIAL_TO は「官報で正式に決まった最後の年」。
  * 毎年2月の官報で翌年分が決まるので、そのたびに1つ進めて流し直す(本文の「予想」の印が動く) */

@@ -704,6 +704,15 @@ html, body {
 .spec tr.is-minor th, .spec tr.is-minor td { font-weight: 400; font-size: 0.8rem; }
 .spec tr.is-now th, .spec tr.is-now td { color: var(--color-primary); font-weight: 700; }
 .spec td.is-rest { color: var(--color-primary); font-weight: 700; }
+/* 年忌早見表の宗派の表: ○△— を中央に、○は濃く、—は薄く */
+.spec.spec--shuha { font-size: 0.8rem; }
+.spec--shuha th, .spec--shuha td { text-align: center; padding: 8px 3px; }
+.spec--shuha thead th { font-size: 0.7rem; white-space: nowrap; }
+.spec--shuha tbody th, .spec--shuha thead th:first-child { text-align: left; }
+.spec--shuha td.num { white-space: nowrap; }
+.spec--shuha td.is-yes { color: var(--color-text); font-weight: 700; }
+.spec--shuha td.is-maybe { color: var(--color-primary); font-weight: 700; }
+.spec--shuha td.is-no { color: var(--color-text-muted); font-size: 0.8rem; }
 .spec th small { display: block; font-size: 0.7rem; font-weight: 400; color: var(--color-text-muted); }
 /* 見出し列が長い表(続柄など)は折り返す。列が多い表は狭い画面で横に送る */
 .spec--wrap tbody th { white-space: normal; min-width: 7em; }

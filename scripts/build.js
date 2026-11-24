@@ -427,6 +427,70 @@ function writeSafe(file, content, minBytes) {
   writeSafe(path.join(root, "guide", "shijukunichi-hayami", "index.html"), out, tpl.length);
 }
 
+/* ---- 喪中・忌中の初詣(guide/mochu-hatsumoude/) ----
+ * 神社本庁「服忌について」: 忌の期間(五十日祭まで)は神社の参拝を控え、50日を過ぎれば原則として参拝してよい。
+ * 命日を1日目として50日目が五十日(五十日祭)。ここでは「50日を過ぎた」=51日目(命日＋50日)を参拝の目安にする。
+ * 年は build.js の引数 Y1 の正月(Y1-1年の年末に亡くなった方)。日付は dayInfo で出し、手で書かない */
+{
+  const NY = Y1;                     // 初詣の年
+  const md = (i) => `${i.m}月${i.d}日(${i.wdName}${i.holiday ? "・祝" : ""})`;
+  const mdS = (i) => `${i.m}/${i.d}`;
+  const di = (idx) => call("dayInfo", idx);
+  const J = (y, m, d) => call("jdn", y, m, d);
+  // 参拝の目安日(51日目)が ある日以前になる、いちばん遅い命日
+  const lastDeathFor = (idx) => di(idx - 50);
+  const marks = [
+    [J(NY, 1, 1), "元日(1月1日)"],
+    [J(NY, 1, 3), "三が日(1月3日)まで"],
+    [J(NY, 1, 7), "松の内(1月7日)まで"],
+    [J(NY, 1, 15), "1月15日(関西などの松の内)まで"],
+  ];
+  const MARK_ROWS = marks.map(([idx, label]) => {
+    const d = lastDeathFor(idx);
+    return `<tr><th>${label}</th><td>${NY - 1}年${md(d)}までに亡くなった方</td></tr>`;
+  }).join("");
+  const m1 = lastDeathFor(marks[0][0]), m7 = lastDeathFor(marks[2][0]);
+
+  // 命日ごとの表(Y1-1年の11月1日〜12月31日)
+  const rows = [];
+  for (let idx = J(NY - 1, 11, 1); idx <= J(NY - 1, 12, 31); idx++) {
+    const d = di(idx), d50 = di(idx + 49), ok = di(idx + 50);
+    rows.push(`<tr><th>${md(d)}</th><td class="num">${d50.y !== d.y ? d50.y + "年" : ""}${md(d50)}</td><td class="num${ok.idx <= marks[0][0] ? " is-rest" : ""}">${ok.y !== d.y ? ok.y + "年" : ""}${md(ok)}</td></tr>`);
+  }
+  const TABLE_DAYS = `<table class="spec spec--wrap"><thead><tr><th>命日</th><th>五十日(50日目)</th><th>参拝の目安(51日目〜)</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
+
+  const faq = [
+    [`喪中でも初詣に行っていいですか？`,
+      "神社本庁は、忌(五十日祭まで)の期間は神社の参拝を控え、50日を過ぎれば原則として参拝してよいとしています。喪中(一年祭まで)でも、忌が明けていれば参拝できるという整理です。地域に慣例がある場合はそちらが優先します。"],
+    [`${NY}年の元日に忌が明けているのは、いつまでに亡くなった方ですか？`,
+      `${NY - 1}年${md(m1)}までに亡くなった方です(命日を1日目として50日を過ぎている)。松の内の1月7日までなら、${md(m7)}までに亡くなった方です。`],
+    ["忌中に初詣に行ってしまったら？",
+      "神社本庁は、忌の期間にやむを得ず参拝するときはお祓いを受けてから、としています。気になるなら、忌が明けてから改めてお参りするか、神社に相談してお祓いを受けると安心です。"],
+    ["お寺への初詣は忌中でもいいですか？",
+      "仏教では死を穢れとしないため、お寺へのお参りは忌中でも差し支えないとされるのが一般的です。神社の考え方(服忌)とは分けて考えます。"],
+    ["喪中になるのは何親等までですか？",
+      "法律の決まりはなく、一般には2親等までを目安にすることが多いです。続柄ごとの親等は、喪中の範囲の判定ツールで確かめられます。"],
+  ];
+  const faqJson = JSON.stringify({
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  });
+  const faqHtml = faq.map(([q, a]) =>
+    `      <details class="faq-item">\n        <summary>${q}</summary>\n        <p>${a}</p>\n      </details>`).join("\n");
+
+  const vars = {
+    NY: String(NY), NYP: String(NY - 1), M1: md(m1), M7: md(m7), MARK_ROWS, TABLE_DAYS,
+    FAQ_JSON: faqJson, FAQ_HTML: faqHtml,
+  };
+  const tpl = fs.readFileSync(path.join(__dirname, "hatsumoude.template.html"), "utf8");
+  const out = tpl.replace(/\{\{([A-Z0-9_]+)\}\}/g, (m, k) => {
+    if (!(k in vars)) throw new Error(`テンプレートの ${m} に値がありません`);
+    return vars[k];
+  });
+  fs.mkdirSync(path.join(root, "guide", "mochu-hatsumoude"), { recursive: true });
+  writeSafe(path.join(root, "guide", "mochu-hatsumoude", "index.html"), out, tpl.length);
+}
+
 /* ---- お彼岸の早見表の記事(guide/higan-hayami/) ----
  * 年の範囲は固定。OFFICIAL_TO は「官報で正式に決まった最後の年」。
  * 毎年2月の官報で翌年分が決まるので、そのたびに1つ進めて流し直す(本文の「予想」の印が動く) */

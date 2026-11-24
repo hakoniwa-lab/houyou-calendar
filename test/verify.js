@@ -505,7 +505,7 @@ const find = (s, key) => s.items.find(it => it.key === key);
    記事の表は手で書いているので、data-rel の続柄ごとに本体の judgeShinzoku と突き合わせる */
 {
   const dir = path.join(__dirname, "..", "guide");
-  const pages = fs.readdirSync(dir).filter((d) => d.startsWith("mochu-") && d !== "mochu-hagaki-itsumade");
+  const pages = fs.readdirSync(dir).filter((d) => d.startsWith("mochu-") && !["mochu-hagaki-itsumade", "mochu-hatsumoude"].includes(d));
   eq("続柄別の記事が3本ある", pages.sort(), ["mochu-giri-kyodai", "mochu-haigusha-sofubo", "mochu-itoko-oji"]);
   for (const d of pages) {
     const html = fs.readFileSync(path.join(dir, d, "index.html"), "utf8");
@@ -577,6 +577,24 @@ const find = (s, key) => s.items.find(it => it.key === key);
   }
   eq("四十九日の早見表の行数", rows, 730);
   eq("四十九日・百箇日・三月越しが Date の計算と食い違う行", bad.slice(0, 5), []);
+}
+
+/* 喪中・忌中の初詣(guide/mochu-hatsumoude/): 五十日(命日+49)と参拝の目安(命日+50)を Date の足し算で確かめる */
+{
+  const html = fs.readFileSync(path.join(__dirname, "..", "guide", "mochu-hatsumoude", "index.html"), "utf8");
+  const plus = (y, m, d, n) => { const t = new Date(Date.UTC(y, m - 1, d) + n * 86400000); return [t.getUTCFullYear(), t.getUTCMonth() + 1, t.getUTCDate()]; };
+  // 元日・三が日・松の内・1/15 に忌が明けている最後の命日(本文の表)
+  const marks = [...html.matchAll(/<td>(\d+)年(\d+)月(\d+)日\([^)]*\)までに亡くなった方<\/td>/g)].map((m) => plus(+m[1], +m[2], +m[3], 50).join("-"));
+  const NY = Number(html.match(/<title>[^<]*?(\d{4})年の元日/)[1]);
+  eq("初詣の区切り(命日+50日が 1/1・1/3・1/7・1/15)", marks, [`${NY}-1-1`, `${NY}-1-3`, `${NY}-1-7`, `${NY}-1-15`]);
+  const rows = [...html.matchAll(/<tr><th>(\d+)月(\d+)日\([^)]*\)<\/th><td class="num">(?:(\d+)年)?(\d+)月(\d+)日\([^)]*\)<\/td><td class="num[^"]*">(?:(\d+)年)?(\d+)月(\d+)日\([^)]*\)<\/td><\/tr>/g)];
+  eq("初詣の早見表は11・12月の61行", rows.length, 61);
+  const bad = rows.filter((r) => {
+    const y = NY - 1;
+    const f = plus(y, +r[1], +r[2], 49), o = plus(y, +r[1], +r[2], 50);
+    return [r[3] ? +r[3] : y, +r[4], +r[5]].join("-") !== f.join("-") || [r[6] ? +r[6] : y, +r[7], +r[8]].join("-") !== o.join("-");
+  }).map((r) => `${r[1]}/${r[2]}`);
+  eq("初詣の早見表の五十日・目安が Date の計算と食い違う行", bad, []);
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

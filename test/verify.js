@@ -544,6 +544,10 @@ const find = (s, key) => s.items.find(it => it.key === key);
   const cn = []; for (let y = 2000; y <= 2060; y++) if (O(y).cnEarlier) cn.push(y);
   eq("中国の暦で旧正月が1日早い年", cn, [2027, 2028]);
   eq("2027年の旧正月の朔", O(2027).newMoon, { hh: 0, mi: 56 });
+  /* 旧暦2033年問題: 本体は閏11月の案(暦Wikiの案1)。2033/12/22が閏11月、2034/2/19が1月 → 十六日祭は3/6。
+     閏1月の案(案3)なら1/20が1月で十六日祭は2/4になる(本文の注記) */
+  eq("2033/12/22は閏11月", run("lunarDate(2033, 12, 22)"), { num: 11, day: 1, leap: true });
+  eq("十六日祭 2034(閏11月の案)", md(O(2034).juroku), "3/6");
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

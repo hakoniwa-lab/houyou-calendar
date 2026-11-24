@@ -281,7 +281,9 @@ function writeSafe(file, content, minBytes) {
   const TABLE_MAIN = headPlain(["年", "十六日祭", "シーミーの期間", "旧正月"]) +
     years(FROM, TO).map((y) => {
       const o = O(y);
-      return `<tr>${yearTh(y)}${cell(o.juroku)}<td class="num">${mdShort(o.seimei)}〜${mdShort(o.seimeiEnd)}</td>${cell(o.kyushogatsu)}</tr>`;
+      // 2034年の旧正月・十六日祭は旧暦2033年問題の案で変わる(表は閏11月の案。本文に注記)
+      const yt = y === 2034 ? `<th>${y}年※<small>${wareki(y)}</small></th>` : yearTh(y);
+      return `<tr>${yt}${cell(o.juroku)}<td class="num">${mdShort(o.seimei)}〜${mdShort(o.seimeiEnd)}</td>${cell(o.kyushogatsu)}</tr>`;
     }).join("") + "</tbody></table>";
 
   const TABLE_REST = head(["年", "清明の期間", "期間中の土日祝"]) +

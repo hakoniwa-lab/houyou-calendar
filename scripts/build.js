@@ -249,6 +249,96 @@ function writeSafe(file, content, minBytes) {
   writeSafe(path.join(root, "guide", "kyubon-okinawa", "index.html"), out, tpl.length);
 }
 
+/* ---- 沖縄の十六日祭とシーミーの記事(guide/okinawa-juurokunichi-shiimii/) ----
+ * 表の範囲は固定、冒頭の年は build.js の引数(Y1)で動く。日付は本体の okinawaSpringInfo から作る。
+ * 十六日祭の既知の日付・清明の日付・中国の暦でずれる年は test/verify.js で確かめている */
+{
+  const FROM = 2026, TO = 2040;
+  const O = (y) => call("okinawaSpringInfo", y);
+  const years = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+  const md = (i) => `${i.m}月${i.d}日(${i.wdName}${i.holiday ? "・" + i.holiday : ""})`;
+  const mdShort = (i) => `${i.m}月${i.d}日`;
+  const cell = (i) => `<td class="num${i.isRest ? " is-rest" : ""}">${md(i)}</td>`;
+  const yearTh = (y) => `<th>${y}年<small>${wareki(y)}</small></th>`;
+  const head = (cols) => `<table class="spec spec--wrap"><thead><tr>${cols.map((c) => `<th>${c}</th>`).join("")}</tr></thead><tbody>`;
+  const joinJa = (arr) => arr.join("・");
+  const period = (o) => `${md(o.seimei)}〜${md(o.seimeiEnd)}`;
+  const restList = (o) => joinJa(o.rest.map((i) => `${i.m}/${i.d}(${i.wdName}${i.holiday ? "・祝" : ""})`));
+
+  const o1 = O(Y1), o2 = O(Y2);
+  const J1 = md(o1.juroku), J2 = md(o2.juroku), S1 = period(o1);
+  const TABLE_Y1 = head(["行事", "日付"]) +
+    `<tr><th>旧正月(旧暦1月1日)</th>${cell(o1.kyushogatsu)}</tr>` +
+    `<tr><th>十六日祭(旧暦1月16日)</th>${cell(o1.juroku)}</tr>` +
+    `<tr><th>シーミーの期間の始まり(清明)</th>${cell(o1.seimei)}</tr>` +
+    `<tr><th>シーミーの期間の終わり(穀雨の前日)</th>${cell(o1.seimeiEnd)}</tr>` +
+    `<tr><th>期間中の土日祝</th><td>${restList(o1)}</td></tr>` +
+    "</tbody></table>";
+  const Y1_NOTE = `${Y1}年の十六日祭は${o1.juroku.isRest ? "休日" : "平日"}(${o1.juroku.wdName}曜${o1.juroku.holiday ? "・" + o1.juroku.holiday : ""})です。` +
+    `次の${Y2}年は、十六日祭が${J2}、シーミーを行う清明の期間が${period(o2)}です。`;
+
+  const headPlain = (cols) => `<table class="spec"><thead><tr>${cols.map((c) => `<th>${c}</th>`).join("")}</tr></thead><tbody>`;
+  const TABLE_MAIN = headPlain(["年", "十六日祭", "シーミーの期間", "旧正月"]) +
+    years(FROM, TO).map((y) => {
+      const o = O(y);
+      return `<tr>${yearTh(y)}${cell(o.juroku)}<td class="num">${mdShort(o.seimei)}〜${mdShort(o.seimeiEnd)}</td>${cell(o.kyushogatsu)}</tr>`;
+    }).join("") + "</tbody></table>";
+
+  const TABLE_REST = head(["年", "清明の期間", "期間中の土日祝"]) +
+    years(Y1, Y1 + 4).map((y) => {
+      const o = O(y);
+      return `<tr>${yearTh(y)}<td>${mdShort(o.seimei)}〜${mdShort(o.seimeiEnd)}</td><td>${restList(o)}</td></tr>`;
+    }).join("") + "</tbody></table>";
+
+  // 日本の旧暦と中国の農暦で旧正月がずれる年(2000〜2060年)。本文は「この2年だけ」と書いているので数が変わったら止める
+  const cnYears = years(2000, 2060).filter((y) => O(y).cnEarlier);
+  if (cnYears.join() !== "2027,2028") throw new Error(`中国の暦でずれる年が想定と違う: ${cnYears}`);
+  const CN_YEARS = cnYears.map((y) => `${y}年`).join("と");
+  const CN_DETAIL = cnYears.map((y) => {
+    const o = O(y);
+    return `${y}年の旧正月の新月は、日本時間の${o.kyushogatsu.m}月${o.kyushogatsu.d}日${o.newMoon.hh}時${o.newMoon.mi}分です。`;
+  }).join("");
+
+  // 十六日祭がいちばん早い年・遅い年(表の範囲)
+  const js = years(FROM, TO).map((y) => O(y).juroku);
+  const earliest = js.reduce((a, b) => (b.m * 100 + b.d < a.m * 100 + a.d ? b : a));
+  const latest = js.reduce((a, b) => (b.m * 100 + b.d > a.m * 100 + a.d ? b : a));
+
+  const faq = [
+    [`${Y1}年の十六日祭(ジュールクニチー)はいつですか？`,
+      `${J1}です。旧暦の1月16日にあたります。${Y2}年は${J2}です。`],
+    [`${Y1}年のシーミー(清明祭)はいつですか？`,
+      `シーミーを行う清明の期間は${S1}です。この期間のうち、親族が集まれる日を選んで行います。期間中の土日祝は${restList(o1)}です。`],
+    ["十六日祭とシーミーは、どちらをするのですか？",
+      "地域で分かれます。シーミー(清明祭)は沖縄本島の中南部や伊是名島・伊平屋島・慶良間諸島で行い、清明祭をしない本島北部・久米島・宮古・八重山・奄美などでは、十六日祭か旧暦の七夕が先祖をまつる行事になります。家や親族によって両方行うこともあります。"],
+    ["十六日祭の日付が毎年変わるのはなぜですか？",
+      `旧暦の1月16日なので、新暦では毎年日付が動きます。${FROM}〜${TO}年では、いちばん早いのが${mdShort(earliest)}(${earliest.y}年)、いちばん遅いのが${mdShort(latest)}(${latest.y}年)です。シーミーの期間は太陽の位置で決まる清明から始まるので、毎年4月4日か5日からでほとんど動きません。`],
+    [`${Y1}年の旧正月はいつですか？`,
+      `日本の旧暦では${md(o1.kyushogatsu)}です。` + (o1.cnEarlier
+        ? `新月が日本時間の${o1.newMoon.hh}時${o1.newMoon.mi}分なので、北京時間で数える中国の春節は1日早い${mdShort(call("dayInfo", o1.kyushogatsu.idx - 1))}になります。沖縄の行事は日本の旧暦で数えます。`
+        : "")],
+  ];
+  const faqJson = JSON.stringify({
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  });
+  const faqHtml = faq.map(([q, a]) =>
+    `      <details class="faq-item">\n        <summary>${q}</summary>\n        <p>${a}</p>\n      </details>`).join("\n");
+
+  const vars = {
+    FROM: String(FROM), TO: String(TO), Y1: String(Y1), Y2: String(Y2), W1: wareki(Y1),
+    J1, S1, TABLE_Y1, Y1_NOTE, TABLE_MAIN, TABLE_REST, CN_YEARS, CN_DETAIL,
+    FAQ_JSON: faqJson, FAQ_HTML: faqHtml,
+  };
+  const tpl = fs.readFileSync(path.join(__dirname, "okinawa-spring.template.html"), "utf8");
+  const out = tpl.replace(/\{\{([A-Z0-9_]+)\}\}/g, (m, k) => {
+    if (!(k in vars)) throw new Error(`テンプレートの ${m} に値がありません`);
+    return vars[k];
+  });
+  fs.mkdirSync(path.join(root, "guide", "okinawa-juurokunichi-shiimii"), { recursive: true });
+  writeSafe(path.join(root, "guide", "okinawa-juurokunichi-shiimii", "index.html"), out, tpl.length);
+}
+
 /* ---- お彼岸の早見表の記事(guide/higan-hayami/) ----
  * 年の範囲は固定。OFFICIAL_TO は「官報で正式に決まった最後の年」。
  * 毎年2月の官報で翌年分が決まるので、そのたびに1つ進めて流し直す(本文の「予想」の印が動く) */

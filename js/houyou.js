@@ -570,6 +570,44 @@ function nenkiByDeathYearHtml(deathYear, style, thisYear) {
 }
 
 /* 旧盆(ウンケー・ナカビ・ウークイ)の表 */
+/*
+ * 沖縄の春の先祖行事(guide/okinawa-juurokunichi-shiimii/)用。
+ *   kyushogatsu: 旧暦1月1日(旧正月)
+ *   juroku:      旧暦1月16日(十六日祭・ジュールクニチー。後生(グソー)の正月)
+ *   seimei:      清明の節入り(太陽黄経15度の日)。シーミー(清明祭)はこの日から
+ *   seimeiEnd:   穀雨(黄経30度)の前日。清明の期間の終わり
+ *   rest:        清明の期間の土日祝
+ *   cnEarlier:   旧正月の朔が日本時間の0時台で、北京時間(UTC+8)ではまだ前の日。
+ *                中国の暦(農暦)で数えると旧正月と十六日祭が1日早くなる年
+ */
+function okinawaSpringInfo(year) {
+  let s = null;
+  for (let idx = jdn(year, 1, 15); idx <= jdn(year, 2, 25); idx++) {
+    const { y, m, d } = ymdOf(idx);
+    const l = lunarDate(y, m, d);
+    if (l && l.num === 1 && !l.leap && l.day === 1) { s = idx; break; }
+  }
+  if (s === null) return null;
+  const nm = newMoonNear(jstDayMidUt(s));
+  const jst = jdToJstParts(nm), cn = jdToJstParts(nm - 1 / 24);
+  const seimei = termDay(year, 4, 15), kokuu = termDay(year, 4, 30);
+  const rest = [];
+  for (let idx = seimei; idx < kokuu; idx++) {
+    const di = dayInfo(idx);
+    if (di.isRest) rest.push(di);
+  }
+  return {
+    year,
+    kyushogatsu: dayInfo(s),
+    juroku: dayInfo(s + 15),
+    seimei: dayInfo(seimei),
+    seimeiEnd: dayInfo(kokuu - 1),
+    rest,
+    newMoon: { hh: jst.hh, mi: jst.mi },
+    cnEarlier: jst.d !== cn.d,
+  };
+}
+
 function kyubonTableHtml(fromYear, count) {
   const rows = [];
   for (let y = fromYear; y < fromYear + count; y++) {

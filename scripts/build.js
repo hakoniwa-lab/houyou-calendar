@@ -491,6 +491,61 @@ function writeSafe(file, content, minBytes) {
   writeSafe(path.join(root, "guide", "mochu-hatsumoude", "index.html"), out, tpl.length);
 }
 
+/* ---- 神道の年祭(guide/shinto-nensai/) ----
+ * 表は本体の nenkiTableHtml(年, "shinto")(年忌早見表の神式の表と同じ)。年は build.js の引数 Y1・Y2。
+ * 年祭の順番・霊祭・春秋の霊祭は宮城県神社庁「神葬祭」による。春分・秋分は termDay */
+{
+  const md = (i) => `${i.m}月${i.d}日(${i.wdName}${i.holiday ? "・" + i.holiday : ""})`;
+  const shunbun = call("dayInfo", call("termDay", Y1, 3, 0));
+  const shuubun = call("dayInfo", call("termDay", Y1, 9, 180));
+  // 仏式との対応(満年数 → 仏式でいう何回忌の年か)
+  const NAMES = { 1: "一周忌と同じ年", 2: "三回忌と同じ年", 6: "七回忌と同じ年", 12: "十三回忌と同じ年", 16: "十七回忌と同じ年",
+    22: "二十三回忌と同じ年", 24: "二十五回忌と同じ年", 26: "二十七回忌と同じ年", 32: "三十三回忌と同じ年", 49: "五十回忌と同じ年" };
+  const near = (n) => {
+    if (NAMES[n]) return NAMES[n];
+    // いちばん近い仏式の回忌の年と、何年ずれるか
+    const k = Object.keys(NAMES).map(Number).sort((x, y) => Math.abs(x - n) - Math.abs(y - n) || x - y)[0];
+    if (Math.abs(k - n) > 2) return "仏式では回忌のない年";
+    return NAMES[k].replace("と同じ年", k < n ? `の${n - k}年あと` : `の${k - n}年まえ`);
+  };
+  const shikinen = vm.runInContext("SHIKINEN.map((s) => ({ name: s.name, years: s.years }))", ctx);
+  const COMPARE_ROWS = shikinen.map((t) => `<tr><th>${t.name}</th><td>満${t.years}年</td><td>${near(t.years)}</td></tr>`).join("");
+  const y1 = (n) => Y1 - n;
+
+  const faq = [
+    ["一年祭の次は何年祭ですか？",
+      "三年祭です。一年祭・三年祭・五年祭・十年祭・二十年祭・三十年祭・四十年祭・五十年祭と続きます(宮城県神社庁)。二年祭を行う家や地域もあります。"],
+    ["三年祭は亡くなってから何年後ですか？",
+      `満3年です。${y1(3)}年に亡くなった方は${Y1}年が三年祭です。仏式の三回忌は満2年なので、三年祭は三回忌の1年あとになります。`],
+    [`${Y1}年に一年祭を迎えるのは、いつ亡くなった方ですか？`,
+      `${y1(1)}年に亡くなった方です。一年祭は満1年の祥月命日(亡くなった月日)が基準で、仏式の一周忌と同じ年になります。`],
+    ["五十日祭はいつですか？",
+      "亡くなった日を1日目として50日目(命日の49日後)です。五十日祭で忌が明けます。仏式の四十九日にあたります。"],
+    ["神道の年祭はいつまで続きますか？",
+      "宮城県神社庁の説明では、一年祭に始まり、五十年祭まで続きます。一年祭までは神葬祭の延長と考えられ、以後、故人の御霊は祖霊としてまつられます。"],
+  ];
+  const faqJson = JSON.stringify({
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  });
+  const faqHtml = faq.map(([q, a]) =>
+    `      <details class="faq-item">\n        <summary>${q}</summary>\n        <p>${a}</p>\n      </details>`).join("\n");
+
+  const vars = {
+    Y1: String(Y1), Y2: String(Y2), W1: wareki(Y1), W2: wareki(Y2), Y1M1: String(y1(1)), Y1M3: String(y1(3)),
+    TABLE_Y1: call("nenkiTableHtml", Y1, "shinto"), TABLE_Y2: call("nenkiTableHtml", Y2, "shinto"),
+    COMPARE_ROWS, SHUNBUN: md(shunbun), SHUUBUN: md(shuubun),
+    FAQ_JSON: faqJson, FAQ_HTML: faqHtml,
+  };
+  const tpl = fs.readFileSync(path.join(__dirname, "shinto.template.html"), "utf8");
+  const out = tpl.replace(/\{\{([A-Z0-9_]+)\}\}/g, (m, k) => {
+    if (!(k in vars)) throw new Error(`テンプレートの ${m} に値がありません`);
+    return vars[k];
+  });
+  fs.mkdirSync(path.join(root, "guide", "shinto-nensai"), { recursive: true });
+  writeSafe(path.join(root, "guide", "shinto-nensai", "index.html"), out, tpl.length);
+}
+
 /* ---- お彼岸の早見表の記事(guide/higan-hayami/) ----
  * 年の範囲は固定。OFFICIAL_TO は「官報で正式に決まった最後の年」。
  * 毎年2月の官報で翌年分が決まるので、そのたびに1つ進めて流し直す(本文の「予想」の印が動く) */

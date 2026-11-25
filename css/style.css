@@ -710,6 +710,8 @@ html, body {
 .month-49 summary::marker { color: var(--color-primary); }
 .month-49 .table-scroll { margin-top: 8px; }
 .spec--49 th small { display: block; font-weight: 400; color: var(--color-text-muted); }
+.month-49 summary small { display: block; font-weight: 400; font-size: 0.78rem; color: var(--color-text-muted); margin-left: 1.2em; }
+.spec--shotsuki th.is-rest { color: var(--color-primary); }
 /* 年忌早見表の宗派の表: ○△— を中央に、○は濃く、—は薄く */
 .spec.spec--shuha { font-size: 0.8rem; }
 .spec--shuha th, .spec--shuha td { text-align: center; padding: 8px 3px; }

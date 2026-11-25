@@ -341,6 +341,93 @@ function writeSafe(file, content, minBytes) {
   writeSafe(path.join(root, "guide", "okinawa-juurokunichi-shiimii", "index.html"), out, tpl.length);
 }
 
+/* ---- 一周忌はいつ？(guide/isshuki-itsu/) ----
+ * 祥月命日ごとの曜日・六曜・前倒しの候補を、本体の dayInfo・restDaysBefore からそのまま作る(数え方を写さない)。
+ * 範囲は Y1 の前の年の12月〜Y1の12月(build.js 2027 なら 2026年12月〜2027年12月)。
+ * 「命日より前か後か」は曹洞禅ネット「法事の営み方」と覚照寺(浄土真宗本願寺派)の仏事Q&A【11】による */
+{
+  const YA = Y1 - 1;
+  const MONTHS = [[YA, 12]].concat(Array.from({ length: 12 }, (_, i) => [Y1, i + 1]));
+  const md = (i) => `${i.m}月${i.d}日(${i.wdName}${i.holiday ? "・祝" : ""})`;
+  const mdS = (i) => `${i.m}/${i.d}`;
+  const dayOf = (y, m, d) => {
+    const idx = call("jdn", y, m, d);
+    const info = call("dayInfo", idx);
+    const cands = info.isRest ? [] : call("restDaysBefore", idx);
+    return { idx, info, cands };
+  };
+  const candText = (r) => r.info.isRest ? "当日が休日" : r.cands.map((c) => `${mdS(c)}(${c.wdName}${c.holiday ? "・祝" : ""})`).join("・");
+  const NENKI = vm.runInContext("NENKI.map((n) => ({ name: n.name, years: n.years, minor: !!n.minor }))", ctx);
+  const nk = (name) => NENKI.find((n) => n.name === name).years;
+
+  let weekdays = 0, nearMax = 0, farMax = 0;
+  const blocks = MONTHS.map(([y, m]) => {
+    const n = call("daysInMonth", y, m);
+    const rows = [];
+    for (let d = 1; d <= n; d++) {
+      const r = dayOf(y, m, d);
+      if (y === Y1 && !r.info.isRest) {
+        weekdays++;
+        nearMax = Math.max(nearMax, r.idx - r.cands[r.cands.length - 1].idx);
+        farMax = Math.max(farMax, r.idx - r.cands[0].idx);
+      }
+      rows.push(`<tr><th${r.info.isRest ? ' class="is-rest"' : ""}>${md(r.info)}</th><td>${r.info.rokuyo}</td><td>${candText(r)}</td></tr>`);
+    }
+    const who = `${y - nk("一周忌")}年${m}月に亡くなった方の一周忌、${y - nk("三回忌")}年${m}月の三回忌、${y - nk("七回忌")}年${m}月の七回忌…`;
+    return `      <details class="month-49" id="m${y}-${m}">\n        <summary>${y}年${m}月が祥月命日の方<small>${who}</small></summary>\n        <div class="table-scroll">\n<table class="spec spec--wrap spec--shotsuki"><thead><tr><th>祥月命日</th><th>六曜</th><th>平日なら前倒しの候補</th></tr></thead><tbody>${rows.join("")}</tbody></table>\n        </div>\n      </details>`;
+  });
+  const TABLES = blocks.join("\n");
+
+  // 年末年始(12/29〜1/3)が祥月命日の方が、年末年始を避けて前倒しするときの直前の休み
+  const nenmatsu = [YA, Y1].map((y) => {
+    const r = dayOf(y, 12, 29);
+    const before = call("restDaysBefore", r.idx);
+    return { y, text: before.map((c) => md(c)).join("・") };
+  });
+  const NENMATSU_ROWS = nenmatsu.map((n) =>
+    `<tr><th>${n.y}年12月29日〜${n.y + 1}年1月3日</th><td>${n.text}</td></tr>`).join("");
+
+  // 例: YA年4月15日に亡くなった方
+  const ex = dayOf(Y1, 4, 15);
+  const EX_TEXT = `${YA}年4月15日に亡くなった方の一周忌は${Y1}年${md(ex.info)}` +
+    (ex.info.isRest ? "で、休日なのでそのまま営めます" : `で、平日なので前倒しするなら${candText(ex)}が候補です`);
+  const SANKAI_Y = String(Y1 - nk("三回忌")), NANA_Y = String(Y1 - nk("七回忌"));
+
+  const faq = [
+    ["一周忌はいつですか？",
+      `亡くなってから満1年の祥月命日(亡くなった月日と同じ日)です。${EX_TEXT}。`],
+    ["一周忌を命日より後にしてもいいですか？",
+      "資料によって答えが違います。曹洞宗の曹洞禅ネットは、祥月命日に都合がつかなければ「祥月命日に当たる日より前」に営むのがよいとしています。浄土真宗本願寺派の覚照寺は、「遅らせてはいけない」は法事を忘れないための戒めで、若干早めても遅らせてもかまわないとしています。菩提寺があれば、そのお寺の考え方に合わせてください。"],
+    ["一周忌の前倒しは何日前までですか？",
+      `曹洞禅ネットは「祥月命日に当たる日より前」とだけ書いていて、何日前までという日数は示していません。この表の候補は直前の休みで、${Y1}年はどの日でも祥月命日の${farMax}日前までに収まります。`],
+    ["一周忌の日にちはいつまでに決めますか？",
+      "曹洞禅ネットは、菩提寺とよく相談したうえで、遅くても1か月くらい前までには決めるようにとしています。施主の都合のよい日でも、お寺で行事が予定されていることがあるためです。"],
+    [`三回忌の日にちも同じ表で見られますか？`,
+      `見られます。三回忌・七回忌なども祥月命日に営むので、同じ月日なら同じ行です。${Y1}年に三回忌を迎えるのは${SANKAI_Y}年に、七回忌は${NANA_Y}年に亡くなった方です。`],
+    ["一周忌と三回忌を一緒に営んでもいいですか？",
+      "曹洞禅ネットは、2つ以上の年回法要を合わせるときは新しい方の命日に合わせるのが一般的としたうえで、一周忌は他の年回と合わせることは避けたほうがよい、としています。"],
+  ];
+  const faqJson = JSON.stringify({
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  });
+  const faqHtml = faq.map(([q, a]) =>
+    `      <details class="faq-item">\n        <summary>${q}</summary>\n        <p>${a}</p>\n      </details>`).join("\n");
+
+  const vars = {
+    YA: String(YA), Y1: String(Y1), TABLES, NENMATSU_ROWS, EX_TEXT,
+    WEEKDAYS: String(weekdays), NEAR_MAX: String(nearMax), FAR_MAX: String(farMax), SANKAI_Y, NANA_Y,
+    FAQ_JSON: faqJson, FAQ_HTML: faqHtml,
+  };
+  const tpl = fs.readFileSync(path.join(__dirname, "isshuki.template.html"), "utf8");
+  const out = tpl.replace(/\{\{([A-Z0-9_]+)\}\}/g, (m, k) => {
+    if (!(k in vars)) throw new Error(`テンプレートの ${m} に値がありません`);
+    return vars[k];
+  });
+  fs.mkdirSync(path.join(root, "guide", "isshuki-itsu"), { recursive: true });
+  writeSafe(path.join(root, "guide", "isshuki-itsu", "index.html"), out, tpl.length);
+}
+
 /* ---- 四十九日の早見表(guide/shijukunichi-hayami/) ----
  * 命日ごとの四十九日・前倒しの候補・百箇日を、本体の buildSchedule からそのまま作る(数え方を写さない)。
  * 範囲は Y1 の前の年の1月〜Y1の12月(build.js 2027 なら 2026〜2027年に亡くなった方) */

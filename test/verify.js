@@ -597,5 +597,55 @@ const find = (s, key) => s.items.find(it => it.key === key);
   eq("初詣の早見表の五十日・目安が Date の計算と食い違う行", bad, []);
 }
 
+/* 一周忌はいつ？(guide/isshuki-itsu/): 祥月命日の曜日と前倒しの候補を、本体を通さず Date で確かめる */
+{
+  const html = fs.readFileSync(path.join(__dirname, "..", "guide", "isshuki-itsu", "index.html"), "utf8");
+  const WD = "日月火水木金土";
+  const blocks = [...html.matchAll(/<details class="month-49" id="m(\d+)-(\d+)">([\s\S]*?)<\/details>/g)];
+  eq("一周忌の早見表は13か月分", blocks.length, 13);
+  const bad = [];
+  let rows = 0;
+  for (const [, ys, ms, body] of blocks) {
+    const y = Number(ys), m = Number(ms);
+    const trs = [...body.matchAll(/<tr><th(?: class="is-rest")?>(\d+)月(\d+)日\(([日月火水木金土])(・祝)?\)<\/th><td>([^<]+)<\/td><td>([^<]+)<\/td><\/tr>/g)];
+    const nd = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    if (trs.length !== nd) bad.push(`${y}-${m} 行数${trs.length}`);
+    for (const t of trs) {
+      rows++;
+      const d = Number(t[2]);
+      const base = Date.UTC(y, m - 1, d);
+      const wd = new Date(base).getUTCDay();
+      if (WD[wd] !== t[3]) { bad.push(`${y}-${m}-${d} 曜日`); continue; }
+      const rest = wd === 0 || wd === 6 || !!t[4];
+      if (rest) { if (t[6] !== "当日が休日") bad.push(`${y}-${m}-${d} 休日なのに候補`); continue; }
+      const cands = [...t[6].matchAll(/(\d+)\/(\d+)\(([日月火水木金土])(・祝)?\)/g)].map((c) => {
+        const cm = Number(c[1]), cy = cm > m ? y - 1 : y;            // 1月の行の候補は前の年の12月のことがある
+        const cb = Date.UTC(cy, cm - 1, Number(c[2]));
+        return { back: (base - cb) / 86400000, wdOk: WD[new Date(cb).getUTCDay()] === c[3], rest: c[3] === "土" || c[3] === "日" || !!c[4] };
+      });
+      if (!cands.length || cands.some((c) => !c.wdOk || !c.rest || c.back < 1 || c.back > 7)) { bad.push(`${y}-${m}-${d} 候補`); continue; }
+      // いちばん近い候補と祥月命日のあいだに土日が無い(直前の休みを取りこぼしていない)
+      const near = Math.min(...cands.map((c) => c.back));
+      for (let k = 1; k < near; k++) {
+        const w = new Date(base - k * 86400000).getUTCDay();
+        if (w === 0 || w === 6) { bad.push(`${y}-${m}-${d} 直前の土日を飛ばした`); break; }
+      }
+    }
+  }
+  eq("一周忌の早見表の行数(2026年12月〜2027年12月)", rows, 396);
+  eq("一周忌の早見表の曜日・前倒しの候補が Date の計算と食い違う行", bad.slice(0, 5), []);
+  // 年末年始: 12月29日より前の、いちばん近い土日
+  const nm = [...html.matchAll(/<tr><th>(\d+)年12月29日〜\d+年1月3日<\/th><td>12月(\d+)日\(土\)・12月(\d+)日\(日\)<\/td><\/tr>/g)];
+  eq("年末年始の直前の土日は2行", nm.length, 2);
+  const nmBad = nm.filter((t) => {
+    const y = Number(t[1]);
+    let k = Date.UTC(y, 11, 28);
+    while (new Date(k).getUTCDay() !== 0) k -= 86400000;      // 12/28 以前で最初の日曜
+    const sun = new Date(k).getUTCDate();
+    return Number(t[3]) !== sun || Number(t[2]) !== sun - 1;
+  }).map((t) => t[1]);
+  eq("年末年始の直前の土日が Date の計算と食い違う年", nmBad, []);
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

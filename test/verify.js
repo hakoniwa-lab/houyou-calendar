@@ -506,7 +506,7 @@ const find = (s, key) => s.items.find(it => it.key === key);
 {
   const dir = path.join(__dirname, "..", "guide");
   const pages = fs.readdirSync(dir).filter((d) => d.startsWith("mochu-") && !["mochu-hagaki-itsumade", "mochu-hatsumoude"].includes(d));
-  eq("続柄別の記事が3本ある", pages.sort(), ["mochu-giri-kyodai", "mochu-haigusha-sofubo", "mochu-itoko-oji"]);
+  eq("続柄別の記事が4本ある", pages.sort(), ["mochu-gifubo", "mochu-giri-kyodai", "mochu-haigusha-sofubo", "mochu-itoko-oji"]);
   for (const d of pages) {
     const html = fs.readFileSync(path.join(dir, d, "index.html"), "utf8");
     const rows = [...html.matchAll(/<tr data-rel="(\w+)">([\s\S]*?)<\/tr>/g)];

@@ -120,10 +120,12 @@ function mcCardMochu(j) {
     ? `<p>この続柄は、同じ「2親等」でも<strong>血族か姻族かで扱いを変える家・変えない家</strong>があり、
        葬儀社や印刷会社の説明も分かれています。同居していたか、付き合いの深さで決めている家が多いです。</p>`
     : "";
+  const g = SHINZOKU_GUIDE[j.def.key];
+  const guide = g ? `<p>この続柄の解説: <a href="../guide/${g[0]}/">${g[1]}</a></p>` : "";
   return `<div class="card ${MC_LEVEL_CLASS[j.mochuLevel]}">
     <h2>喪中の目安</h2>
     <p class="big">${j.mochuText}</p>
-    ${note}${split}
+    ${note}${split}${guide}
     <p class="src"><strong>ここは法律ではありません。</strong>
     現在、忌中・喪中の期間や範囲を定めた法律はありません。上は世間で一般的とされる目安です。</p>
   </div>`;

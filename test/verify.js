@@ -506,7 +506,8 @@ const find = (s, key) => s.items.find(it => it.key === key);
 {
   const dir = path.join(__dirname, "..", "guide");
   const pages = fs.readdirSync(dir).filter((d) => d.startsWith("mochu-") && !["mochu-hagaki-itsumade", "mochu-hatsumoude"].includes(d));
-  eq("続柄別の記事が4本ある", pages.sort(), ["mochu-gifubo", "mochu-giri-kyodai", "mochu-haigusha-sofubo", "mochu-itoko-oji"]);
+  eq("判定ツールの案内先はすべて続柄別の記事", [...new Set(Object.values(run("SHINZOKU_GUIDE")).map((v) => v[0]))].filter((s) => !fs.existsSync(path.join(dir, s, "index.html"))), []);
+  eq("続柄別の記事が5本ある", pages.sort(), ["mochu-gifubo", "mochu-giri-kyodai", "mochu-haigusha-sofubo", "mochu-itoko-oji", "mochu-sofubo"]);
   for (const d of pages) {
     const html = fs.readFileSync(path.join(dir, d, "index.html"), "utf8");
     const rows = [...html.matchAll(/<tr data-rel="(\w+)">([\s\S]*?)<\/tr>/g)];
@@ -517,6 +518,10 @@ const find = (s, key) => s.items.find(it => it.key === key);
       const kin = j.isKinzoku ? "親族にあたる" : "親族にあたらない";
       eq(`${d} ${key} の親等と親族か`, [row.includes(`<td>${j.degreeText}</td>`), row.includes(`<td>${kin}</td>`), row.includes(`?rel=${key}`)], [true, true, true]);
     }
+    /* 判定ツールの案内(SHINZOKU_GUIDE)がこの記事を指す続柄は、記事の表に行がある */
+    const keys = rows.map((r) => r[1]);
+    const guided = Object.entries(run("SHINZOKU_GUIDE")).filter(([, v]) => v[0] === d).map(([k]) => k);
+    eq(`${d} 判定ツールから案内する続柄が表にある`, guided.filter((k) => !keys.includes(k)), []);
     /* よくある質問の本文と構造化データが同じ数 */
     const ld = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)[1]);
     eq(`${d} FAQの数`, ld.mainEntity.length, (html.match(/<details class="faq-item">/g) || []).length);

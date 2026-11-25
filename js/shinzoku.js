@@ -109,6 +109,29 @@ const SHINZOKU = [
 ];
 
 /*
+ * 続柄ごとの解説記事(guide/<slug>/)。判定ツールの結果から案内する。
+ * 記事の表(<tr data-rel>)にその続柄の行があること、を verify で確かめている
+ */
+const SHINZOKU_GUIDE = {
+  sofubo: ["mochu-sofubo", "祖父・祖母が亡くなったら孫は喪中？"],
+  sosofubo: ["mochu-sofubo", "祖父・祖母が亡くなったら孫は喪中？(ひいおじいちゃん・ひいおばあちゃんも)"],
+  h_chichi: ["mochu-gifubo", "義父・義母が亡くなったら喪中？"],
+  s_ko_oya: ["mochu-gifubo", "義父・義母が亡くなったら喪中？(「嫁の親」はどちらの意味か)"],
+  h_sofubo: ["mochu-haigusha-sofubo", "妻の祖母・夫の祖父が亡くなったら喪中？"],
+  h_kyodai: ["mochu-giri-kyodai", "義理の兄弟・兄弟の配偶者は喪中？"],
+  s_kyodai: ["mochu-giri-kyodai", "義理の兄弟・兄弟の配偶者は喪中？"],
+  aiyome: ["mochu-giri-kyodai", "義理の兄弟・兄弟の配偶者は喪中？"],
+  oji: ["mochu-itoko-oji", "いとこ・叔父・叔母が亡くなったら喪中？"],
+  s_oji: ["mochu-itoko-oji", "いとこ・叔父・叔母が亡くなったら喪中？"],
+  h_oji: ["mochu-itoko-oji", "いとこ・叔父・叔母が亡くなったら喪中？"],
+  itoko: ["mochu-itoko-oji", "いとこ・叔父・叔母が亡くなったら喪中？"],
+  h_itoko: ["mochu-itoko-oji", "いとこ・叔父・叔母が亡くなったら喪中？"],
+  oigi: ["mochu-itoko-oji", "いとこ・叔父・叔母が亡くなったら喪中？(甥・姪も)"],
+  ooji: ["mochu-itoko-oji", "いとこ・叔父・叔母が亡くなったら喪中？(大おじ・大おばも)"],
+  hatoko: ["mochu-itoko-oji", "いとこ・叔父・叔母が亡くなったら喪中？(はとこも)"],
+};
+
+/*
  * 喪中とされるかの目安。法律ではなく慣行なので、言い切らない。
  * 返り値の level は "yes"(一般に喪中) / "split"(説明が分かれる) / "rare"(一般には喪中としない)
  */

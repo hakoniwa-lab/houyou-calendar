@@ -758,6 +758,10 @@ html, body {
 .bon-offer { margin: 10px 0 0; padding-top: 10px; border-top: 1px dashed var(--color-border); font-size: 0.8rem; color: var(--color-text-muted); }
 .bon-offer .result-card__link { margin-top: 6px; }
 .card--article .art-links li { margin-bottom: 8px; }
+/* 文例(はがきの文面)と、本文の補足・折り返さない日付(guide/mochu-hagaki-12gatsu/ から) */
+.art-quote { background: var(--color-bg); border-left: 3px solid var(--color-border); border-radius: var(--radius-sm); padding: 10px 14px; line-height: 1.9; font-size: 0.92rem; }
+.card--article .muted { font-size: 0.82rem; color: var(--color-text-muted); }
+.nw { white-space: nowrap; }
 
 /* --- 登録した方の切り替え --- */
 .people-tabs { margin: 0 0 18px; padding-bottom: 14px; border-bottom: 1px dashed var(--color-border); }

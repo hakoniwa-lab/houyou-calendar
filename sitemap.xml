@@ -62,7 +62,12 @@
   </url>
   <url>
     <loc>https://hakoniwalab.com/houyou-calendar/guide/mochu-hagaki-itsumade/</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/houyou-calendar/guide/mochu-hagaki-12gatsu/</loc>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>

@@ -505,7 +505,7 @@ const find = (s, key) => s.items.find(it => it.key === key);
    記事の表は手で書いているので、data-rel の続柄ごとに本体の judgeShinzoku と突き合わせる */
 {
   const dir = path.join(__dirname, "..", "guide");
-  const pages = fs.readdirSync(dir).filter((d) => d.startsWith("mochu-") && !["mochu-hagaki-itsumade", "mochu-hatsumoude"].includes(d));
+  const pages = fs.readdirSync(dir).filter((d) => d.startsWith("mochu-") && !["mochu-hagaki-itsumade", "mochu-hagaki-12gatsu", "mochu-hatsumoude"].includes(d));
   eq("判定ツールの案内先はすべて続柄別の記事", [...new Set(Object.values(run("SHINZOKU_GUIDE")).map((v) => v[0]))].filter((s) => !fs.existsSync(path.join(dir, s, "index.html"))), []);
   eq("続柄別の記事が5本ある", pages.sort(), ["mochu-gifubo", "mochu-giri-kyodai", "mochu-haigusha-sofubo", "mochu-itoko-oji", "mochu-sofubo"]);
   for (const d of pages) {
@@ -650,6 +650,44 @@ const find = (s, key) => s.items.find(it => it.key === key);
     return Number(t[3]) !== sun || Number(t[2]) !== sun - 1;
   }).map((t) => t[1]);
   eq("年末年始の直前の土日が Date の計算と食い違う年", nmBad, []);
+}
+
+/* 12月に亡くなった場合の喪中はがき(guide/mochu-hagaki-12gatsu/) と 喪中はがきはいつまで(guide/mochu-hagaki-itsumade/):
+ * 本文の「M月D日(曜)」をすべて Date で確かめる(12月は2026年、1〜2月は2027年)。
+ * 届く日は日本郵便の「お届け予定日の目安」(普通郵便は土日休日に配達しない。窓口17時まで: 翌々日地域 月→水 火→木 水→金 木→月 金→月 土→火 日→火、
+ * 3日後地域 月→木 火→金 水→月 木→月 金→火 土→火 日→水)で、本文の差し出し日と届く日の組を確かめる。四十九日は命日+48、神社の目安は命日+50 */
+{
+  const WD = "日月火水木金土";
+  const HOLI = new Set(["2027-1-1", "2027-1-11", "2027-2-11"]);   // この範囲の祝日(元日・成人の日・建国記念の日)
+  for (const slug of ["mochu-hagaki-12gatsu", "mochu-hagaki-itsumade"]) {
+    const html = fs.readFileSync(path.join(__dirname, "..", "guide", slug, "index.html"), "utf8").replace(/<script[\s\S]*?<\/script>/g, "");
+    const bad = [];
+    let n = 0;
+    for (const m of html.matchAll(/(?:(\d{4})年)?(\d{1,2})月(\d{1,2})日\(([日月火水木金土])(・祝)?\)/g)) {
+      const mo = +m[2], d = +m[3];
+      const y = m[1] ? +m[1] : (mo === 12 ? 2026 : 2027);
+      if (!m[1] && mo > 2 && mo < 12) continue;                      // 年の書いていない3〜11月の日付は扱わない
+      if (!m[1] && mo <= 2 && slug === "mochu-hagaki-itsumade") continue; // こちらの1・2月は年ごとの立春の表(2025〜2032年)なので年が決まらない
+      const t = new Date(Date.UTC(y, mo - 1, d));
+      n++;
+      if (WD[t.getUTCDay()] !== m[4] || (!!m[5]) !== HOLI.has(`${y}-${mo}-${d}`)) bad.push(m[0]);
+    }
+    eq(`${slug} の日付と曜日(${n}件)`, bad, []);
+  }
+  const html = fs.readFileSync(path.join(__dirname, "..", "guide", "mochu-hagaki-12gatsu", "index.html"), "utf8");
+  const plus = (y, m, d, k) => { const t = new Date(Date.UTC(y, m - 1, d) + k * 86400000); return `${t.getUTCMonth() + 1}月${t.getUTCDate()}日`; };
+  const rows = [...html.matchAll(/<tr><th><span class="nw">12月(\d+)日<\/span><\/th><td><span class="nw">(\d+月\d+日)\([^)]*\)<\/span><\/td><td><span class="nw">(\d+月\d+日)\([^)]*\)<\/span><\/td><\/tr>/g)];
+  eq("12月の命日の表は7行", rows.length, 7);
+  eq("12月の命日の四十九日(命日+48)・神社の目安(命日+50)", rows.filter((r) => r[2] !== plus(2026, 12, +r[1], 48) || r[3] !== plus(2026, 12, +r[1], 50)).map((r) => r[1]), []);
+  // 差し出し日 → 届く日(日本郵便の目安の表)
+  const NEXT2 = { 1: 3, 2: 4, 3: 5, 4: 1, 5: 1, 6: 2, 0: 2 }, NEXT3 = { 1: 4, 2: 5, 3: 1, 4: 1, 5: 2, 6: 2, 0: 3 };
+  const arrive = (y, m, d, tbl) => { let t = Date.UTC(y, m - 1, d) + 86400000; const want = tbl[new Date(Date.UTC(y, m - 1, d)).getUTCDay()]; while (new Date(t).getUTCDay() !== want) t += 86400000; const a = new Date(t); return `${a.getUTCMonth() + 1}月${a.getUTCDate()}日`; };
+  eq("翌々日の地域: 12/16(水)に出すと18日", arrive(2026, 12, 16, NEXT2), "12月18日");
+  eq("3日後の地域: 12/15(火)に出すと18日", arrive(2026, 12, 15, NEXT3), "12月18日");
+  eq("1/30(土)に出すと両方の地域とも2/2", [arrive(2027, 1, 30, NEXT2), arrive(2027, 1, 30, NEXT3)], ["2月2日", "2月2日"]);
+  eq("本文に差し出し日の表がある", [/翌々日の地域<\/th><td><span class="nw">12月16日\(水\)/.test(html), /3日後の地域<\/th><td><span class="nw">12月15日\(火\)/.test(html)], [true, true]);
+  // 12/19 は土曜(配達なし)、12/20 は日曜(引き受け開始)。1/16 は土曜で、関西の寒中見舞いが届くのは 1/18(月)から
+  eq("12/19 は土曜・1/16 は土曜", [new Date(Date.UTC(2026, 11, 19)).getUTCDay(), new Date(Date.UTC(2027, 0, 16)).getUTCDay()], [6, 6]);
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

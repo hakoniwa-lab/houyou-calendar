@@ -113,6 +113,7 @@ const SHINZOKU = [
  * 記事の表(<tr data-rel>)にその続柄の行があること、を verify で確かめている
  */
 const SHINZOKU_GUIDE = {
+  kyodai: ["mochu-kyodai", "兄・姉・弟・妹が亡くなったら喪中？"],
   sofubo: ["mochu-sofubo", "祖父・祖母が亡くなったら孫は喪中？"],
   sosofubo: ["mochu-sofubo", "祖父・祖母が亡くなったら孫は喪中？(ひいおじいちゃん・ひいおばあちゃんも)"],
   h_chichi: ["mochu-gifubo", "義父・義母が亡くなったら喪中？"],
